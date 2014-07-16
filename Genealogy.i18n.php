@@ -14,5 +14,5 @@ $messages = array();
  */
 $messages['en'] = array(
 	'genealogy' => "Genealogy",
-	'genealogy-desc' => "The Genealogy extension.",
+	'genealogy-desc' => "Adds a parser function for reducing redundancy when linking between genealogical records",
 );
