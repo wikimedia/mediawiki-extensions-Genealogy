@@ -74,7 +74,9 @@ function GenealogyRenderParserFunction(Parser $parser, $type = '', $one = '', $t
 			$out = GenealogyPeopleList($person->getChildren());
 			break;
 		default:
-			$out = '<span class="error">Genealogy parser function type not recognised: "' . $type . '".</span>';
+			$out = '<span class="error">'
+				.'Genealogy parser function type not recognised: "'.$type.'".'
+				.'</span>';
 			break;
 	}
 	return $out;

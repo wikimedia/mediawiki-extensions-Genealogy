@@ -14,5 +14,6 @@ $messages = array();
  */
 $messages['en'] = array(
 	'genealogy' => "Genealogy",
-	'genealogy-desc' => "Adds a parser function for reducing redundancy when linking between genealogical records",
+	'genealogy-desc' => "Adds a parser function for reducing redundancy '"
+					."when linking between genealogical records",
 );
