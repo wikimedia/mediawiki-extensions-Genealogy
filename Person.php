@@ -27,6 +27,34 @@ class GenealogyPerson {
 	}
 
 	/**
+	 * Whether or not this person has a birth or death date.
+	 * @return boolean
+	 */
+	public function hasDates() {
+		return $this->getBirthDate()!==FALSE;
+	}
+
+	/**
+	 * Get the birth date of this person, or false if it's not defined. If strtotime recognises the
+	 * format, the date will be converted to the standard wiki date format; if it doesn't, the
+	 * value defined in the page will be returned.
+	 * @return string
+	 */
+	public function getBirthDate() {
+		$pattern = '/{{\#'.$this->magicRegex.':\s*person.*birth date=([^|}]*)/';
+		preg_match_all($pattern, $this->getText(), $matches);
+		if (!isset($matches[1][0])) {
+			return FALSE;
+		}
+		$time = strtotime($matches[1][0]);
+		if ($time!==FALSE) {
+			return date('j F Y', $time);
+		} else {
+			return $matches[1][0];
+		}
+	}
+
+	/**
 	 * Get all parents.
 	 *
 	 * @return array|GenealogyPerson An array of parents, possibly empty.
@@ -36,10 +64,8 @@ class GenealogyPerson {
 			return $this->parents;
 		}
 		$this->parents = array();
-		$selfPage = new WikiPage($this->title);
-		$text = ContentHandler::getContentText($selfPage->getContent());
 		$pattern = '/{{\#'.$this->magicRegex.':\s*parent\s*\|\s*([^|}]*)/';
-		preg_match_all($pattern, $text, $matches);
+		preg_match_all($pattern, $this->getText(), $matches);
 		if (isset($matches[1])) {
 			foreach ($matches[1] as $match) {
 				$parentTitle = Title::newFromText($match);
@@ -149,4 +175,15 @@ class GenealogyPerson {
 		}
 		return $out;
 	}
+
+	/**
+	 * Get the text of this page.
+	 * @return string
+	 */
+	private function getText() {
+		$selfPage = new WikiPage($this->title);
+		$text = ContentHandler::getContentText($selfPage->getContent());
+		return $text;
+	}
+
 }
