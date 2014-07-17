@@ -53,28 +53,46 @@ function GenealogySetupParserFunction(Parser &$parser) {
  * @param string $param3
  * @return string The wikitext with which to replace the parser function call.
  */
-function GenealogyRenderParserFunction(Parser $parser, $type = '', $one = '', $two = '') {
+function GenealogyRenderParserFunction(Parser $parser) {
+	$params = array();
+	$args = func_get_args();
+	array_shift($args); // Remove $parser
+	$type = array_shift($args); // Get param 1, the function type
+	foreach ( $args as $arg ) { // Everything that's left must be named
+		$pair = explode('=', $arg, 2);
+		if ( count( $pair ) == 2 ) {
+			$name = trim($pair[0]);
+			$value = trim($pair[1]);
+			$params[$name] = $value;
+		} else {
+			$params[] = $arg;
+		}
+	}
+	$out = ''; //"<pre>".print_r($params, true)."</pre>";
 	switch ($type) {
+		case 'person':
+			$out .= 'b.&nbsp;'.$params['birth date'];
+			break;
 		case 'parent':
-			$out = "[[$one]]";
+			$out .= "[[".$params[0]."]]";
 			break;
 		case 'siblings':
 			$person = new GenealogyPerson($parser->getTitle());
-			$out = GenealogyPeopleList($person->getSiblings());
+			$out .= GenealogyPeopleList($person->getSiblings());
 			break;
 		case 'partner':
-			$out = "[[$one]]";
+			$out .= "[[".$params[0]."]]";
 			break;
 		case 'partners':
 			$person = new GenealogyPerson($parser->getTitle());
-			$out = GenealogyPeopleList($person->getPartners());
+			$out .= GenealogyPeopleList($person->getPartners());
 			break;
 		case 'children':
 			$person = new GenealogyPerson($parser->getTitle());
-			$out = GenealogyPeopleList($person->getChildren());
+			$out .= GenealogyPeopleList($person->getChildren());
 			break;
 		default:
-			$out = '<span class="error">'
+			$out .= '<span class="error">'
 				.'Genealogy parser function type not recognised: "'.$type.'".'
 				.'</span>';
 			break;
@@ -91,7 +109,8 @@ function GenealogyRenderParserFunction(Parser $parser, $type = '', $one = '', $t
 function GenealogyPeopleList($people) {
 	$out = '';
 	foreach ($people as $person) {
-		$out .= "* [[".$person->getTitle()->getPrefixedText()."]]\n";
+		$date = ($person->hasDates()) ? " (".$person->getBirthDate().")" : "";
+		$out .= "* [[".$person->getTitle()->getPrefixedText()."]]$date\n";
 	}
 	return $out;
 }
