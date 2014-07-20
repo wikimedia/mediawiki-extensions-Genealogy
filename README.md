@@ -13,7 +13,7 @@ reporting data:
   `{{#genealogy:person |birth date=Y-m-d |death date=Y-m-d }}`
 2. Define a parent:
    `{{#genealogy:parent | Page Name Here }}`
-3. Define a partner:
+3. Define a partner (no output produced; use `partners` to list):
    `{{#genealogy:partner | Page Name Here |start date=Y-m-d |end date=Y-m-d }}`
 4. List all siblings:
    `{{#genealogy:siblings}}`

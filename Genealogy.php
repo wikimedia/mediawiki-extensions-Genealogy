@@ -72,16 +72,19 @@ function GenealogyRenderParserFunction(Parser $parser) {
 	switch ($type) {
 		case 'person':
 			$out .= 'b.&nbsp;'.$params['birth date'];
+			GenealogySaveProp($parser, 'birth date', $params['birth date'], FALSE);
 			break;
 		case 'parent':
 			$out .= "[[".$params[0]."]]";
+			GenealogySaveProp($parser, 'parent', $params[0]);
 			break;
 		case 'siblings':
 			$person = new GenealogyPerson($parser->getTitle());
 			$out .= GenealogyPeopleList($person->getSiblings());
 			break;
 		case 'partner':
-			$out .= "[[".$params[0]."]]";
+			//$out .= "[[".$params[0]."]]";
+			GenealogySaveProp($parser, 'partner', $params[0]);
 			break;
 		case 'partners':
 			$person = new GenealogyPerson($parser->getTitle());
@@ -98,6 +101,19 @@ function GenealogyRenderParserFunction(Parser $parser) {
 			break;
 	}
 	return $out;
+}
+
+function GenealogySaveProp($parser, $prop, $val, $multi = TRUE) {
+	if ($multi) {
+		$propNum = 1;
+		while ($par = $parser->getOutput()->getProperty("genealogy $prop $propNum")
+				AND $par != $val) {
+			$propNum++;
+		}
+		$parser->getOutput()->setProperty("genealogy $prop $propNum", $val);
+	} else {
+		$parser->getOutput()->setProperty("genealogy $prop", $val);
+	}
 }
 
 /**
