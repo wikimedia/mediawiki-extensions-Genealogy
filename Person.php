@@ -27,27 +27,55 @@ class GenealogyPerson {
 		return $this->title;
 	}
 
+	public function getWikiLink() {
+		$birthYear = $this->getBirthDate('Y');
+		$deathYear = $this->getDeathDate('Y');
+		$date = ($this->hasDates()) ? " ($birthYear&ndash;$deathYear)" : "";
+		return "[[" . $this->getTitle()->getPrefixedText() . "]]$date";
+	}
+
 	/**
 	 * Whether or not this person has a birth or death date.
 	 * @return boolean
 	 */
 	public function hasDates() {
-		return $this->getBirthDate() !== FALSE;
+		return $this->getBirthDate() !== false;
 	}
 
 	/**
-	 * Get the birth date of this person, or false if it's not defined. If strtotime recognises the
-	 * format, the date will be converted to the standard wiki date format; if it doesn't, the
-	 * value defined in the page will be returned.
+	 * Get the birth date of this person. 
+	 * @uses GenealogyPerson::getDate()
 	 * @return string
 	 */
-	public function getBirthDate() {
-		$birthDate = $this->getPropSingle('birth date');
-		$time = strtotime($birthDate);
-		if ($time !== FALSE) {
-			return date('j F Y', $time);
+	public function getBirthDate($format = 'j F Y') {
+		return $this->getDate('birth', $format);
+	}
+
+	/**
+	 * Get the death date of this person.
+	 * @uses GenealogyPerson::getDate()
+	 * @return string
+	 */
+	public function getDeathDate($format = 'j F Y') {
+		return $this->getDate('death', $format);
+	}
+
+	/**
+	 * Get birth or death date.
+	 *
+	 * If strtotime recognises the format, the date will be converted to the standard wiki date
+	 * format; if it doesn't, the value defined in the page will be returned.
+	 *
+	 * @param string $type Either 'birth' or 'death'.
+	 * @return string
+	 */
+	public function getDate($type, $format) {
+		$date = $this->getPropSingle("$type date");
+		$time = strtotime($date);
+		if ($time !== false) {
+			return date($format, $time);
 		} else {
-			return $birthDate;
+			return $date;
 		}
 	}
 
@@ -182,7 +210,10 @@ class GenealogyPerson {
 		return $dbr->selectField(
 			'page_props', // table to use
 			'pp_value', // Field to select
-			array( 'pp_page' => $this->title->getArticleID(), 'pp_propname' => "genealogy $prop" ), // where conditions
+			array( // where conditions
+				'pp_page' => $this->title->getArticleID(),
+				'pp_propname' => "genealogy $prop"
+			),
 			__METHOD__
 		);
 	}
@@ -205,48 +236,5 @@ class GenealogyPerson {
 		}
 		return $out;
 	}
-
-//	/**
-//	 * Get an array of GenealogyPerson objects built from pages that link to this one with the
-//	 * relationship of $as.
-//	 * @param string $as The relationship type, either 'parent' or 'partner'.
-//	 */
-//	private function whatLinksHere($as) {
-//		$out = array();
-//		$prefexedTitle = $this->title->getPrefixedDBkey();
-//		$dbr = wfGetDB(DB_SLAVE);
-//		$res = $dbr->select(
-//			array('pl' => 'pagelinks', 'p' => 'page'),
-//			array('page_namespace', 'page_title'), // columns
-//			array(// conditions
-//				'pl_title' => $prefexedTitle,
-//				'pl_from = page_id',
-//				'pl_namespace = page_namespace'
-//			),
-//			__METHOD__,
-//			array(),
-//			array('page' => array())
-//		);
-//		foreach ($res as $row) {
-//			$linkTitle = Title::makeTitle($row->page_namespace, $row->page_title);
-//			$possibleLink = new WikiPage($linkTitle);
-//			$text = ContentHandler::getContentText($possibleLink->getContent());
-//			$pattern = '/{{\#'.$this->magicRegex.':\s*'.$as.'\s*\|\s*'.$prefexedTitle.'/';
-//			if(preg_match($pattern, $text)===1) {
-//				$out[$linkTitle->getPrefixedDBkey()] = new GenealogyPerson($linkTitle);
-//			}
-//		}
-//		return $out;
-//	}
-//
-//	/**
-//	 * Get the text of this page.
-//	 * @return string
-//	 */
-//	private function getText() {
-//		$selfPage = new WikiPage($this->title);
-//		$text = ContentHandler::getContentText($selfPage->getContent());
-//		return $text;
-//	}
 
 }

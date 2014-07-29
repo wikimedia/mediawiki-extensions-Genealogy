@@ -1,0 +1,26 @@
+{
+	"name": "samwilson/genealogy",
+	"type": "mediawiki-extension",
+	"license": "GPL-3.0+",
+	"keywords": ["genealogy", "family history", "MediaWiki"],
+	"authors": [
+		{
+			"name": "Sam Wilson",
+			"email": "sam@samwilson.id.au",
+			"homepage": "http://samwilson.id.au",
+			"role": "developer"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/samwilson/Genealogy/issues",
+		"irc": "irc://irc.freenode.net/mediawiki",
+		"source": "https://github.com/samwilson/Genealogy"
+	},
+	"require": {
+	},
+	"autoload": {
+		"files" : [
+			"Genealogy.php"
+		]
+	}
+}
