@@ -6,7 +6,7 @@ There is only one parser function, `{{#genealogy:}}`.
 Its first two parameters are unnamed (i.e. don't have equals signs), but all
 others must be (dates, etc.).
 
-The following functions are supported, three for defining data and three for
+The following functions are supported, three for defining data and four for
 reporting data:
 
 1. Define this person's dates.
@@ -21,6 +21,9 @@ reporting data:
    `{{#genealogy:partners}}`
 6. List all children:
    `{{#genealogy:children}}`
+7. Display a tree (a connected graph):
+   `{{#genealogy:tree|ancestors=List|descendants=List}}`
+   where each `List` is a newline-separated list of page titles.
 
 ## Development
 
