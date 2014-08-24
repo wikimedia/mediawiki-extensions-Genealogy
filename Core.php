@@ -47,7 +47,7 @@ class GenealogyCore {
 				break;
 			case 'parent':
 				$parentTitle = Title::newFromText($params[0]);
-				if ($parentTitle->exists()) {
+				if ($parentTitle and $parentTitle->exists()) {
 					$person = new GenealogyPerson($parentTitle);
 					$out .= $person->getWikiLink();
 				} else {
@@ -70,6 +70,19 @@ class GenealogyCore {
 			case 'children':
 				$person = new GenealogyPerson($parser->getTitle());
 				$out .= self::PeopleList($person->getChildren());
+				break;
+			case 'tree':
+				$tree = new GenealogyTree();
+				if (isset($params['ancestors'])) {
+					$tree->addAncestors(explode("\n", $params['ancestors']));
+				}
+				//$tree->setAncestorDepth($params['ancestor depth']);
+				if (isset($params['descendants'])) {
+					$tree->addDescendants(explode("\n", $params['descendants']));
+				}
+				//$tree->setDescendantDepth($params['descendant depth']);
+				$graphviz = $tree->getGraphviz();
+				$out .= $parser->recursiveTagParse("<graphviz>\n$graphviz\n</graphviz>");
 				break;
 			default:
 				$out .= '<span class="error">'

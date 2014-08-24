@@ -34,13 +34,13 @@ $wgExtensionMessagesFiles['Genealogy'] = __DIR__ . '/Genealogy.i18n.php';
 $wgExtensionMessagesFiles['GenealogyMagic'] = __DIR__ . '/Genealogy.i18n.magic.php';
 
 /**
- * Class loading and the Special page
+ * Class loading
  */
-$wgAutoloadClasses['Genealogy'] = __FILE__;
-$wgAutoloadClasses['GenealogyPerson'] = __DIR__ . '/Person.php';
-$wgAutoloadClasses['GenealogySpecial'] = __DIR__ . '/Special.php';
-$wgAutoloadClasses['GenealogyCore'] = __DIR__ . '/Core.php';
-$wgSpecialPages['Genealogy'] = 'GenealogySpecial';
+$wgAutoloadClasses['GenealogyPerson']    = __DIR__ . '/Person.php';
+$wgAutoloadClasses['GenealogySpecial']   = __DIR__ . '/Special.php';
+$wgAutoloadClasses['GenealogyCore']      = __DIR__ . '/Core.php';
+$wgAutoloadClasses['GenealogyTree']      = __DIR__ . '/Tree.php';
+$wgAutoloadClasses['GenealogyTraverser'] = __DIR__ . '/Traverser.php';
 
 /**
  * Parser function

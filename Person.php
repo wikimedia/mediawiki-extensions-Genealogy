@@ -19,6 +19,15 @@ class GenealogyPerson {
 	}
 
 	/**
+	 * Get some basic info about this person.
+	 * @todo Add dates.
+	 * @return string
+	 */
+	public function __toString() {
+		return $this->getTitle()->getPrefixedText();
+	}
+
+	/**
 	 * Get this person's wiki title.
 	 *
 	 * @return Title
