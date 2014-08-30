@@ -39,7 +39,15 @@ class GenealogyPerson {
 	public function getWikiLink() {
 		$birthYear = $this->getBirthDate('Y');
 		$deathYear = $this->getDeathDate('Y');
-		$date = ($this->hasDates()) ? " ($birthYear&ndash;$deathYear)" : "";
+		$dateString = '';
+		if (!empty($birthYear) && !empty($deathYear)) {
+			$dateString = "($birthYear&ndash;$deathYear)";
+		} elseif (!empty($birthYear) && empty($deathYear)) {
+			$dateString = "(b.&nbsp;$birthYear)";
+		} elseif (empty($birthYear) && !empty($deathYear)) {
+			$dateString = "(d.&nbsp;$deathYear)";
+		}
+		$date = ($this->hasDates()) ? " $dateString" : "";
 		return "[[" . $this->getTitle()->getPrefixedText() . "]]$date";
 	}
 
