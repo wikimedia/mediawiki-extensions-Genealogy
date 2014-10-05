@@ -37,15 +37,15 @@ class GenealogyPerson {
 	}
 
 	public function getWikiLink() {
-		$birthYear = $this->getBirthDate('Y');
-		$deathYear = $this->getDeathDate('Y');
+		$birthYear = $this->getDateYear($this->getBirthDate());
+		$deathYear = $this->getDateYear($this->getDeathDate());
 		$dateString = '';
 		if (!empty($birthYear) && !empty($deathYear)) {
 			$dateString = "($birthYear&ndash;$deathYear)";
 		} elseif (!empty($birthYear) && empty($deathYear)) {
-			$dateString = "(b.&nbsp;$birthYear)";
+			$dateString = "(".wfMessage('genealogy-born')."&nbsp;$birthYear)";
 		} elseif (empty($birthYear) && !empty($deathYear)) {
-			$dateString = "(d.&nbsp;$deathYear)";
+			$dateString = "(".wfMessage('genealogy-died')."&nbsp;$deathYear)";
 		}
 		$date = ($this->hasDates()) ? " $dateString" : "";
 		return "[[" . $this->getTitle()->getPrefixedText() . "]]$date";
@@ -56,41 +56,44 @@ class GenealogyPerson {
 	 * @return boolean
 	 */
 	public function hasDates() {
-		return $this->getBirthDate() !== false;
+		return $this->getBirthDate() !== false || $this->getDeathDate() !== false;
 	}
 
 	/**
-	 * Get the birth date of this person. 
-	 * @uses GenealogyPerson::getDate()
+	 * Get the birth date of this person.
 	 * @return string
 	 */
-	public function getBirthDate($format = 'j F Y') {
-		return $this->getDate('birth', $format);
+	public function getBirthDate() {
+		return $this->getPropSingle("birth date");
 	}
 
 	/**
 	 * Get the death date of this person.
-	 * @uses GenealogyPerson::getDate()
 	 * @return string
 	 */
-	public function getDeathDate($format = 'j F Y') {
-		return $this->getDate('death', $format);
+	public function getDeathDate() {
+		return $this->getPropSingle("death date");
 	}
 
 	/**
-	 * Get birth or death date.
-	 *
-	 * If strtotime recognises the format, the date will be converted to the standard wiki date
-	 * format; if it doesn't, the value defined in the page will be returned.
-	 *
-	 * @param string $type Either 'birth' or 'death'.
-	 * @return string
+	 * Get a year out of a date if possible.
+	 * @param string $date
+	 * @return string The year as a string, or the full date.
 	 */
-	public function getDate($type, $format) {
-		$date = $this->getPropSingle("$type date");
-		$time = strtotime($date);
-		if ($time !== false) {
-			return date($format, $time);
+	public function getDateYear($date) {
+//		if (empty($rawDate)) {
+//			return false;
+//		}
+//		try {
+//			$date = new DateTime($rawDate);
+//			return $date->format('Y');
+//		} catch (Exception $e) {
+//			echo $e->getMessage();
+//			return $date;
+//		}
+		preg_match('/(\d{4})/', $date, $matches);
+		if (isset($matches[1])) {
+			return $matches[1];
 		} else {
 			return $date;
 		}
@@ -154,49 +157,6 @@ class GenealogyPerson {
 			return $this->children;
 		}
 		$this->children = $this->getPropInbound('parent');
-//		$this->children = array();
-//		$dbr = wfGetDB(DB_SLAVE);
-//		$children = $dbr->select(
-//			array('pp'=>'page_props', 'p'=>'page'), // tables
-//			array('pp_value', 'page_title'), // columns
-//			array( // where conditions
-//				'pp_value' => $this->title->getPrefixedText(),
-//				"pp_propname LIKE 'genealogy parent %'",
-//				'pp_page = page_id',
-//			),
-//			__METHOD__,
-//			array(),
-//			array('page'=>array())
-//		);
-//		foreach ($children as $child) {
-//			$childTitle = Title::newFromText($child->page_title);
-//			$this->children[$childTitle->getPrefixedDBkey()] = new GenealogyPerson($childTitle);
-//		}
-
-//		$prefexedTitle = $this->title->getPrefixedDBkey();
-//		$dbr = wfGetDB(DB_SLAVE);
-//		$res = $dbr->select(
-//			array('pl' => 'pagelinks', 'p' => 'page'),
-//			array('page_namespace', 'page_title'), // columns
-//			array(// conditions
-//				'pl_title' => $prefexedTitle,
-//				'pl_from = page_id',
-//				'pl_namespace = page_namespace'
-//			),
-//			__METHOD__,
-//			array(),
-//			array('page' => array())
-//		);
-//		foreach ($res as $row) {
-//			$childTitle = Title::makeTitle($row->page_namespace, $row->page_title);
-//			$poss_child = new WikiPage($childTitle);
-//			$content = $poss_child->getContent();
-//			$text = ContentHandler::getContentText($content);
-//			$pattern = '/{{\#'.$this->magicRegex.':\s*parent\s*\|\s*'.$prefexedTitle.'/';
-//			if(preg_match($pattern, $text)===1) {
-//				$this->children[] = new GenealogyPerson($childTitle);
-//			}
-//		}
 		return $this->children;
 	}
 
@@ -205,11 +165,11 @@ class GenealogyPerson {
 		$dbr = wfGetDB(DB_SLAVE);
 		$results = $dbr->select(
 			array('pp'=>'page_props', 'p'=>'page'), // tables
-			array('pp_value', 'page_title'), // columns
+				array('pp_value', 'page_title'), // columns
 			array( // where conditions
-				'pp_value' => $this->title->getPrefixedText(),
-				"pp_propname LIKE 'genealogy $type %'",
-				'pp_page = page_id',
+			'pp_value' => $this->title->getPrefixedText(),
+			"pp_propname LIKE 'genealogy $type %'",
+			'pp_page = page_id',
 			),
 			__METHOD__,
 			array(),
@@ -225,11 +185,11 @@ class GenealogyPerson {
 	public function getPropSingle($prop) {
 		$dbr = wfGetDB(DB_SLAVE);
 		return $dbr->selectField(
-			'page_props', // table to use
-			'pp_value', // Field to select
+						'page_props', // table to use
+						'pp_value', // Field to select
 			array( // where conditions
-				'pp_page' => $this->title->getArticleID(),
-				'pp_propname' => "genealogy $prop"
+					'pp_page' => $this->title->getArticleID(),
+					'pp_propname' => "genealogy $prop"
 			),
 			__METHOD__
 		);
@@ -239,11 +199,11 @@ class GenealogyPerson {
 		$out = array();
 		$dbr = wfGetDB(DB_SLAVE);
 		$results = $dbr->select(
-			'page_props', // table to use
-			'pp_value', // Field to select
+				'page_props', // table to use
+				'pp_value', // Field to select
 			array( // where conditions
-				'pp_page' => $this->title->getArticleID(),
-				"pp_propname LIKE 'genealogy $type %'"
+			'pp_page' => $this->title->getArticleID(),
+			"pp_propname LIKE 'genealogy $type %'"
 			),
 			__METHOD__
 		);

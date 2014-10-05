@@ -43,6 +43,7 @@ $wgAutoloadClasses['GenealogyTree']      = __DIR__ . '/Tree.php';
 $wgAutoloadClasses['GenealogyTraverser'] = __DIR__ . '/Traverser.php';
 
 /**
- * Parser function
+ * Hooks
  */
-$wgHooks['ParserFirstCallInit'][] = 'GenealogyCore::SetupParserFunction';
+$wgHooks['ParserFirstCallInit'][] = 'GenealogyCore::onParserFirstCallInit';
+$wgHooks['UnitTestsList'][] = 'GenealogyCore::onUnitTestsList';
