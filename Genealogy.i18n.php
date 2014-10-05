@@ -15,8 +15,10 @@ $messages = array();
 $messages['en'] = array(
 	'genealogy'      => "Genealogy",
 	'genealogy-desc' => "Adds a parser function for easier linking between genealogical records",
-	'ancestor'       => 'Ancestor',
-	'descendant'     => 'Descendant',
-	'ancestors'      => 'Ancestors',
-	'descendants'    => 'Descendants',
+	'genealogy-born' => 'b.',
+	'genealogy-died' => 'd.',
+	'genealogy-ancestor'       => 'Ancestor',
+	'genealogy-descendant'     => 'Descendant',
+	'genealogy-ancestors'      => 'Ancestors',
+	'genealogy-descendants'    => 'Descendants',
 );

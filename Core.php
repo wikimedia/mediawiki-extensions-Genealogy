@@ -2,8 +2,23 @@
 
 class GenealogyCore {
 
-	static function SetupParserFunction(Parser &$parser) {
+	/**
+	 * Hooked to ParserFirstCallInit.
+	 * @param Parser $parser
+	 * @return boolean
+	 */
+	static function onParserFirstCallInit(Parser &$parser) {
 		$parser->setFunctionHook('genealogy', 'GenealogyCore::RenderParserFunction');
+		return true;
+	}
+
+	/**
+	 * Hooked to UnitTestsList.
+	 * @param array|String $files
+	 * @return boolean
+	 */
+	static function onUnitTestsList(&$files) {
+		$files = array_merge($files, glob(__DIR__ . '/tests/phpunit/*Test.php'));
 		return true;
 	}
 
@@ -37,11 +52,11 @@ class GenealogyCore {
 		switch ($type) {
 			case 'person':
 				if (isset($params['birth date'])) {
-					$out .= 'b.&nbsp;' . $params['birth date'];
+					$out .= $params['birth date'];
 					self::SaveProp($parser, 'birth date', $params['birth date'], false);
 				}
 				if (isset($params['death date'])) {
-					$out .= 'd.&nbsp;' . $params['death date'];
+					$out .= $params['death date'];
 					self::SaveProp($parser, 'death date', $params['death date'], false);
 				}
 				break;
