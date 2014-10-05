@@ -20,8 +20,7 @@
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "MediaWiki\\Extensions\\Genealogy\\Hooks::onParserFirstCallInit",
-		"UnitTestsList": "MediaWiki\\Extensions\\Genealogy\\Hooks::onUnitTestsList",
-		"EditPageBeforeEditToolbar": "MediaWiki\\Extensions\\Genealogy\\Hooks::onEditPageBeforeEditToolbar"
+		"EditPage::showEditForm:initial": "MediaWiki\\Extensions\\Genealogy\\Hooks::onEditPageShowEditFormInitial"
 	},
 	"manifest_version": 1
 }

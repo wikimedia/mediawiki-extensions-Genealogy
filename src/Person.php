@@ -91,9 +91,9 @@ class Person {
 		if ( !empty( $birthYear ) && !empty( $deathYear ) ) {
 			$dateString = "($birthYear&ndash;$deathYear)";
 		} elseif ( !empty( $birthYear ) && empty( $deathYear ) ) {
-			$dateString = "(".wfMessage( 'genealogy-born' )."&nbsp;$birthYear)";
+			$dateString = "(".wfMessage( 'genealogy-born' )->text()."&nbsp;$birthYear)";
 		} elseif ( empty( $birthYear ) && !empty( $deathYear ) ) {
-			$dateString = "(".wfMessage( 'genealogy-died' )."&nbsp;$deathYear)";
+			$dateString = "(".wfMessage( 'genealogy-died' )->text()."&nbsp;$deathYear)";
 		}
 		$date = ( $this->hasDates() ) ? " $dateString" : "";
 		if ( $this->getTitle()->exists() ) {
@@ -101,7 +101,7 @@ class Person {
 		} else {
 			$query = [
 				'action' => 'edit',
-				'preload' => wfMessage( 'genealogy-person-preload' ),
+				'preload' => wfMessage( 'genealogy-person-preload' )->text(),
 			];
 			$url = $this->getTitle()->getFullURL( $query );
 			return '[' . $url . ' ' . $this->getTitle()->getFullText() . ']';
@@ -222,7 +222,7 @@ class Person {
 
 		$where = [
 			'pp_value' => $this->getTitles(),
-			"pp_propname LIKE 'genealogy $type %'",
+			'pp_propname' . $dbr->buildLike( 'genealogy ', $type.' ', $dbr->anyString() ),
 			'pp_page = page_id',
 		];
 		$results = $dbr->select( $tables, $columns, $where, __METHOD__, [], [ 'page'=>[] ] );
@@ -260,8 +260,8 @@ class Person {
 				'page_props', // table to use
 				'pp_value', // Field to select
 			[ // where conditions
-			'pp_page' => $articleIds,
-			"pp_propname LIKE 'genealogy $type %'"
+				'pp_page' => $articleIds,
+				'pp_propname' . $dbr->buildLike( 'genealogy ', $type.' ', $dbr->anyString() ),
 			],
 			__METHOD__,
 			[ 'ORDER BY' => 'pp_value' ]

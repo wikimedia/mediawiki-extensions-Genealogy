@@ -3,14 +3,10 @@
 namespace MediaWiki\Extensions\Genealogy;
 
 use EditPage;
-use GraphRenderParms;
-use GraphViz;
-use Linker;
-use MediaWiki\Linker\LinkRendererFactory;
+use MediaWiki\MediaWikiServices;
+use OutputPage;
 use Parser;
 use Title;
-use WikiPage;
-use Xml;
 
 class Hooks {
 
@@ -25,36 +21,24 @@ class Hooks {
 	}
 
 	/**
-	 * Hooked to UnitTestsList.
-	 * @param String[] $files
-	 * @return boolean
-	 */
-	public static function onUnitTestsList( &$files ) {
-		$files = array_merge( $files, glob( __DIR__ . '/tests/phpunit/*Test.php' ) );
-		return true;
-
-	}
-
-	/**
-	 * This method is called by the EditPageBeforeEditToolbar hook and adds a list of the current
-	 * page's Genealogy partners that *aren't* a result of a {{#genealogy:partner|…}} call in the
-	 * current page.
-	 * @param string $toolbarHtml The existing toolbar HTMl.
+	 * This method is called by the EditPage::showEditForm:initial hook and adds a list of the
+	 * current page's Genealogy partners that *are not* a result of a {{#genealogy:partner|…}} call
+	 * in the current page.
+	 * @param EditPage $editPage The current page that's being edited.
+	 * @param OutputPage $output The output.
 	 * @return void
 	 */
-	public static function onEditPageBeforeEditToolbar( &$toolbarHtml ) {
-		global $wgTitle;
-		$person = new Person( $wgTitle );
+	public static function onEditPageShowEditFormInitial( EditPage &$editPage, OutputPage &$output ) {
+		$person = new Person( $editPage->getTitle() );
 		$peopleList = [];
+		$renderer = MediaWikiServices::getInstance()->getLinkRenderer();
 		foreach ( $person->getPartners( true ) as $partner ) {
-			$peopleList[] = '<a href="'.$partner->getTitle()->getLinkURL().'">'
-				.$partner->getTitle()->getText()
-				."</a>";
+			$peopleList[] = $renderer->makeKnownLink( $partner->getTitle() );
 		}
 		if ( count( $peopleList ) > 0 ) {
 			$msg = wfMessage( 'genealogy-existing-partners', count( $peopleList ) );
 			$successBox = '<p class="successbox">' . $msg. join( ', ', $peopleList ) . '</p>';
-			$toolbarHtml = $successBox . $toolbarHtml;
+			$output->addHTML( $successBox );
 		}
 	}
 
