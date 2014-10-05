@@ -6,12 +6,12 @@
  * @file
  * @ingroup Extensions
  */
-$magicWords = array();
+$magicWords = [];
 
 /**
  * English
  * @author Sam Wilson <sam@samwilson.id.au>
  */
-$magicWords['en'] = array(
-	'genealogy' => array(0, 'genealogy'),
-);
+$magicWords['en'] = [
+	'genealogy' => [ 0, 'genealogy' ],
+];

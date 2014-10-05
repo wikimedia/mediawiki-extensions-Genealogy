@@ -1,0 +1,27 @@
+{
+	"name": "Genealogy",
+	"namemsg": "desc-genealogy",
+	"author": [
+		"Sam Wilson"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:Genealogy",
+	"descriptionmsg": "genealogy-extension-desc",
+	"license-name": "GPL-3.0+",
+	"type": "extension",
+	"ExtensionMessagesFiles": {
+		"Genealogy": "Genealogy.i18n.php",
+		"GenealogyMagic": "Genealogy.i18n.magic.php"
+	},
+	"AutoloadClasses": {
+		"MediaWiki\\Extensions\\Genealogy\\Person": "src/Person.php",
+		"MediaWiki\\Extensions\\Genealogy\\Traverser": "src/Traverser.php",
+		"MediaWiki\\Extensions\\Genealogy\\Tree": "src/Tree.php",
+		"MediaWiki\\Extensions\\Genealogy\\Hooks": "src/Hooks.php"
+	},
+	"Hooks": {
+		"ParserFirstCallInit": "MediaWiki\\Extensions\\Genealogy\\Hooks::onParserFirstCallInit",
+		"UnitTestsList": "MediaWiki\\Extensions\\Genealogy\\Hooks::onUnitTestsList",
+		"EditPageBeforeEditToolbar": "MediaWiki\\Extensions\\Genealogy\\Hooks::onEditPageBeforeEditToolbar"
+	},
+	"manifest_version": 1
+}
