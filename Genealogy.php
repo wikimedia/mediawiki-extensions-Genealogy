@@ -37,7 +37,7 @@ $wgExtensionMessagesFiles['GenealogyMagic'] = __DIR__ . '/Genealogy.i18n.magic.p
  * Class loading
  */
 $wgAutoloadClasses['GenealogyPerson']    = __DIR__ . '/Person.php';
-$wgAutoloadClasses['GenealogySpecial']   = __DIR__ . '/Special.php';
+#$wgAutoloadClasses['GenealogySpecial']   = __DIR__ . '/Special.php';
 $wgAutoloadClasses['GenealogyCore']      = __DIR__ . '/Core.php';
 $wgAutoloadClasses['GenealogyTree']      = __DIR__ . '/Tree.php';
 $wgAutoloadClasses['GenealogyTraverser'] = __DIR__ . '/Traverser.php';
