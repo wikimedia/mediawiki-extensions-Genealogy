@@ -166,9 +166,9 @@ class Hooks {
 		$out = '';
 		$index = 1;
 		$peopleCount = count( $people );
+		$templateExists = Title::newFromText( $templateName->toString() )->exists();
 		foreach ( $people as $person ) {
-			$exists = Title::newFromText( 'Template:' . $templateName->toString() )->exists();
-			if ( $exists ) {
+			if ( $templateExists ) {
 				$template = '{{' . $templateName
 					. '|title=' . $person->getTitle()->getFullText()
 					. '|link=' . $person->getWikiLink()

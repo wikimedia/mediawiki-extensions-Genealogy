@@ -80,8 +80,9 @@ class Person {
 	}
 
 	/**
-	 * Get wikitext for a link to this Person; non-existant people will have the preload
-	 * parameter added.
+	 * Get wikitext for a link to this Person. Non-existent people will get an 'external'-style
+	 * link that has the 'preload' parameter added. The dates of birth and death are appended,
+	 * outside the link.
 	 * @return string The wikitext.
 	 */
 	public function getWikiLink() {
@@ -89,23 +90,24 @@ class Person {
 		$deathYear = $this->getDateYear( $this->getDeathDate() );
 		$dateString = '';
 		if ( !empty( $birthYear ) && !empty( $deathYear ) ) {
-			$dateString = "($birthYear&ndash;$deathYear)";
+			$dateString = wfMessage( 'genealogy-born-and-died', $birthYear, $deathYear )->text();
 		} elseif ( !empty( $birthYear ) && empty( $deathYear ) ) {
-			$dateString = "(".wfMessage( 'genealogy-born' )->text()."&nbsp;$birthYear)";
+			$dateString = wfMessage( 'genealogy-born', $birthYear )->text();
 		} elseif ( empty( $birthYear ) && !empty( $deathYear ) ) {
-			$dateString = "(".wfMessage( 'genealogy-died' )->text()."&nbsp;$deathYear)";
+			$dateString = wfMessage( 'genealogy-died', $deathYear )->text();
 		}
-		$date = ( $this->hasDates() ) ? " $dateString" : "";
 		if ( $this->getTitle()->exists() ) {
-			return "[[" . $this->getTitle()->getFullText() . "]]$date";
+			$link = "[[" . $this->getTitle()->getFullText() . "]]";
 		} else {
 			$query = [
 				'action' => 'edit',
 				'preload' => wfMessage( 'genealogy-person-preload' )->text(),
 			];
 			$url = $this->getTitle()->getFullURL( $query );
-			return '[' . $url . ' ' . $this->getTitle()->getFullText() . ']';
+			$link = '[' . $url . ' ' . $this->getTitle()->getFullText() . ']';
 		}
+		$date = ( $this->hasDates() ) ? " $dateString" : "";
+		return $link.$date;
 	}
 
 	/**

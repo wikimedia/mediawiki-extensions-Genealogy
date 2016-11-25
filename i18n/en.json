@@ -6,14 +6,15 @@
 	},
 	"genealogy": "Genealogy",
 	"genealogy-desc": "Adds a parser function for easier linking between genealogical records",
-	"genealogy-born": "b.",
-	"genealogy-died": "d.",
+	"genealogy-born": "(b.&nbsp;$1)",
+	"genealogy-died": "(d.&nbsp;$1)",
+	"genealogy-born-and-died": "($1&ndash;$2)",
 	"genealogy-ancestor": "Ancestor",
 	"genealogy-ancestors": "Ancestors",
 	"genealogy-descendant": "Descendant",
 	"genealogy-descendants": "Descendants",
 	"genealogy-person-preload": "Template:Person/preload",
+	"genealogy-person-list-item": "Template:Person/list-item",
 	"genealogy-parser-function-not-found": "Genealogy parser function type not recognised: $1",
-	"genealogy-existing-partners": "This person already has the following {{PLURAL:$1|partner|partners}}: ",
-	"genealogy-person-list-item": "Person/list-item"
+	"genealogy-existing-partners": "This person already has the following {{PLURAL:$1|partner|partners}}: "
 }
