@@ -1,11 +1,11 @@
 {
 	"name": "Genealogy",
-	"namemsg": "desc-genealogy",
+	"namemsg": "genealogy",
 	"author": [
 		"Sam Wilson"
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:Genealogy",
-	"descriptionmsg": "genealogy-extension-desc",
+	"descriptionmsg": "genealogy-desc",
 	"license-name": "GPL-3.0+",
 	"type": "extension",
 	"ExtensionMessagesFiles": {
