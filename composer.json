@@ -1,5 +1,6 @@
 {
-	"name": "samwilson/mediawiki-extensions-Genealogy",
+	"name": "samwilson/mediawiki-extensions-genealogy",
+	"description": "A MediaWiki extension that adds a parser function to assist with linking between genealogical records",
 	"type": "mediawiki-extension",
 	"license": "GPL-3.0+",
 	"keywords": ["genealogy", "family history", "MediaWiki"],
