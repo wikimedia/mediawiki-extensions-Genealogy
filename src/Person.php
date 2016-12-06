@@ -51,8 +51,8 @@ class Person {
 	 */
 	public function getTitle() {
 		$page = WikiPage::factory( $this->title );
-		while ( $page->isRedirect() ) {
-			$page = WikiPage::factory( $page->getRedirectTarget() );
+		if ( $page->isRedirect() ) {
+			return $page->getRedirectTarget();
 		}
 		return $page->getTitle();
 	}
