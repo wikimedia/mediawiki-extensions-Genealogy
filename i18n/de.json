@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": [
+			"Metalhead64"
+		]
+	},
+	"genealogy": "Abstammung",
+	"genealogy-desc": "Ergänzt eine Parserfunktion zur einfachen Verlinkung zwischen genealogischen Aufzeichnungen",
+	"genealogy-born": "(*&nbsp;$1)",
+	"genealogy-died": "(†&nbsp;$1)",
+	"genealogy-born-and-died": "($1, $2)",
+	"genealogy-ancestor": "Vorfahre",
+	"genealogy-ancestors": "Vorfahren",
+	"genealogy-descendant": "Nachfahre",
+	"genealogy-descendants": "Nachfahren",
+	"genealogy-person-preload": "Vorlage:Person/preload",
+	"genealogy-person-list-item": "Vorlage:Person/Listeneintrag",
+	"genealogy-parser-function-not-found": "Der Typ für die Abstammungs-Parserfunktion wurde nicht erkannt: $1",
+	"genealogy-existing-partners": "Diese Person hat bereits {{PLURAL:$1|den|die}} folgenden Partner:"
+}

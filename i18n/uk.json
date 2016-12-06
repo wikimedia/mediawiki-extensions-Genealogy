@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kareyac"
+		]
+	},
+	"genealogy": "Генеалогія",
+	"genealogy-ancestor": "Предок",
+	"genealogy-ancestors": "Предки",
+	"genealogy-descendant": "Нащадок",
+	"genealogy-descendants": "Нащадки"
+}

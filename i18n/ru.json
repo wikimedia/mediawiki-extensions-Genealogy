@@ -1,0 +1,13 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kareyac"
+		]
+	},
+	"genealogy": "Генеалогия",
+	"genealogy-desc": "Добавляет функцию парсера для облегчения связывания генеалогических записей",
+	"genealogy-ancestor": "Предок",
+	"genealogy-ancestors": "Предки",
+	"genealogy-descendant": "Потомок",
+	"genealogy-descendants": "Потомки"
+}

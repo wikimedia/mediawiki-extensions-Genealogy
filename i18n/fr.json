@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Gomoko"
+		]
+	},
+	"genealogy": "Généalogie",
+	"genealogy-desc": "Ajoute une fonction d’analyse pour lier plus facilement des enregistrements généalogiques",
+	"genealogy-born": "(b.&nbsp;$1)",
+	"genealogy-died": "(d.&nbsp;$1)",
+	"genealogy-ancestor": "Ancêtre",
+	"genealogy-ancestors": "Ancêtres",
+	"genealogy-descendant": "Descendant",
+	"genealogy-descendants": "Descendants",
+	"genealogy-person-preload": "Template:Person/preload",
+	"genealogy-person-list-item": "Template:Person/list-item",
+	"genealogy-parser-function-not-found": "Type de fonction d’analyse de généalogie non reconnu : $1",
+	"genealogy-existing-partners": "Cette personne a déjà {{PLURAL:$1|le partenaire suivant|les partenaires suivants}} :"
+}

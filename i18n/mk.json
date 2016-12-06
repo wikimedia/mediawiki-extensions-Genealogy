@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bjankuloski06"
+		]
+	},
+	"genealogy": "Родослов",
+	"genealogy-desc": "Додава расчленувачка функција за олеснување на сврзувањето на родословните записи",
+	"genealogy-born": "(р.&nbsp;$1)",
+	"genealogy-died": "(†&nbsp;$1)",
+	"genealogy-ancestor": "Предок",
+	"genealogy-ancestors": "Предци",
+	"genealogy-descendant": "Потомок",
+	"genealogy-descendants": "Потомци",
+	"genealogy-person-preload": "Template:Person/preload",
+	"genealogy-person-list-item": "Template:Person/list-item",
+	"genealogy-parser-function-not-found": "Типот на родословната расчленувачка функција не е препознаен: $1",
+	"genealogy-existing-partners": "Лицево веќе {{PLURAL:$1|го има следниов партнер|ги имаследниве партнери}}:"
+}
