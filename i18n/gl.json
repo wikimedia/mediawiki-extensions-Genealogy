@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Elisardojm"
+		]
+	},
+	"genealogy": "Xenealoxía",
+	"genealogy-born": "(b.&nbsp;$1)",
+	"genealogy-died": "(d.&nbsp;$1)",
+	"genealogy-ancestor": "Devanceiro",
+	"genealogy-ancestors": "Devanceiros",
+	"genealogy-descendant": "Descendente",
+	"genealogy-descendants": "Descendentes"
+}

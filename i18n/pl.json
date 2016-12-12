@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Chrumps"
+		]
+	},
+	"genealogy": "Genealogia",
+	"genealogy-born": "(ur.&nbsp;$1)",
+	"genealogy-died": "(zm.&nbsp;$1)",
+	"genealogy-ancestor": "Przodek",
+	"genealogy-ancestors": "Przodkowie",
+	"genealogy-descendant": "Potomek",
+	"genealogy-descendants": "Potomkowie"
+}

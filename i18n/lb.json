@@ -1,0 +1,16 @@
+{
+	"@metadata": {
+		"authors": [
+			"Robby"
+		]
+	},
+	"genealogy": "Genealogie",
+	"genealogy-desc": "Setzt eng Parser-Funktioun derbäi fir méi liicht Linken tëscht genealogeschen Enregistrementer ze maachen",
+	"genealogy-born": "(*&nbsp;$1)",
+	"genealogy-died": "(†&nbsp;$1)",
+	"genealogy-ancestor": "Virfahren",
+	"genealogy-ancestors": "Virfahren",
+	"genealogy-descendant": "Nokommen",
+	"genealogy-descendants": "Nokommen",
+	"genealogy-existing-partners": "Dës Persoun huet schonn {{PLURAL:$1|dëse|dës}} Partner:"
+}

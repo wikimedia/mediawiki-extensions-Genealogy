@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Liuxinyu970226"
+		]
+	},
+	"genealogy": "Genealogy",
+	"genealogy-desc": "添加解析器函数以方便在系谱记录间链接",
+	"genealogy-born": "（出生年：$1）",
+	"genealogy-died": "（逝世年：$1）",
+	"genealogy-ancestor": "祖先",
+	"genealogy-ancestors": "祖先",
+	"genealogy-descendant": "后裔",
+	"genealogy-descendants": "后裔",
+	"genealogy-person-preload": "Template:Person/preload",
+	"genealogy-person-list-item": "Template:Person/list-item",
+	"genealogy-parser-function-not-found": "Genealogy解析器函数类型未被识别：$1",
+	"genealogy-existing-partners": "该人已经有以下{{PLURAL:$1|配偶}}："
+}

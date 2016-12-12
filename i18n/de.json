@@ -8,7 +8,7 @@
 	"genealogy-desc": "Ergänzt eine Parserfunktion zur einfachen Verlinkung zwischen genealogischen Aufzeichnungen",
 	"genealogy-born": "(*&nbsp;$1)",
 	"genealogy-died": "(†&nbsp;$1)",
-	"genealogy-born-and-died": "($1, $2)",
+	"genealogy-born-and-died": "($1 &ndash; $2)",
 	"genealogy-ancestor": "Vorfahre",
 	"genealogy-ancestors": "Vorfahren",
 	"genealogy-descendant": "Nachfahre",
