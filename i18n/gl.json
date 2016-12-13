@@ -1,12 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
-			"Elisardojm"
+			"Elisardojm",
+			"Fitoschido"
 		]
 	},
 	"genealogy": "Xenealoxía",
-	"genealogy-born": "(b.&nbsp;$1)",
-	"genealogy-died": "(d.&nbsp;$1)",
+	"genealogy-born": "(n.&nbsp;$1)",
+	"genealogy-died": "(f.&nbsp;$1)",
 	"genealogy-ancestor": "Devanceiro",
 	"genealogy-ancestors": "Devanceiros",
 	"genealogy-descendant": "Descendente",

@@ -1,8 +1,17 @@
 {
 	"@metadata": {
 		"authors": [
-			"Kareyac"
+			"Kareyac",
+			"Fitoschido"
 		]
 	},
-	"genealogy": "Genealogía"
+	"genealogy": "Genealogía",
+	"genealogy-desc": "Añade una función del analizador sintáctico para facilitar la creación de enlaces entre registros genealógicos",
+	"genealogy-born": "(n.&nbsp;$1)",
+	"genealogy-died": "(f.&nbsp;$1)",
+	"genealogy-ancestor": "Antepasado",
+	"genealogy-ancestors": "Antepasados",
+	"genealogy-descendant": "Descendiente",
+	"genealogy-descendants": "Descendientes",
+	"genealogy-parser-function-not-found": "No se reconoció el tipo de función del analizador genealógico: $1"
 }
