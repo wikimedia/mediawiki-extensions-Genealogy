@@ -83,16 +83,25 @@ class Hooks {
 				break;
 			case 'parent':
 				$parentTitle = Title::newFromText( $params[0] );
-				$parent = new Person( $parentTitle );
-				$out .= $parent->getWikiLink();
-				self::saveProp( $parser, 'parent', $params[0] );
+				if ( !$parentTitle instanceof Title ) {
+					$out .= "<span class='error'>Invalid parent page title: '{$params[0]}'</span>";
+				} else {
+					$parent = new Person( $parentTitle );
+					$out .= $parent->getWikiLink();
+					self::saveProp( $parser, 'parent', $params[0] );
+				}
 				break;
 			case 'siblings':
 				$person = new Person( $parser->getTitle() );
 				$out .= self::peopleList( $parser, $person->getSiblings() );
 				break;
 			case 'partner':
-				self::saveProp( $parser, 'partner', $params[0] );
+				$partnerTitle = Title::newFromText( $params[0] );
+				if ( !$partnerTitle instanceof Title ) {
+					$out .= "<span class='error'>Invalid partner page title: '{$params[0]}'</span>";
+				} else {
+					self::saveProp( $parser, 'partner', $params[0] );
+				}
 				break;
 			case 'partners':
 				$person = new Person( $parser->getTitle() );
