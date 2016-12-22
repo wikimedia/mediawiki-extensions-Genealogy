@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Aftabuzzaman",
+			"আজিজ"
+		]
+	},
+	"genealogy": "বংশবৃত্তান্ত",
+	"genealogy-desc": "বংশবৃত্তান্তের রেকর্ডের মধ্যে সহজভাবে সংযোগের জন্য একটি পার্সার ফাংশন যোগ করে",
+	"genealogy-born": "(জ.&nbsp;$1)",
+	"genealogy-died": "(মৃ.&nbsp;$1)",
+	"genealogy-ancestor": "পূর্বপুরুষ",
+	"genealogy-ancestors": "পূর্বপুরুষগণ",
+	"genealogy-descendant": "বংশধর",
+	"genealogy-descendants": "বংশধরগণ",
+	"genealogy-parser-function-not-found": "বংশবৃত্তান্ত পার্সার ফাংশনের ধরন স্বীকৃত না: $1",
+	"genealogy-existing-partners": "এই ব্যক্তির ইতিমধ্যে নিম্নলিখিত {{PLURAL:$1|সঙ্গী|সঙ্গীগণ}} আছেন:"
+}

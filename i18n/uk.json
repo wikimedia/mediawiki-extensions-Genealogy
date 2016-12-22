@@ -1,12 +1,20 @@
 {
 	"@metadata": {
 		"authors": [
-			"Kareyac"
+			"Kareyac",
+			"Piramidion"
 		]
 	},
 	"genealogy": "Генеалогія",
+	"genealogy-desc": "Додає парсерну функцію для полегшення створення посилань між генеалогічними записами",
+	"genealogy-born": "(нар.&nbsp;$1)",
+	"genealogy-died": "(пом.&nbsp;$1)",
 	"genealogy-ancestor": "Предок",
 	"genealogy-ancestors": "Предки",
 	"genealogy-descendant": "Нащадок",
-	"genealogy-descendants": "Нащадки"
+	"genealogy-descendants": "Нащадки",
+	"genealogy-person-preload": "Template:Person/preload",
+	"genealogy-person-list-item": "Template:Person/list-item",
+	"genealogy-parser-function-not-found": "Нерозпізнаний тип парсерної функції в генеалогії: $1",
+	"genealogy-existing-partners": "Ця особа вже має {{PLURAL:$1|такого партнера|таких партнерів}}:"
 }
