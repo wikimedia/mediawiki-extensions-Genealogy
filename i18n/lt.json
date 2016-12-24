@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eitvys200"
+		]
+	},
+	"genealogy": "Genealogija",
+	"genealogy-ancestor": "Protėvis",
+	"genealogy-ancestors": "Protėviai",
+	"genealogy-descendant": "Palikuonis",
+	"genealogy-descendants": "Palikuonys"
+}
