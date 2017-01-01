@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Sam Wilson <sam@samwilson.id.au>"
+			"Sam Wilson <sam@samwilson.id.au>",
+			"Liuxinyu970226"
 		]
 	},
 	"genealogy": "The extension title",
@@ -9,10 +10,10 @@
 	"genealogy-born": "The parenthetic abbreviation showing the year of birth.",
 	"genealogy-died": "The parenthetic abbreviation showing the year of death.",
 	"genealogy-born-and-died": "The parenthetic abbreviation showing both the year of birth and year of death.",
-	"genealogy-ancestor": "A singular noun referring to any parent, grandparent, etc. of a given person.",
-	"genealogy-ancestors": "A plural noun referring to all parents, grandparents, etc. of a given person.",
-	"genealogy-descendant": "A singular noun referring to any child, grandchild, etc. of a given person.",
-	"genealogy-descendants": "A plural noun referring to all children, grandchildren, etc. of a given person.",
+	"genealogy-ancestor": "A singular noun referring to any parent, grandparent, etc. of a given person.\n{{Identical|Ancestor}}",
+	"genealogy-ancestors": "A plural noun referring to all parents, grandparents, etc. of a given person.\n{{Identical|Ancestor}}",
+	"genealogy-descendant": "A singular noun referring to any child, grandchild, etc. of a given person.\n{{Identical|Descendant}}",
+	"genealogy-descendants": "A plural noun referring to all children, grandchildren, etc. of a given person.\n{{Identical|Descendant}}",
 	"genealogy-person-preload": "A name of the MediaWiki page that contains the text that is preloaded when a new Person page is created.",
 	"genealogy-person-list-item": "The template that will be used (if it exists) to format each item in any list of people.",
 	"genealogy-parser-function-not-found": "The error message shown when the parser function is passed something it doesn't recognise.",
