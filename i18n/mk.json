@@ -8,6 +8,7 @@
 	"genealogy-desc": "Додава расчленувачка функција за олеснување на сврзувањето на родословните записи",
 	"genealogy-born": "(р.&nbsp;$1)",
 	"genealogy-died": "(†&nbsp;$1)",
+	"genealogy-born-and-died": "($1 &ndash; $2)",
 	"genealogy-ancestor": "Предок",
 	"genealogy-ancestors": "Предци",
 	"genealogy-descendant": "Потомок",
@@ -15,5 +16,7 @@
 	"genealogy-person-preload": "Template:Person/preload",
 	"genealogy-person-list-item": "Template:Person/list-item",
 	"genealogy-parser-function-not-found": "Типот на родословната расчленувачка функција не е препознаен: $1",
-	"genealogy-existing-partners": "Лицево веќе {{PLURAL:$1|го има следниов партнер|ги имаследниве партнери}}:"
+	"genealogy-existing-partners": "Лицево веќе {{PLURAL:$1|го има следниов партнер|ги имаследниве партнери}}:",
+	"genealogy-invalid-parent-title": "Грешка: неважечки наслов на матичната страница: „$1“",
+	"genealogy-invalid-partner-title": "Грешка: неважечки наслов на партнерската страница: „$1“"
 }

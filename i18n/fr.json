@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Gomoko",
-			"Fitoschido"
+			"Fitoschido",
+			"Wladek92"
 		]
 	},
 	"genealogy": "Généalogie",
@@ -16,5 +17,7 @@
 	"genealogy-person-preload": "Template:Person/preload",
 	"genealogy-person-list-item": "Template:Person/list-item",
 	"genealogy-parser-function-not-found": "Type de fonction d’analyse de généalogie non reconnu : $1",
-	"genealogy-existing-partners": "Cette personne a déjà {{PLURAL:$1|le partenaire suivant|les partenaires suivants}} :"
+	"genealogy-existing-partners": "Cette personne a déjà {{PLURAL:$1|le partenaire suivant|les partenaires suivants}} :",
+	"genealogy-invalid-parent-title": "Erreur: le titre de la page parent est invalide: '$1'",
+	"genealogy-invalid-partner-title": "Erreur: titre invalide de la page du partenaire: '$1'"
 }

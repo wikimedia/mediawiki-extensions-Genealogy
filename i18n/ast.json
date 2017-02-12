@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Xuacu"
+		]
+	},
+	"genealogy": "Xenealoxía",
+	"genealogy-desc": "Amiesta una función d'analís sintáuticu pa facilitar la creación d'enllaces ente rexistros xenealóxicos",
+	"genealogy-born": "(n.&nbsp;$1)",
+	"genealogy-died": "(f.&nbsp;$1)",
+	"genealogy-ancestor": "Antepasáu",
+	"genealogy-ancestors": "Antepasaos",
+	"genealogy-descendant": "Descendiente",
+	"genealogy-descendants": "Descendientes",
+	"genealogy-parser-function-not-found": "Nun se reconoció'l tipu de función del analizador xenealóxicu: $1",
+	"genealogy-existing-partners": "Esta persona yá tien {{PLURAL:$1|la siguiente pareya|les siguientes pareyes}}:",
+	"genealogy-invalid-parent-title": "Error: títulu inválidu de páxina de padre: '$1'",
+	"genealogy-invalid-partner-title": "Error: títulu inválidu de páxina de pareya: '$1'"
+}

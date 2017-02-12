@@ -15,5 +15,7 @@
 	"genealogy-person-preload": "Template:Person/preload",
 	"genealogy-person-list-item": "Template:Person/list-item",
 	"genealogy-parser-function-not-found": "Genealogy解析器函数类型未被识别：$1",
-	"genealogy-existing-partners": "该人已经有以下{{PLURAL:$1|配偶}}："
+	"genealogy-existing-partners": "该人已经有以下{{PLURAL:$1|配偶}}：",
+	"genealogy-invalid-parent-title": "错误：无效父页面标题：“$1”",
+	"genealogy-invalid-partner-title": "错误：无效合作伙伴页面标题：“$1”"
 }
