@@ -28,7 +28,7 @@ class Person {
 
 	/**
 	 * Create a new Person based on a page in the wiki.
-	 * @param Title $title
+	 * @param Title $title The page title.
 	 */
 	public function __construct( Title $title ) {
 		$this->title = $title;
@@ -136,21 +136,11 @@ class Person {
 
 	/**
 	 * Get a year out of a date if possible.
-	 * @param string $date
+	 * @param string $date The date to parse.
 	 * @return string The year as a string, or the full date.
 	 */
 	public function getDateYear( $date ) {
-// 	if (empty($rawDate)) {
-// 		return false;
-// 	}
-// 	try {
-// 		$date = new DateTime($rawDate);
-// 		return $date->format('Y');
-// 	} catch (Exception $e) {
-// 		echo $e->getMessage();
-// 		return $date;
-// 	}
-		preg_match( '/(\d{4})/', $date, $matches );
+		preg_match( '/(\d{3,4})/', $date, $matches );
 		if ( isset( $matches[1] ) ) {
 			return $matches[1];
 		} else {
@@ -160,7 +150,6 @@ class Person {
 
 	/**
 	 * Get all parents.
-	 *
 	 * @return Person[] An array of parents, possibly empty.
 	 */
 	public function getParents() {
@@ -214,7 +203,7 @@ class Person {
 
 	/**
 	 * Find people with properties that are equal to one of this page's titles.
-	 * @param string $type
+	 * @param string $type The property type.
 	 * @return Person[] Keyed by the prefixed DB key.
 	 */
 	protected function getPropInbound( $type ) {
@@ -237,6 +226,11 @@ class Person {
 		return $out;
 	}
 
+	/**
+	 * Get the value of a single-valued page property.
+	 * @param string $prop The property.
+	 * @return string|boolean The property value, or false if not found.
+	 */
 	public function getPropSingle( $prop ) {
 		$dbr = wfGetDB( DB_SLAVE );
 		$where = [
@@ -259,9 +253,12 @@ class Person {
 			$articleIds[] = $t->getArticleID();
 		}
 		$results = $dbr->select(
-				'page_props', // table to use
-				'pp_value', // Field to select
-			[ // where conditions
+			// Table to use.
+			'page_props',
+			// Field to select.
+			'pp_value',
+			[
+				// Where conditions.
 				'pp_page' => $articleIds,
 				'pp_propname' . $dbr->buildLike( 'genealogy ', $type.' ', $dbr->anyString() ),
 			],

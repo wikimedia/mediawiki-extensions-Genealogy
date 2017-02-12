@@ -23,7 +23,7 @@ class Tree {
 
 	/**
 	 * Set the number of levels the tree will go up to from the ancestors' starting points.
-	 * @param integer $ancestor_depth
+	 * @param integer $ancestor_depth The new ancestor depth.
 	 */
 	public function setAncestorDepth( $ancestor_depth ) {
 		$this->ancestor_depth = $ancestor_depth;
@@ -31,7 +31,7 @@ class Tree {
 
 	/**
 	 * Set the number of levels the tree will go down to from the descendants' starting points.
-	 * @param integer $descendant_depth
+	 * @param integer $descendant_depth The new descendant depth.
 	 */
 	public function setDescendantDepth( $descendant_depth ) {
 		$this->descendant_depth = $descendant_depth;
@@ -55,8 +55,8 @@ class Tree {
 
 	/**
 	 * Add ancestor or descendant starting points to this tree.
-	 * @param string $type
-	 * @param string[] $list
+	 * @param string $type Either 'ancestors' or 'descendants'.
+	 * @param string[] $list Array of page titles.
 	 */
 	protected function addAncestorsOrDescendants( $type, $list ) {
 		foreach ( $list as $a ) {
@@ -69,11 +69,20 @@ class Tree {
 	}
 
 	/**
+	 * Whether any ancestors or descendants have been added to this tree.
+	 * @return boolean
+	 */
+	public function hasAncestorsOrDescendants() {
+		return 0 < ( count( $this->ancestors ) + count( $this->descendants ) );
+	}
+
+	/**
 	 * Get the Dot source code for the graph of this tree.
 	 * @return string
 	 */
 	public function getGraphviz() {
-		$this->out( 'top', 'start', 'digraph GenealogyTree {' );
+		$treeName = md5( join( '', $this->ancestors ) . join( '', $this->descendants ) );
+		$this->out( 'top', 'start', "digraph GenealogyTree_$treeName {" );
 		$this->out( 'top', 'graph-attrs', 'graph [rankdir=LR]' );
 		$this->out( 'top', 'edge-attrs', 'edge [arrowhead=none]' );
 
@@ -106,6 +115,10 @@ class Tree {
 		return $out . "}";
 	}
 
+	/**
+	 * Output one GraphViz line for the given person.
+	 * @param Person $person The person.
+	 */
 	protected function outputPersonLine( Person $person ) {
 		$birthYear = $person->getBirthDate();
 		$deathYear = $person->getDeathDate();
@@ -143,6 +156,10 @@ class Tree {
 		$this->out( 'person', $personId, $line );
 	}
 
+	/**
+	 * When traversing the tree, each node is visited and this method run on the current person.
+	 * @param Person $person The current node's person.
+	 */
 	public function visit( Person $person ) {
 		$this->outputPersonLine( $person );
 
@@ -194,7 +211,6 @@ class Tree {
 			// Add this child in case they don't .
 			$this->outputPersonLine( $child );
 		}
-
 	}
 
 	/**

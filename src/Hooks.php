@@ -12,7 +12,7 @@ class Hooks {
 
 	/**
 	 * Hooked to ParserFirstCallInit.
-	 * @param Parser $parser
+	 * @param Parser &$parser The parser.
 	 * @return boolean
 	 */
 	public static function onParserFirstCallInit( Parser &$parser ) {
@@ -24,8 +24,8 @@ class Hooks {
 	 * This method is called by the EditPage::showEditForm:initial hook and adds a list of the
 	 * current page's Genealogy partners that *are not* a result of a {{#genealogy:partner|…}} call
 	 * in the current page.
-	 * @param EditPage $editPage The current page that's being edited.
-	 * @param OutputPage $output The output.
+	 * @param EditPage &$editPage The current page that's being edited.
+	 * @param OutputPage &$output The output.
 	 * @return void
 	 */
 	public static function onEditPageShowEditFormInitial( EditPage &$editPage, OutputPage &$output ) {
@@ -46,19 +46,18 @@ class Hooks {
 	 * Render the output of the parser function.
 	 * The input parameters are wikitext with templates expanded.
 	 * The output should be wikitext too.
-	 *
-	 * @param Parser $parser
-	 * @param string $type
-	 * @param string $param2
-	 * @param string $param3
+	 * @param Parser $parser The parser.
 	 * @return string The wikitext with which to replace the parser function call.
 	 */
 	public static function renderParserFunction( Parser $parser ) {
 		$params = [];
 		$args = func_get_args();
-		array_shift( $args ); // Remove $parser
-		$type = array_shift( $args ); // Get param 1, the function type
-		foreach ( $args as $arg ) { // Everything that's left must be named
+		// Remove $parser from the args.
+		array_shift( $args );
+		// Get param 1, the function type.
+		$type = array_shift( $args );
+		// Everything that's left must be named.
+		foreach ( $args as $arg ) {
 			$pair = explode( '=', $arg, 2 );
 			if ( count( $pair ) == 2 ) {
 				$name = trim( $pair[0] );
@@ -84,7 +83,10 @@ class Hooks {
 			case 'parent':
 				$parentTitle = Title::newFromText( $params[0] );
 				if ( !$parentTitle instanceof Title ) {
-					$out .= "<span class='error'>Invalid parent page title: '{$params[0]}'</span>";
+					$invalidTitle = '<nowiki>' . $params[0] . '</nowiki>';
+					$isHtml = true;
+					$msg = wfMessage( 'genealogy-invalid-parent-title', $invalidTitle );
+					$out .= "<span class='error'>$msg</span>";
 				} else {
 					$parent = new Person( $parentTitle );
 					$out .= $parent->getWikiLink();
@@ -98,7 +100,10 @@ class Hooks {
 			case 'partner':
 				$partnerTitle = Title::newFromText( $params[0] );
 				if ( !$partnerTitle instanceof Title ) {
-					$out .= "<span class='error'>Invalid partner page title: '{$params[0]}'</span>";
+					$invalidTitle = '<nowiki>' . $params[0] . '</nowiki>';
+					$isHtml = true;
+					$msg = wfMessage( 'genealogy-invalid-partner-title', $invalidTitle );
+					$out .= "<span class='error'>$msg</span>";
 				} else {
 					self::saveProp( $parser, 'partner', $params[0] );
 				}
@@ -125,9 +130,11 @@ class Hooks {
 				if ( isset( $params['descendant depth'] ) ) {
 					$tree->setDescendantDepth( $params['descendant depth'] );
 				}
-				$graphviz = $tree->getGraphviz();
-				$out .= $parser->recursiveTagParse( "<graphviz>\n$graphviz\n</graphviz>" );
-				// $out .= $parser->recursiveTagParse( "<pre>$graphviz</pre>" );
+				if ( $tree->hasAncestorsOrDescendants() ) {
+					$graphviz = $tree->getGraphviz();
+					$out .= $parser->recursiveTagParse( "<graphviz>\n$graphviz\n</graphviz>" );
+					// $out .= $parser->recursiveTagParse( "<pre>$graphviz</pre>" );
+				}
 				break;
 			default:
 				$msg = wfMessage( 'genealogy-parser-function-not-found', [ $type ] );
@@ -167,7 +174,7 @@ class Hooks {
 	/**
 	 * Get a wikitext list of siblings, partners, or children.
 	 * @param Parser $parser The parser to use to render each line.
-	 * @param Person[] $people
+	 * @param Person[] $people The people to list.
 	 * @return string Wikitext list of people.
 	 */
 	public static function peopleList( Parser $parser, $people ) {
