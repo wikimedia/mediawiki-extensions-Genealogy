@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Marlele"
+			"Marlele",
+			"Beta16"
 		]
 	},
-	"genealogy-invalid-partner-title": "Error:titolo pagina partner invalido: '$1'"
+	"genealogy-invalid-partner-title": "Errore: titolo pagina partner non valido: '$1'"
 }
