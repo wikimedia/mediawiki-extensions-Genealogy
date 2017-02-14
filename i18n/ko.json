@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"SeoJeongHo"
+		]
+	},
+	"genealogy-invalid-parent-title": "에러: 유효하지 않은 상위 문서 제목:'$1'",
+	"genealogy-invalid-partner-title": "에러:유효하지 않은 파트너 문서 제목:'$1'"
+}
