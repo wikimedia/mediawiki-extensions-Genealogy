@@ -16,5 +16,7 @@
 	"genealogy-person-preload": "Template:Person/preload",
 	"genealogy-person-list-item": "Template:Person/list-item",
 	"genealogy-parser-function-not-found": "Нерозпізнаний тип парсерної функції в генеалогії: $1",
-	"genealogy-existing-partners": "Ця особа вже має {{PLURAL:$1|такого партнера|таких партнерів}}:"
+	"genealogy-existing-partners": "Ця особа вже має {{PLURAL:$1|такого партнера|таких партнерів}}:",
+	"genealogy-invalid-parent-title": "Помилка: недійсна назва батьківської сторінки: «$1»",
+	"genealogy-invalid-partner-title": "Недійсна назва партнерської сторінки: «$1»"
 }
