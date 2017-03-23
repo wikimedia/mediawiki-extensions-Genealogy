@@ -14,7 +14,7 @@
 	"MessagesDirs": {
 		"Genealogy": [
 			"i18n"
-		 ]
+		]
 	},
 	"AutoloadClasses": {
 		"MediaWiki\\Extensions\\Genealogy\\Person": "src/Person.php",
