@@ -108,5 +108,21 @@ class PersonTest extends MediaWikiTestCase {
 			'King Charles',
 			$diana->getPartners()['King_Charles']->getTitle()->getText()
 		);
+		// Redirect Charles again, and make sure all is okay.
+		$kingChPage->doEditContent( new WikitextContent( '#REDIRECT [[King Charles III]]' ), '' );
+		$kingCh3Page = new WikiPage( Title::newFromText( 'King Charles III' ) );
+		$kingCh3Page->doEditContent( new WikitextContent( '{{#genealogy:partner|Diana}}' ), '' );
+		$this->assertEquals( 'King_Charles_III', $charles->getTitle()->getPrefixedDBkey() );
+		$this->assertEquals(
+			[ 'Charles', 'King_Charles', 'King_Charles_III' ],
+			array_keys( $charles->getTitles() )
+		);
+		$this->assertCount( 1, $charles->getPartners() );
+		$this->assertEquals( 'Dianna', $charles->getPartners()['Dianna']->getTitle() );
+		$this->assertCount( 1, $diana->getPartners() );
+		$this->assertEquals(
+			'King Charles III',
+			$diana->getPartners()['King_Charles_III']->getTitle()->getText()
+		);
 	}
 }

@@ -208,7 +208,7 @@ class Tree {
 			$this->out( 'partner', $personId.$parentsId, $personParentsLine );
 			$childId = $this->esc( $child->getTitle()->getDBkey() );
 			$this->out( 'child', $parentsId.$childId, $parentsId.' -> ' . $childId );
-			// Add this child in case they don't .
+			// Add this child in case they don't get included directly in this tree.
 			$this->outputPersonLine( $child );
 		}
 	}
@@ -238,7 +238,7 @@ class Tree {
 	 * @return string
 	 */
 	private function esc( $title ) {
-		return strtr( $title, '( )-', '____' );
+		return strtr( $title, '( )-.', '_____' );
 	}
 
 }
