@@ -104,8 +104,8 @@ class Tree {
 
 		// Combine all parts of the graph output.
 		$out = join( "\n", $this->graph_source_code['top'] ) . "\n\n"
-		       . "node [ shape=plaintext ]\n"
-		       . join( "\n", $this->graph_source_code['person'] ) . "\n\n";
+			. "node [ shape=plaintext ]\n"
+			. join( "\n", $this->graph_source_code['person'] ) . "\n\n";
 		if ( isset( $this->graph_source_code['partner'] ) ) {
 			$out .= join( "\n", $this->graph_source_code['partner'] ) . "\n\n";
 		}

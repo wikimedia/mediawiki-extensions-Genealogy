@@ -90,7 +90,7 @@ class Hooks {
 				} else {
 					$parent = new Person( $parentTitle );
 					$out .= $parent->getWikiLink();
-					self::saveProp( $parser, 'parent', $params[0] );
+					self::saveProp( $parser, 'parent', $parentTitle );
 				}
 				break;
 			case 'siblings':
@@ -105,7 +105,7 @@ class Hooks {
 					$msg = wfMessage( 'genealogy-invalid-partner-title', $invalidTitle );
 					$out .= "<span class='error'>$msg</span>";
 				} else {
-					self::saveProp( $parser, 'partner', $params[0] );
+					self::saveProp( $parser, 'partner', $partnerTitle );
 				}
 				break;
 			case 'partners':
@@ -149,25 +149,32 @@ class Hooks {
 	 * Save a page property.
 	 * @param Parser $parser The parser object.
 	 * @param string $prop The property name; it will be prefixed with 'genealogy '.
-	 * @param string $val The property value.
+	 * @param string|Title $val The property value ('full text' will be used if this is a Title).
 	 * @param boolean $multi Whether this property can have multiple values (will be stored as
 	 * multiple properties, with an integer appended to their name.
 	 */
 	public static function saveProp( Parser $parser, $prop, $val, $multi = true ) {
 		$output = $parser->getOutput();
+		$valString = ( $val instanceof Title ) ? $val->getFullText() : $val;
 		if ( $multi ) {
 			// Figure out what number we're up to for this property.
 			$propNum = 1;
 			$propVal = $output->getProperty( "genealogy $prop $propNum" );
-			while ( $propVal !== false && $propVal !== $val ) {
+			while ( $propVal !== false && $propVal !== $valString ) {
 				$propNum++;
 				$propVal = $output->getProperty( "genealogy $prop $propNum" );
 			}
 			// Save the property.
-			$output->setProperty( "genealogy $prop $propNum", $val );
+			$output->setProperty( "genealogy $prop $propNum", $valString );
 		} else {
 			// A single-valued property.
-			$output->setProperty( "genealogy $prop", $val );
+			$output->setProperty( "genealogy $prop", $valString );
+		}
+		// For page-linking properties, add the referenced page as a dependency for this page.
+		// https://www.mediawiki.org/wiki/Manual:Tag_extensions#How_do_I_disable_caching_for_pages_using_my_extension.3F
+		if ( $val instanceof Title ) {
+			// Register the dependency in templatelinks table.
+			$output->addTemplate( $val, $val->getArticleID(), $val->getLatestRevID() );
 		}
 	}
 
