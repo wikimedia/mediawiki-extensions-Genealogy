@@ -3,7 +3,11 @@
 	"description": "A MediaWiki extension that adds a parser function to assist with linking between genealogical records",
 	"type": "mediawiki-extension",
 	"license": "GPL-3.0+",
-	"keywords": ["genealogy", "family history", "MediaWiki"],
+	"keywords": [
+		"genealogy",
+		"family history",
+		"MediaWiki"
+	],
 	"authors": [
 		{
 			"name": "Sam Wilson",
@@ -24,7 +28,7 @@
 	},
 	"require-dev": {
 		"jakub-onderka/php-parallel-lint": "^0.9",
-		"mediawiki/mediawiki-codesniffer": "^0.8",
+		"mediawiki/mediawiki-codesniffer": "0.9.0",
 		"jakub-onderka/php-console-highlighter": "0.3.2"
 	},
 	"scripts": {
