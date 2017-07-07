@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Giromin Cangiaxo"
+		]
+	},
+	"genealogy": "Genealogia",
+	"genealogy-born": "(b.&nbsp;$1)",
+	"genealogy-died": "(d.&nbsp;$1)"
+}
