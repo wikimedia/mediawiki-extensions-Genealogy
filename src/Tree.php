@@ -148,7 +148,6 @@ class Tree {
 		$title = $person->getTitle()->getText();
 		$personId = $this->esc( $title );
 		$line = $personId." ["
-			. " label=\"$title$date\", "
 			. " URL=\"$url\", "
 			. " tooltip=\"$title\", "
 			. " fontcolor=\"$colour\" "
@@ -163,22 +162,29 @@ class Tree {
 	public function visit( Person $person ) {
 		$this->outputPersonLine( $person );
 
-		$personId = $this->esc( $person->getTitle()->getText() );
+		$personId = $person->getTitle()->getText();
 		$partnerStyle = 'dashed';
 
 		// Output links to parents.
 		if ( $person->getParents() ) {
-			$parentsId = $this->esc( join( '', $person->getParents() ) );
-			$this->out( 'partner', $parentsId, $parentsId . ' [label="", shape="point"]' );
-			$this->out( 'child', $parentsId.$personId, $parentsId . ' -> ' . $personId );
+			$parentsId = join( ' & ', $person->getParents() );
+			$this->out( 'partner', $parentsId, $this->esc( $parentsId ) . ' [label="", shape="point"]' );
+			$this->outDirectedLine(
+				'child',
+				$parentsId.$personId,
+				$parentsId,
+				$personId
+			);
 			foreach ( $person->getParents() as $parent ) {
-				$parentId = $this->esc( $parent->getTitle()->getText() );
+				$parentId = $parent->getTitle()->getText();
 				// Add any non-included parent.
 				$this->outputPersonLine( $parent );
-				$this->out(
+				$this->outDirectedLine(
 					'partner',
 					$parentId.$parentsId,
-					$parentId . ' -> ' . $parentsId . " [style=$partnerStyle]"
+					$parentId,
+					$parentsId,
+					"style=$partnerStyle"
 				);
 			}
 		}
@@ -186,31 +192,67 @@ class Tree {
 		// Output links to partners.
 		foreach ( $person->getPartners() as $partner ) {
 			// Create a point node for each partnership.
-			$partnerId = $this->esc( $partner->getTitle()->getDBkey() );
+			$partnerId = $partner->getTitle()->getText();
 			$partners = [ $personId, $partnerId ];
 			sort( $partners );
-			$partnersId = $this->esc( join( '', $partners ) );
-			$this->out( 'partner', $partnersId, $partnersId.' [label="", shape="point"]' );
+			$partnersId = join( ' & ', $partners );
+			$this->out( 'partner', $partnersId, $this->esc( $partnersId ) .' [label="", shape="point"]' );
 			// Link this person and this partner to that point node.
-			$personPartnerLine = $personId .' -> '. $partnersId." [style=$partnerStyle]";
-			$this->out( 'partner', $personId.$partnersId, $personPartnerLine );
-			$partnerLine = $partnerId .' -> '. $partnersId." [style=$partnerStyle]";
-			$this->out( 'partner', $partnerId.$partnersId, $partnerLine );
+			$this->outDirectedLine(
+				'partner',
+				$personId.$partnersId,
+				$personId,
+				$partnersId,
+				"style=$partnerStyle"
+			);
+			$this->outDirectedLine(
+				'partner',
+				$partnerId.$partnersId,
+				$partnerId,
+				$partnersId,
+				"style=$partnerStyle"
+			);
 			// Create a node for any non-included partner.
 			$this->outputPersonLine( $partner );
 		}
 
 		// Output links to children.
 		foreach ( $person->getChildren() as $child ) {
-			$parentsId = $this->esc( join( '', $child->getParents() ) );
-			$this->out( 'partner', $parentsId, $parentsId.' [label="", shape="point"]' );
-			$personParentsLine = $personId.' -> '.$parentsId." [style=$partnerStyle]";
-			$this->out( 'partner', $personId.$parentsId, $personParentsLine );
-			$childId = $this->esc( $child->getTitle()->getDBkey() );
-			$this->out( 'child', $parentsId.$childId, $parentsId.' -> ' . $childId );
+			$parentsId = join( ' & ', $child->getParents() );
+			$this->out( 'partner', $parentsId, $this->esc( $parentsId ) . ' [label="", shape="point"]' );
+			$this->outDirectedLine(
+				'partner',
+				$personId.$parentsId,
+				$personId,
+				$parentsId,
+				"style=$partnerStyle"
+			);
+			$childId = $child->getTitle()->getText();
+			$this->outDirectedLine(
+				'child',
+				$parentsId.$childId,
+				$parentsId,
+				$childId
+			);
 			// Add this child in case they don't get included directly in this tree.
 			$this->outputPersonLine( $child );
 		}
+	}
+
+	/**
+	 * Save an output line for a directed edge.
+	 * @param string $group The group this line should go in.
+	 * @param string $key The line's unique key.
+	 * @param string $from The left-hand side of the arrow.
+	 * @param string $to The right-hand side of the arrow.
+	 * @param string $params Any parameters to append.
+	 */
+	protected function outDirectedLine( $group, $key, $from, $to, $params = '' ) {
+		$line = $this->esc( $from ) . ' -> ' . $this->esc( $to );
+		if ( $params ) {
+			$line .= " [$params]";
+		}
+		$this->out( $group, $key, $line );
 	}
 
 	/**
@@ -231,14 +273,24 @@ class Tree {
 	}
 
 	/**
-	 * Create a Dot-compatible variable name from any string (replace parentheses, spaces, and
-	 * hyphens with underscores).
-	 * @todo Complete the disallowed character list.
+	 * Create a Dot-compatible variable name from any string.
+	 * An ID is one of the following:
+	 *  - Any string of alphabetic ([a-zA-Z\200-\377]) characters, underscores ('_') or digits
+	 *    ([0-9]), not beginning with a digit;
+	 *  - a numeral [-]?(.[0-9]+ | [0-9]+(.[0-9]*)? );
+	 *  - any double-quoted string ("...") possibly containing escaped quotes ('");
+	 *  - an HTML string (<...>).
+	 *
+	 * In quoted strings in DOT, the only escaped character is double-quote ("). That is, in quoted
+	 * strings, the dyad \" is converted to "; all other characters are left unchanged. In
+	 * particular, \\ remains \\. Layout engines may apply additional escape sequences.
+	 *
+	 * @link http://www.graphviz.org/content/dot-language
 	 * @param string $title
 	 * @return string
 	 */
 	private function esc( $title ) {
-		return strtr( $title, '( )-.', '_____' );
+		return '"' . str_replace( '"', '\"', $title ) . '"';
 	}
 
 }

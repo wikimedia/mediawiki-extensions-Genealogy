@@ -154,6 +154,7 @@ class Person {
 	 */
 	public function getParents() {
 		$parents = $this->getPropMulti( 'parent' );
+		asort( $parents );
 		return $parents;
 	}
 
