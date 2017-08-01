@@ -13,7 +13,7 @@ class Hooks {
 	/**
 	 * Hooked to ParserFirstCallInit.
 	 * @param Parser &$parser The parser.
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function onParserFirstCallInit( Parser &$parser ) {
 		$parser->setFunctionHook( 'genealogy', self::class.'::renderParserFunction' );
@@ -150,7 +150,7 @@ class Hooks {
 	 * @param Parser $parser The parser object.
 	 * @param string $prop The property name; it will be prefixed with 'genealogy '.
 	 * @param string|Title $val The property value ('full text' will be used if this is a Title).
-	 * @param boolean $multi Whether this property can have multiple values (will be stored as
+	 * @param bool $multi Whether this property can have multiple values (will be stored as
 	 * multiple properties, with an integer appended to their name.
 	 */
 	public static function saveProp( Parser $parser, $prop, $val, $multi = true ) {

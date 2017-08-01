@@ -112,7 +112,7 @@ class Person {
 
 	/**
 	 * Whether or not this person has a birth or death date.
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasDates() {
 		return $this->getBirthDate() !== false || $this->getDeathDate() !== false;
@@ -177,7 +177,7 @@ class Person {
 
 	/**
 	 * Get all partners (optionally excluding those that are defined within the current page).
-	 * @param boolean $onlyDefinedElsewhere Only return those partners that are *not* defined
+	 * @param bool $onlyDefinedElsewhere Only return those partners that are *not* defined
 	 * within this Person's page.
 	 * @return Person[] An array of partners, possibly empty. Keyed by the partner's page DB key.
 	 */
@@ -229,7 +229,7 @@ class Person {
 	/**
 	 * Get the value of a single-valued page property.
 	 * @param string $prop The property.
-	 * @return string|boolean The property value, or false if not found.
+	 * @return string|bool The property value, or false if not found.
 	 */
 	public function getPropSingle( $prop ) {
 		$dbr = wfGetDB( DB_SLAVE );

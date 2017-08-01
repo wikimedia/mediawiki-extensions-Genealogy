@@ -70,7 +70,7 @@ class Tree {
 
 	/**
 	 * Whether any ancestors or descendants have been added to this tree.
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasAncestorsOrDescendants() {
 		return 0 < ( count( $this->ancestors ) + count( $this->descendants ) );
