@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ooswesthoesbes"
+		]
+	},
+	"genealogy": "Genealogie",
+	"genealogy-desc": "Veug 'n parserfunctie tou veur mekkelik te linke tösse genealogische vermeljinge",
+	"genealogy-born": "(*&nbsp;$1)",
+	"genealogy-died": "(†&nbsp;$1)",
+	"genealogy-ancestor": "Veureljer",
+	"genealogy-ancestors": "Veureljers",
+	"genealogy-descendant": "Aafkumsteling",
+	"genealogy-descendants": "Aafkumstelinge",
+	"genealogy-person-preload": "Template:Person/preload",
+	"genealogy-person-list-item": "Template:Person/list-item",
+	"genealogy-parser-function-not-found": "Parsefunctietyp van genealogie neet herkèndj: $1",
+	"genealogy-existing-partners": "Deze miens is mit de volgende {{PLURAL:$1|miens getroewd (gewaes)|luuj getroewd (gewaes)}}:",
+	"genealogy-invalid-parent-title": "Fout: óngeljige partnerpaginanaam: '$1'",
+	"genealogy-invalid-partner-title": "Fout: óngeljige partnerpaginanaam: '$1'"
+}
