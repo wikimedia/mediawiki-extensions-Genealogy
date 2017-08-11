@@ -23,7 +23,7 @@ class Tree {
 
 	/**
 	 * Set the number of levels the tree will go up to from the ancestors' starting points.
-	 * @param integer $ancestor_depth The new ancestor depth.
+	 * @param int $ancestor_depth The new ancestor depth.
 	 */
 	public function setAncestorDepth( $ancestor_depth ) {
 		$this->ancestor_depth = $ancestor_depth;
@@ -31,7 +31,7 @@ class Tree {
 
 	/**
 	 * Set the number of levels the tree will go down to from the descendants' starting points.
-	 * @param integer $descendant_depth The new descendant depth.
+	 * @param int $descendant_depth The new descendant depth.
 	 */
 	public function setDescendantDepth( $descendant_depth ) {
 		$this->descendant_depth = $descendant_depth;

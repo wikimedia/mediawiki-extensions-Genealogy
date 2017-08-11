@@ -22,7 +22,7 @@ class Traverser {
 	/**
 	 * Traverse all ancestors.
 	 * @param Person $person The person to start at.
-	 * @param integer $depth The height to ascend to.
+	 * @param int $depth The height to ascend to.
 	 */
 	public function ancestors( Person $person, $depth = null ) {
 		// Visit this person and their partners.
@@ -44,7 +44,7 @@ class Traverser {
 	/**
 	 * Traverse all descendants.
 	 * @param Person $person The person to start at.
-	 * @param integer $depth The depth to descend to.
+	 * @param int $depth The depth to descend to.
 	 */
 	public function descendants( Person $person, $depth = null ) {
 		// Visit this person and their partners.
