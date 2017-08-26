@@ -12,6 +12,8 @@
 	"genealogy-ancestors": "Antepasaos",
 	"genealogy-descendant": "Descendiente",
 	"genealogy-descendants": "Descendientes",
+	"genealogy-person-preload": "Template:Person/preload",
+	"genealogy-person-list-item": "Template:Person/list-item",
 	"genealogy-parser-function-not-found": "Nun se reconoció'l tipu de función del analizador xenealóxicu: $1",
 	"genealogy-existing-partners": "Esta persona yá tien {{PLURAL:$1|la siguiente pareya|les siguientes pareyes}}:",
 	"genealogy-invalid-parent-title": "Error: títulu inválidu de páxina de padre: '$1'",
