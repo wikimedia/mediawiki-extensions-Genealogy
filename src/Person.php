@@ -2,10 +2,7 @@
 
 namespace MediaWiki\Extensions\Genealogy;
 
-use Linker;
 use MagicWord;
-use MediaWiki\Linker\LinkRenderer;
-use Parser;
 use Title;
 use WikiPage;
 
@@ -208,7 +205,7 @@ class Person {
 	 * @return Person[] Keyed by the prefixed DB key.
 	 */
 	protected function getPropInbound( $type ) {
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 		$tables = [ 'pp' => 'page_props', 'p' => 'page' ];
 		$columns = [ 'pp_value', 'page_title' ];
 
@@ -233,7 +230,7 @@ class Person {
 	 * @return string|bool The property value, or false if not found.
 	 */
 	public function getPropSingle( $prop ) {
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 		$where = [
 			'pp_page' => $this->getTitle()->getArticleID(),
 			'pp_propname' => "genealogy $prop"
@@ -248,7 +245,7 @@ class Person {
 	 */
 	protected function getPropMulti( $type ) {
 		$out = [];
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 		$articleIds = [];
 		foreach ( $this->getTitles() as $t ) {
 			$articleIds[] = $t->getArticleID();
