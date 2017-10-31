@@ -2,10 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"Sam Wilson <sam@samwilson.id.au>",
-			"Liuxinyu970226"
+			"Liuxinyu970226",
+			"Umherirrender"
 		]
 	},
-	"genealogy": "The extension title",
+	"genealogy": "{{name}}",
 	"genealogy-desc": "{{desc|name=Genealogy|url=https://www.mediawiki.org/wiki/Extension:Genealogy}}",
 	"genealogy-born": "The parenthetic abbreviation showing the year of birth.",
 	"genealogy-died": "The parenthetic abbreviation showing the year of death.",
