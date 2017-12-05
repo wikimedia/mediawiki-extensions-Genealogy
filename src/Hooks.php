@@ -3,6 +3,7 @@
 namespace MediaWiki\Extensions\Genealogy;
 
 use EditPage;
+use Html;
 use MediaWiki\MediaWikiServices;
 use OutputPage;
 use Parser;
@@ -36,9 +37,9 @@ class Hooks {
 			$peopleList[] = $renderer->makeKnownLink( $partner->getTitle() );
 		}
 		if ( count( $peopleList ) > 0 ) {
-			$msg = wfMessage( 'genealogy-existing-partners', count( $peopleList ) );
-			$successBox = '<p class="successbox">' . $msg. join( ', ', $peopleList ) . '</p>';
-			$output->addHTML( $successBox );
+			$msg = $output->msg( 'genealogy-existing-partners', count( $peopleList ) );
+			$partnersMsg = $msg . join( ', ', $peopleList );
+			$output->addHTML( Html::rawElement( 'p', [], $partnersMsg ) );
 		}
 	}
 
@@ -47,7 +48,7 @@ class Hooks {
 	 * The input parameters are wikitext with templates expanded.
 	 * The output should be wikitext too.
 	 * @param Parser $parser The parser.
-	 * @return string The wikitext with which to replace the parser function call.
+	 * @return string|mixed[] The wikitext with which to replace the parser function call.
 	 */
 	public static function renderParserFunction( Parser $parser ) {
 		$params = [];
@@ -56,7 +57,7 @@ class Hooks {
 		array_shift( $args );
 		// Get param 1, the function type.
 		$type = array_shift( $args );
-		// Everything that's left must be named.
+		// Everything that remains is required to be named (i.e. we discard other unnamed args).
 		foreach ( $args as $arg ) {
 			$pair = explode( '=', $arg, 2 );
 			if ( count( $pair ) == 2 ) {

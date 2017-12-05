@@ -1,4 +1,4 @@
 MediaWiki Genealogy extension
 =============================
 
-All details: https://mediawiki.org/wiki/Extension:Genealogy
+All details: https://www.mediawiki.org/wiki/Extension:Genealogy

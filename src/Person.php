@@ -120,7 +120,7 @@ class Person {
 	 * @return string
 	 */
 	public function getBirthDate() {
-		return $this->getPropSingle( "birth date" );
+		return $this->getPropSingle( 'birth date' );
 	}
 
 	/**
@@ -128,7 +128,7 @@ class Person {
 	 * @return string
 	 */
 	public function getDeathDate() {
-		return $this->getPropSingle( "death date" );
+		return $this->getPropSingle( 'death date' );
 	}
 
 	/**
