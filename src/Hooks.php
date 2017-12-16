@@ -131,11 +131,7 @@ class Hooks {
 				if ( isset( $params['descendant depth'] ) ) {
 					$tree->setDescendantDepth( $params['descendant depth'] );
 				}
-				if ( $tree->hasAncestorsOrDescendants() ) {
-					$graphviz = $tree->getGraphviz();
-					$out .= $parser->recursiveTagParse( "<graphviz>\n$graphviz\n</graphviz>" );
-					// $out .= $parser->recursiveTagParse( "<pre>$graphviz</pre>" );
-				}
+				$out = $tree->getWikitext( $parser );
 				break;
 			default:
 				$msg = wfMessage( 'genealogy-parser-function-not-found', [ $type ] );
