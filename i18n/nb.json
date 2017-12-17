@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jon Harald Søby"
+		]
+	},
+	"genealogy": "Genealogi",
+	"genealogy-desc": "Legger til en parserfunksjon for enklere lenking mellom genealogiske oppføringer",
+	"genealogy-born": "(f.&nbsp;$1)",
+	"genealogy-died": "(d.&nbsp;$1)",
+	"genealogy-ancestor": "Forfader",
+	"genealogy-ancestors": "Forfedre",
+	"genealogy-descendant": "Etterkommer",
+	"genealogy-descendants": "Etterkommere",
+	"genealogy-person-preload": "Template:Person/preload",
+	"genealogy-person-list-item": "Template:Person/list-item",
+	"genealogy-parser-function-not-found": "Parserfunksjonstype for genealogi ikke gjenkjent: $1",
+	"genealogy-existing-partners": "Denne personen har allerede følgende {{PLURAL:$1|partner|partnere}}:",
+	"genealogy-invalid-parent-title": "Feil: ugyldig foreldresidetittel: «$1»",
+	"genealogy-invalid-partner-title": "Feil: ugyldig partnertittelside: «$1»"
+}
