@@ -2,6 +2,8 @@
 
 namespace MediaWiki\Extensions\Genealogy;
 
+use Html;
+use Parser;
 use Title;
 
 class Tree {
@@ -77,15 +79,41 @@ class Tree {
 	}
 
 	/**
+	 * Get the wikitext for the tree, containing the <graphviz> element and dot-formatted contents.
+	 * @param Parser $parser The parser.
+	 * @return string Unsafe half-parsed HTML, as returned by Parser::recursiveTagParse().
+	 */
+	public function getWikitext( Parser $parser ) {
+		// If there's nothing to render, give up.
+		if ( !$this->hasAncestorsOrDescendants() ) {
+			return '';
+		}
+
+		// See if GraphViz is installed.
+		if ( !class_exists( '\MediaWiki\Extension\GraphViz\GraphViz' ) ) {
+			$err = wfMessage( 'genealogy-no-graphviz' );
+			return Html::element( 'p', [ 'class' => 'error' ], $err );
+		}
+
+		// Make sure the current user (even anonymous IP users) can upload the image file.
+		// @todo Move to GraphViz
+		// $parser->getUser()->mRights[] = 'upload';
+
+		// Get the GraphViz source and run it through the GraphViz extension.
+		$graphSource = $this->getGraphvizSource();
+		$out = $parser->recursiveTagParse( "<graphviz>\n$graphSource\n</graphviz>" );
+
+		// Debugging.
+		// $out .= $parser->recursiveTagParse( "<pre>$graphSource</pre>" );
+
+		return $out;
+	}
+
+	/**
 	 * Get the Dot source code for the graph of this tree.
 	 * @return string
 	 */
-	public function getGraphviz() {
-		$treeName = md5( join( '', $this->ancestors ) . join( '', $this->descendants ) );
-		$this->out( 'top', 'start', "digraph GenealogyTree_$treeName {" );
-		$this->out( 'top', 'graph-attrs', 'graph [rankdir=LR]' );
-		$this->out( 'top', 'edge-attrs', 'edge [arrowhead=none]' );
-
+	public function getGraphvizSource() {
 		$traverser = new Traverser();
 		$traverser->register( [ $this, 'visit' ] );
 
@@ -102,9 +130,15 @@ class Tree {
 			return '<span class="error">No people found</span>';
 		}
 
+		// Start the tree.
+		$treeName = md5( join( '', $this->ancestors ) . join( '', $this->descendants ) );
+		$this->out( 'top', 'start', "digraph GenealogyTree_$treeName {" );
+		$this->out( 'top', 'graph-attrs', 'graph [rankdir=LR, ranksep=0.55]' );
+		$this->out( 'top', 'edge-attrs', 'edge [arrowhead=none, headport=w]' );
+		$this->out( 'top', 'node-attrs', 'node [shape=plaintext, fontsize=12]' );
+
 		// Combine all parts of the graph output.
 		$out = join( "\n", $this->graph_source_code['top'] ) . "\n\n"
-			. "node [ shape=plaintext ]\n"
 			. join( "\n", $this->graph_source_code['person'] ) . "\n\n";
 		if ( isset( $this->graph_source_code['partner'] ) ) {
 			$out .= join( "\n", $this->graph_source_code['partner'] ) . "\n\n";
