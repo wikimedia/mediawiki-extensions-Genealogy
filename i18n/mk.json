@@ -18,5 +18,6 @@
 	"genealogy-parser-function-not-found": "Типот на родословната расчленувачка функција не е препознаен: $1",
 	"genealogy-existing-partners": "Лицево веќе {{PLURAL:$1|го има следниов партнер|ги имаследниве партнери}}:",
 	"genealogy-invalid-parent-title": "Грешка: неважечки наслов на матичната страница: „$1“",
-	"genealogy-invalid-partner-title": "Грешка: неважечки наслов на партнерската страница: „$1“"
+	"genealogy-invalid-partner-title": "Грешка: неважечки наслов на партнерската страница: „$1“",
+	"genealogy-no-graphviz": "За да создадете графичка лоза, треба да е воспоставен додатокот GraphViz"
 }
