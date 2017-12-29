@@ -17,5 +17,6 @@
 	"genealogy-parser-function-not-found": "Parserfunksjonstype for genealogi ikke gjenkjent: $1",
 	"genealogy-existing-partners": "Denne personen har allerede følgende {{PLURAL:$1|partner|partnere}}:",
 	"genealogy-invalid-parent-title": "Feil: ugyldig foreldresidetittel: «$1»",
-	"genealogy-invalid-partner-title": "Feil: ugyldig partnertittelside: «$1»"
+	"genealogy-invalid-partner-title": "Feil: ugyldig partnertittelside: «$1»",
+	"genealogy-no-graphviz": "Generering av grafisk tre krever at utvidelsen GraphViz er installert"
 }
