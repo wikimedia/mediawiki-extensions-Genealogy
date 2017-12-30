@@ -17,5 +17,6 @@
 	"genealogy-parser-function-not-found": "Nun se reconoció'l tipu de función del analizador xenealóxicu: $1",
 	"genealogy-existing-partners": "Esta persona yá tien {{PLURAL:$1|la siguiente pareya|les siguientes pareyes}}:",
 	"genealogy-invalid-parent-title": "Error: títulu inválidu de páxina de padre: '$1'",
-	"genealogy-invalid-partner-title": "Error: títulu inválidu de páxina de pareya: '$1'"
+	"genealogy-invalid-partner-title": "Error: títulu inválidu de páxina de pareya: '$1'",
+	"genealogy-no-graphviz": "La xeneración d'árboles gráficos rique tener instalada la estensión GraphViz"
 }
