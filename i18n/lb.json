@@ -5,7 +5,7 @@
 		]
 	},
 	"genealogy": "Genealogie",
-	"genealogy-desc": "Setzt eng Parser-Funktioun derbäi fir méi liicht Linken tëscht genealogeschen Enregistrementer ze maachen",
+	"genealogy-desc": "Setzt eng Parser-Funktioun dobäi fir méi liicht Linken tëscht genealogeschen Enregistrementer ze maachen",
 	"genealogy-born": "(*&nbsp;$1)",
 	"genealogy-died": "(†&nbsp;$1)",
 	"genealogy-ancestor": "Virfahren",
