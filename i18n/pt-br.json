@@ -1,0 +1,22 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eduardo Addad de Oliveira"
+		]
+	},
+	"genealogy": "Genealogia",
+	"genealogy-desc": "Acrescenta uma função ao analisador sintático para facilitar a ligação de registos genealógicos",
+	"genealogy-born": "(n.&nbsp;$1)",
+	"genealogy-died": "(f.&nbsp;$1)",
+	"genealogy-ancestor": "Antepassado",
+	"genealogy-ancestors": "Antepassados",
+	"genealogy-descendant": "Descendente",
+	"genealogy-descendants": "Descendentes",
+	"genealogy-person-preload": "Template:Pessoa/pré-carregar",
+	"genealogy-person-list-item": "Template:Pessoa/lista-elemento",
+	"genealogy-parser-function-not-found": "Tipo desconhecido passado à função genealógica do analisador sintático: $1",
+	"genealogy-existing-partners": "Esta pessoa já tem {{PLURAL:$1|o(a) seguinte cônjuge|os(as) seguintes cônjuges}}:",
+	"genealogy-invalid-parent-title": "Erro: o título de página do progenitor é inválido: '$1'",
+	"genealogy-invalid-partner-title": "Erro: o título de página de cônjuge é inválido: '$1'",
+	"genealogy-no-graphviz": "A geração de árvores gráficas requer que esteja instalada a extensão GraphViz"
+}
