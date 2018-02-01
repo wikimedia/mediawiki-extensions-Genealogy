@@ -6,7 +6,7 @@
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:Genealogy",
 	"descriptionmsg": "genealogy-desc",
-	"license-name": "GPL-3.0+",
+	"license-name": "GPL-3.0-or-later",
 	"type": "extension",
 	"ExtensionMessagesFiles": {
 		"GenealogyMagic": "Genealogy.i18n.magic.php"
