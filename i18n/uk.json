@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Kareyac",
-			"Piramidion"
+			"Piramidion",
+			"Movses"
 		]
 	},
 	"genealogy": "Генеалогія",
@@ -18,5 +19,6 @@
 	"genealogy-parser-function-not-found": "Нерозпізнаний тип парсерної функції в генеалогії: $1",
 	"genealogy-existing-partners": "Ця особа вже має {{PLURAL:$1|такого партнера|таких партнерів}}:",
 	"genealogy-invalid-parent-title": "Помилка: недійсна назва батьківської сторінки: «$1»",
-	"genealogy-invalid-partner-title": "Недійсна назва партнерської сторінки: «$1»"
+	"genealogy-invalid-partner-title": "Недійсна назва партнерської сторінки: «$1»",
+	"genealogy-no-graphviz": "Для генерації графів-дерев має бути встановленим розширення GraphViz"
 }
