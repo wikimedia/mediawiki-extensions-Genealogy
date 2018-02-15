@@ -131,20 +131,20 @@ class Tree {
 		}
 
 		// Start the tree.
-		$treeName = md5( join( '', $this->ancestors ) . join( '', $this->descendants ) );
+		$treeName = md5( implode( '', $this->ancestors ) . implode( '', $this->descendants ) );
 		$this->out( 'top', 'start', "digraph GenealogyTree_$treeName {" );
 		$this->out( 'top', 'graph-attrs', 'graph [rankdir=LR, ranksep=0.55]' );
 		$this->out( 'top', 'edge-attrs', 'edge [arrowhead=none, headport=w]' );
 		$this->out( 'top', 'node-attrs', 'node [shape=plaintext, fontsize=12]' );
 
 		// Combine all parts of the graph output.
-		$out = join( "\n", $this->graph_source_code['top'] ) . "\n\n"
-			. join( "\n", $this->graph_source_code['person'] ) . "\n\n";
+		$out = implode( "\n", $this->graph_source_code['top'] ) . "\n\n"
+			. implode( "\n", $this->graph_source_code['person'] ) . "\n\n";
 		if ( isset( $this->graph_source_code['partner'] ) ) {
-			$out .= join( "\n", $this->graph_source_code['partner'] ) . "\n\n";
+			$out .= implode( "\n", $this->graph_source_code['partner'] ) . "\n\n";
 		}
 		if ( isset( $this->graph_source_code['child'] ) ) {
-			$out .= join( "\n", $this->graph_source_code['child'] ) . "\n\n";
+			$out .= implode( "\n", $this->graph_source_code['child'] ) . "\n\n";
 		}
 		return $out . "}";
 	}
@@ -201,7 +201,7 @@ class Tree {
 
 		// Output links to parents.
 		if ( $person->getParents() ) {
-			$parentsId = join( ' & ', $person->getParents() );
+			$parentsId = implode( ' & ', $person->getParents() );
 			$this->out( 'partner', $parentsId, $this->esc( $parentsId ) . ' [label="", shape="point"]' );
 			$this->outDirectedLine(
 				'child',
@@ -229,7 +229,7 @@ class Tree {
 			$partnerId = $partner->getTitle()->getText();
 			$partners = [ $personId, $partnerId ];
 			sort( $partners );
-			$partnersId = join( ' & ', $partners );
+			$partnersId = implode( ' & ', $partners );
 			$this->out( 'partner', $partnersId, $this->esc( $partnersId ) .' [label="", shape="point"]' );
 			// Link this person and this partner to that point node.
 			$this->outDirectedLine(
@@ -252,7 +252,7 @@ class Tree {
 
 		// Output links to children.
 		foreach ( $person->getChildren() as $child ) {
-			$parentsId = join( ' & ', $child->getParents() );
+			$parentsId = implode( ' & ', $child->getParents() );
 			$this->out( 'partner', $parentsId, $this->esc( $parentsId ) . ' [label="", shape="point"]' );
 			$this->outDirectedLine(
 				'partner',
