@@ -4,6 +4,7 @@ use MediaWiki\Extensions\Genealogy\Person;
 /**
  * @group extensions
  * @group Genealogy
+ * @covers \MediaWiki\Extensions\Genealogy\Person
  */
 class PersonTest extends MediaWikiTestCase {
 
