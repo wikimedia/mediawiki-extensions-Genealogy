@@ -17,5 +17,6 @@
 	"genealogy-parser-function-not-found": "Parsefunctietyp van genealogie neet herkèndj: $1",
 	"genealogy-existing-partners": "Deze miens is mit de volgende {{PLURAL:$1|miens getroewd (gewaes)|luuj getroewd (gewaes)}}:",
 	"genealogy-invalid-parent-title": "Fout: óngeljige partnerpaginanaam: '$1'",
-	"genealogy-invalid-partner-title": "Fout: óngeljige partnerpaginanaam: '$1'"
+	"genealogy-invalid-partner-title": "Fout: óngeljige partnerpaginanaam: '$1'",
+	"genealogy-no-graphviz": "Veur de grafische boumzjinneraasje mót de GraphViz-extensie geïnstalleerd zeen"
 }
