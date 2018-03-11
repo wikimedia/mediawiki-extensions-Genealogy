@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Nikosgranturismogt"
+		]
+	},
+	"genealogy": "Γενεαλογία",
+	"genealogy-born": "(γ.&nbsp;$1)",
+	"genealogy-died": "(θ.&nbsp;$1)",
+	"genealogy-ancestor": "Πρόγονος",
+	"genealogy-ancestors": "Πρόγονοι",
+	"genealogy-descendant": "Απόγονος",
+	"genealogy-descendants": "Απόγονοι",
+	"genealogy-person-preload": "Πρότυπο:Person/preload"
+}
