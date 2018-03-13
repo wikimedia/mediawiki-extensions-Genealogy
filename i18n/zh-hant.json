@@ -1,8 +1,23 @@
 {
 	"@metadata": {
 		"authors": [
-			"Liuxinyu970226"
+			"Liuxinyu970226",
+			"Kly"
 		]
 	},
-	"genealogy": "Genealogy"
+	"genealogy": "Genealogy",
+	"genealogy-desc": "添加解析函式來方便在系譜記錄之間連結",
+	"genealogy-born": "（出生&nbsp;$1）",
+	"genealogy-died": "（逝世&nbsp;$1）",
+	"genealogy-ancestor": "祖先",
+	"genealogy-ancestors": "祖先",
+	"genealogy-descendant": "後代",
+	"genealogy-descendants": "後代",
+	"genealogy-person-preload": "Template:Person/preload",
+	"genealogy-person-list-item": "Template:Person/list-item",
+	"genealogy-parser-function-not-found": "系譜解析函式類型未被識別：$1",
+	"genealogy-existing-partners": "此人物已有以下 {{PLURAL:$1| 個配偶| 個配偶}}：",
+	"genealogy-invalid-parent-title": "錯誤：無效的雙親頁面標題：「$1」",
+	"genealogy-invalid-partner-title": "錯誤：無效的配偶頁面標題：「$1」",
+	"genealogy-no-graphviz": "需安裝 GraphViz 擴充來產生樹狀圖形"
 }
