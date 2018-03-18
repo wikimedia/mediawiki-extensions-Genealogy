@@ -31,14 +31,14 @@ class Traverser {
 			$this->visit( $partner );
 		}
 		// Give up if we're being limited.
+		$this->ancestor_depth++;
 		if ( $this->ancestor_depth > $depth ) {
 			return;
 		}
 		// Carry on to their ancestors.
 		foreach ( $person->getParents() as $parent ) {
-			$this->ancestors( $parent );
+			$this->ancestors( $parent, $depth );
 		}
-		$this->ancestor_depth++;
 	}
 
 	/**
@@ -53,14 +53,14 @@ class Traverser {
 			$this->visit( $partner );
 		}
 		// Give up if we're being limited.
+		$this->descendant_depth++;
 		if ( $this->descendant_depth > $depth ) {
 			return;
 		}
 		// Carry on to their descendants.
-		foreach ( $person->getChildren() as $parent ) {
-			$this->descendants( $parent );
+		foreach ( $person->getChildren() as $child ) {
+			$this->descendants( $child, $depth );
 		}
-		$this->descendant_depth++;
 	}
 
 	private function visit( $person ) {

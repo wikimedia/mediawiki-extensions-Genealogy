@@ -1,27 +1,18 @@
 <?php
+
+namespace MediaWiki\Extensions\Genealogy\Test;
+
 use MediaWiki\Extensions\Genealogy\Person;
+use Title;
+use WikiPage;
+use WikitextContent;
 
 /**
  * @group extensions
  * @group Genealogy
  * @covers \MediaWiki\Extensions\Genealogy\Person
  */
-class PersonTest extends MediaWikiTestCase {
-
-	/**
-	 * Set the wikitext contents of a test page.
-	 * @param string|Title $title The title of the page.
-	 * @param string $wikitext The page contents.
-	 * @return WikiPage
-	 */
-	protected function setPageContent( $title, $wikitext ) {
-		if ( is_string( $title ) ) {
-			$title = Title::newFromText( $title );
-		}
-		$page = new WikiPage( $title );
-		$page->doEditContent( new WikitextContent( $wikitext ), '' );
-		return $page;
-	}
+class PersonTest extends GenealogyTestCase {
 
 	public function testCreatePerson() {
 		$charlesTitle = Title::newFromText( 'Charles' );

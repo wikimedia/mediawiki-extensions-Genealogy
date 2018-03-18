@@ -20,7 +20,8 @@
 		"MediaWiki\\Extensions\\Genealogy\\Person": "src/Person.php",
 		"MediaWiki\\Extensions\\Genealogy\\Traverser": "src/Traverser.php",
 		"MediaWiki\\Extensions\\Genealogy\\Tree": "src/Tree.php",
-		"MediaWiki\\Extensions\\Genealogy\\Hooks": "src/Hooks.php"
+		"MediaWiki\\Extensions\\Genealogy\\Hooks": "src/Hooks.php",
+		"MediaWiki\\Extensions\\Genealogy\\Test\\GenealogyTestCase": "tests/phpunit/GenealogyTestCase.php"
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "MediaWiki\\Extensions\\Genealogy\\Hooks::onParserFirstCallInit",

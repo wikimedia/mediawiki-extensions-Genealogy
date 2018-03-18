@@ -95,10 +95,6 @@ class Tree {
 			return Html::element( 'p', [ 'class' => 'error' ], $err );
 		}
 
-		// Make sure the current user (even anonymous IP users) can upload the image file.
-		// @todo Move to GraphViz
-		// $parser->getUser()->mRights[] = 'upload';
-
 		// Get the GraphViz source and run it through the GraphViz extension.
 		$graphSource = $this->getGraphvizSource();
 		$out = $parser->recursiveTagParse( "<graphviz>\n$graphSource\n</graphviz>" );
@@ -139,12 +135,15 @@ class Tree {
 
 		// Combine all parts of the graph output.
 		$out = implode( "\n", $this->graph_source_code['top'] ) . "\n\n"
+			. "/* People */\n"
 			. implode( "\n", $this->graph_source_code['person'] ) . "\n\n";
 		if ( isset( $this->graph_source_code['partner'] ) ) {
-			$out .= implode( "\n", $this->graph_source_code['partner'] ) . "\n\n";
+			$out .= "/* Partners */\n"
+				. implode( "\n", $this->graph_source_code['partner'] ) . "\n\n";
 		}
 		if ( isset( $this->graph_source_code['child'] ) ) {
-			$out .= implode( "\n", $this->graph_source_code['child'] ) . "\n\n";
+			$out .= "/* Children */\n"
+				. implode( "\n", $this->graph_source_code['child'] ) . "\n\n";
 		}
 		return $out . "}";
 	}
@@ -201,7 +200,7 @@ class Tree {
 
 		// Output links to parents.
 		if ( $person->getParents() ) {
-			$parentsId = implode( ' & ', $person->getParents() );
+			$parentsId = $this->getPersonGroupIdent( $person->getParents() );
 			$this->out( 'partner', $parentsId, $this->esc( $parentsId ) . ' [label="", shape="point"]' );
 			$this->outDirectedLine(
 				'child',
@@ -229,7 +228,7 @@ class Tree {
 			$partnerId = $partner->getTitle()->getText();
 			$partners = [ $personId, $partnerId ];
 			sort( $partners );
-			$partnersId = implode( ' & ', $partners );
+			$partnersId = $this->getPersonGroupIdent( $partners );
 			$this->out( 'partner', $partnersId, $this->esc( $partnersId ) .' [label="", shape="point"]' );
 			// Link this person and this partner to that point node.
 			$this->outDirectedLine(
@@ -252,7 +251,7 @@ class Tree {
 
 		// Output links to children.
 		foreach ( $person->getChildren() as $child ) {
-			$parentsId = implode( ' & ', $child->getParents() );
+			$parentsId = $this->getPersonGroupIdent( $child->getParents() );
 			$this->out( 'partner', $parentsId, $this->esc( $parentsId ) . ' [label="", shape="point"]' );
 			$this->outDirectedLine(
 				'partner',
@@ -271,6 +270,15 @@ class Tree {
 			// Add this child in case they don't get included directly in this tree.
 			$this->outputPersonLine( $child );
 		}
+	}
+
+	/**
+	 * Create a valid GraphViz node ID for a set of people (i.e. partners, parents, or children).
+	 * @param string[]|Person[] $group The people to construct the ID out of.
+	 * @return string The node ID (with no wrapping double quotation marks).
+	 */
+	protected function getPersonGroupIdent( $group ) {
+		return implode( ' AND ', $group ) . ' (GROUP)';
 	}
 
 	/**
