@@ -31,9 +31,11 @@ class Traverser {
 			$this->visit( $partner );
 		}
 		// Give up if we're being limited.
-		$this->ancestor_depth++;
-		if ( $this->ancestor_depth > $depth ) {
-			return;
+		if ( !is_null( $depth ) ) {
+			$this->ancestor_depth++;
+			if ( $this->ancestor_depth > $depth ) {
+				return;
+			}
 		}
 		// Carry on to their ancestors.
 		foreach ( $person->getParents() as $parent ) {
@@ -53,9 +55,11 @@ class Traverser {
 			$this->visit( $partner );
 		}
 		// Give up if we're being limited.
-		$this->descendant_depth++;
-		if ( $this->descendant_depth > $depth ) {
-			return;
+		if ( !is_null( $depth ) ) {
+			$this->descendant_depth++;
+			if ( $this->descendant_depth > $depth ) {
+				return;
+			}
 		}
 		// Carry on to their descendants.
 		foreach ( $person->getChildren() as $child ) {

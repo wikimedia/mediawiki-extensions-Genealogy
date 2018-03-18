@@ -63,7 +63,9 @@ class Hooks {
 			if ( count( $pair ) == 2 ) {
 				$name = trim( $pair[0] );
 				$value = trim( $pair[1] );
-				$params[$name] = $value;
+				if ( $value !== '' ) {
+					$params[$name] = $value;
+				}
 			} else {
 				$params[] = $arg;
 			}
