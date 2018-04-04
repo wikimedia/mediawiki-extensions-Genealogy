@@ -67,6 +67,23 @@ class PersonTest extends GenealogyTestCase {
 		$this->assertEquals( [ 'Bob', 'Clara' ], array_keys( $parents ) );
 	}
 
+	/**
+	 * A ╤ B
+	 * ┌─┼─┐
+	 * C D E
+	 */
+	public function testSiblingsInDescriptionOrder() {
+		$this->setPageContent( 'A', '{{#genealogy:partner|B}}' );
+		$this->setPageContent( 'B', '' );
+		$parents = '{{#genealogy:parent|A}}{{#genealogy:parent|B}}';
+		$this->setPageContent( 'C', "$parents{{#genealogy:description|1. first}}" );
+		$this->setPageContent( 'D', "$parents{{#genealogy:description|3. third}}" );
+		$this->setPageContent( 'E', "$parents{{#genealogy:description|2. second}}" );
+		$c = new Person( Title::newFromText( 'C' ) );
+		$this->assertEquals( '1. first', $c->getDescription() );
+		$this->assertEquals( [ 'C', 'E', 'D' ], array_keys( $c->getSiblings() ) );
+	}
+
 	public function testRedirectPartner() {
 		// Create Charles.
 		$charlesTitle = Title::newFromText( 'Charles' );

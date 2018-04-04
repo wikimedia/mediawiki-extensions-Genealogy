@@ -1,5 +1,5 @@
 {|class=wikitable
-|+ {{PAGENAME}}
+|+ {{PAGENAME}} {{#if: {{{description|}}} | ({{#genealogy:description={{{description|}}}}}) }}
 |-
 ! Birth:
 | {{{birth_date|}}} {{{birth_place|}}}
@@ -33,6 +33,7 @@ It adds articles to the [[:Category:People|People]] category.
 
 <pre><nowiki>
 {{person
+ | description = Short description e.g. dates of birth and death
  | parent1 = Person 1 Name
  | parent2 = Person 2 Name
  | parent3 = Person 3 Name
