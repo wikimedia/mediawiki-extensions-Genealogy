@@ -146,6 +146,18 @@ class Person {
 	}
 
 	/**
+	 * Get this person's description.
+	 * @return bool|string
+	 */
+	public function getDescription() {
+		$desc = $this->getPropSingle( 'description' );
+		if ( !$desc ) {
+			$desc = '';
+		}
+		return $desc;
+	}
+
+	/**
 	 * Get all parents.
 	 * @return Person[] An array of parents, possibly empty.
 	 */
@@ -165,11 +177,15 @@ class Person {
 			return $this->siblings;
 		}
 		$this->siblings = [];
+		$descriptions = [];
 		foreach ( $this->getParents() as $parent ) {
 			foreach ( $parent->getChildren() as $child ) {
-				$this->siblings[$child->getTitle()->getPrefixedDBkey()] = $child;
+				$key = $child->getTitle()->getPrefixedDBkey();
+				$descriptions[ $key ] = $child->getDescription();
+				$this->siblings[ $key ] = $child;
 			}
 		}
+		array_multisort( $descriptions, $this->siblings );
 		return $this->siblings;
 	}
 

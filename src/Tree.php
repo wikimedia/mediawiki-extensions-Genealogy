@@ -153,17 +153,6 @@ class Tree {
 	 * @param Person $person The person.
 	 */
 	protected function outputPersonLine( Person $person ) {
-		$birthYear = $person->getBirthDate();
-		$deathYear = $person->getDeathDate();
-		if ( !empty( $birthYear ) && !empty( $deathYear ) ) {
-			$date = '\n'.$birthYear.' &ndash; '.$deathYear;
-		} elseif ( !empty( $birthYear ) ) {
-			$date = '\nb.&nbsp;'.$birthYear;
-		} elseif ( !empty( $deathYear ) ) {
-			$date = '\nd.&nbsp;'.$deathYear;
-		} else {
-			$date = '';
-		}
 		if ( $person->getTitle()->exists() ) {
 			$url = '[[' . $person->getTitle()->getText() . ']]';
 			$colour = 'black';
@@ -180,7 +169,15 @@ class Tree {
 		}
 		$title = $person->getTitle()->getText();
 		$personId = $this->esc( $title );
-		$line = $personId." ["
+		$desc = '';
+		if ( $person->getDescription() ) {
+			$desc = '<BR/><FONT POINT-SIZE="9">'
+				. htmlspecialchars( $person->getDescription(), ENT_QUOTES )
+				. '</FONT>';
+		}
+		$label = ( $desc === '' && '"'.$title.'"' === $personId ) ? '' : " label=<$title$desc>, ";
+		$line = $personId . " ["
+			. $label
 			. " URL=\"$url\", "
 			. " tooltip=\"$title\", "
 			. " fontcolor=\"$colour\" "
@@ -329,7 +326,7 @@ class Tree {
 	 *
 	 * @link http://www.graphviz.org/content/dot-language
 	 * @param string $title
-	 * @return string
+	 * @return string With enclosing quotation marks.
 	 */
 	private function esc( $title ) {
 		return '"' . str_replace( '"', '\"', $title ) . '"';

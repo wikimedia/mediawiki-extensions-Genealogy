@@ -83,6 +83,10 @@ class Hooks {
 					self::saveProp( $parser, 'death date', $params['death date'], false );
 				}
 				break;
+			case 'description':
+				$out = $params[0];
+				self::saveProp( $parser, 'description', $params[0], false );
+				break;
 			case 'parent':
 				$parentTitle = Title::newFromText( $params[0] );
 				if ( !$parentTitle instanceof Title ) {
@@ -194,6 +198,7 @@ class Hooks {
 				$template = '{{' . $templateName
 					. '|title=' . $person->getTitle()->getFullText()
 					. '|link=' . $person->getWikiLink()
+					. '|description=' . $person->getDescription()
 					. '|index=' . $index
 					. '|count=' . $peopleCount
 					. '}}';
