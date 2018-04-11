@@ -84,8 +84,10 @@ class Hooks {
 				}
 				break;
 			case 'description':
-				$out = $params[0];
-				self::saveProp( $parser, 'description', $params[0], false );
+				if ( isset( $params[0] ) ) {
+					$out = $params[0];
+					self::saveProp( $parser, 'description', $out, false );
+				}
 				break;
 			case 'parent':
 				$parentTitle = Title::newFromText( $params[0] );

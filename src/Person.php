@@ -147,7 +147,7 @@ class Person {
 
 	/**
 	 * Get this person's description.
-	 * @return bool|string
+	 * @return string
 	 */
 	public function getDescription() {
 		$desc = $this->getPropSingle( 'description' );

@@ -4,6 +4,7 @@ namespace MediaWiki\Extensions\Genealogy;
 
 use Html;
 use Parser;
+use Sanitizer;
 use Title;
 
 class Tree {
@@ -172,7 +173,7 @@ class Tree {
 		$desc = '';
 		if ( $person->getDescription() ) {
 			$desc = '<BR/><FONT POINT-SIZE="9">'
-				. htmlspecialchars( $person->getDescription(), ENT_QUOTES )
+				. Sanitizer::stripAllTags( $person->getDescription(), ENT_QUOTES )
 				. '</FONT>';
 		}
 		$label = ( $desc === '' && '"'.$title.'"' === $personId ) ? '' : " label=<$title$desc>, ";

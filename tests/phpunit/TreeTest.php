@@ -11,6 +11,20 @@ use MediaWiki\Extensions\Genealogy\Tree;
  */
 class TreeTest extends GenealogyTestCase {
 
+	public function testDescriptionsWithRedirects() {
+		$this->setPageContent( 'DescA', '#REDIRECT [[DescB]]' );
+		$this->setPageContent(
+			'DescB',
+			'{{#genealogy:description|A&nbsp;description with <span>HTML</span>}}'
+		);
+		$tree = new Tree();
+		$tree->addDescendants( [ 'DescA' ] );
+		$this->assertContains(
+			'"DescB" [ label=<DescB<BR/><FONT POINT-SIZE="9">A description with HTML</FONT>>,',
+			$tree->getGraphvizSource()
+		);
+	}
+
 	/**
 	 * A
 	 * |

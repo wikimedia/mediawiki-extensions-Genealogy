@@ -14,6 +14,12 @@ use WikitextContent;
  */
 class PersonTest extends GenealogyTestCase {
 
+	public function testEmptyDescription() {
+		$this->setPageContent( 'DescTest', '{{#genealogy:description}}' );
+		$person = new Person( Title::newFromText( 'DescTest' ) );
+		$this->assertEquals( '', $person->getDescription() );
+	}
+
 	public function testCreatePerson() {
 		$charlesTitle = Title::newFromText( 'Charles' );
 		$wikiText1 = '{{#genealogy:parent|Elizabeth}}{{#genealogy:partner|Dianna}}';
