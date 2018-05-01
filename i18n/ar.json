@@ -1,0 +1,22 @@
+{
+	"@metadata": {
+		"authors": [
+			"ديفيد"
+		]
+	},
+	"genealogy": "علم الأنساب",
+	"genealogy-desc": "يضيف وظيفة محلل لتسهيل الربط بين سجلات الأنساب",
+	"genealogy-born": "(و.&nbsp;$1)",
+	"genealogy-died": "(و.&nbsp;$1)",
+	"genealogy-ancestor": "سلف",
+	"genealogy-ancestors": "أسلاف",
+	"genealogy-descendant": "حفيد",
+	"genealogy-descendants": "أحفاد",
+	"genealogy-person-preload": "قالب:شخص/تحميل مسبق",
+	"genealogy-person-list-item": "قالب:شخص/قائمة-بند",
+	"genealogy-parser-function-not-found": "لم يتم التعرف على نوع دالة محلل الأنساب: $1",
+	"genealogy-existing-partners": "يمتلك هذا الشخص بالفعل {{PLURAL:$1|هذا الشريك|هؤلاء الشركاء}}:",
+	"genealogy-invalid-parent-title": "خطأ: عنوان صفحة أصل غير صالح: \"$1\"",
+	"genealogy-invalid-partner-title": "خطأ: عنوان صفحة شريك غير صالح: \"$1\"",
+	"genealogy-no-graphviz": "يتطلب إنشاء الشجرة الرسومية تثبيت ملحق GraphViz"
+}
