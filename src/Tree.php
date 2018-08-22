@@ -92,7 +92,7 @@ class Tree {
 
 		// See if GraphViz is installed.
 		if ( !class_exists( '\MediaWiki\Extension\GraphViz\GraphViz' ) ) {
-			$err = wfMessage( 'genealogy-no-graphviz' );
+			$err = wfMessage( 'genealogy-no-graphviz' )->text();
 			return Html::element( 'p', [ 'class' => 'error' ], $err );
 		}
 
