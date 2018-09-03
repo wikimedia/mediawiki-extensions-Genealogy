@@ -176,7 +176,7 @@ class Tree {
 				. Sanitizer::stripAllTags( $person->getDescription(), ENT_QUOTES )
 				. '</FONT>';
 		}
-		$label = ( $desc === '' && '"'.$title.'"' === $personId ) ? '' : " label=<$title$desc>, ";
+		$label = ( $desc === '' && '"' . $title . '"' === $personId ) ? '' : " label=<$title$desc>, ";
 		$line = $personId . " ["
 			. $label
 			. " URL=\"$url\", "
@@ -202,7 +202,7 @@ class Tree {
 			$this->out( 'partner', $parentsId, $this->esc( $parentsId ) . ' [label="", shape="point"]' );
 			$this->outDirectedLine(
 				'child',
-				$parentsId.$personId,
+				$parentsId . $personId,
 				$parentsId,
 				$personId
 			);
@@ -212,7 +212,7 @@ class Tree {
 				$this->outputPersonLine( $parent );
 				$this->outDirectedLine(
 					'partner',
-					$parentId.$parentsId,
+					$parentId . $parentsId,
 					$parentId,
 					$parentsId,
 					"style=$partnerStyle"
@@ -227,18 +227,18 @@ class Tree {
 			$partners = [ $personId, $partnerId ];
 			sort( $partners );
 			$partnersId = $this->getPersonGroupIdent( $partners );
-			$this->out( 'partner', $partnersId, $this->esc( $partnersId ) .' [label="", shape="point"]' );
+			$this->out( 'partner', $partnersId, $this->esc( $partnersId ) . ' [label="", shape="point"]' );
 			// Link this person and this partner to that point node.
 			$this->outDirectedLine(
 				'partner',
-				$personId.$partnersId,
+				$personId . $partnersId,
 				$personId,
 				$partnersId,
 				"style=$partnerStyle"
 			);
 			$this->outDirectedLine(
 				'partner',
-				$partnerId.$partnersId,
+				$partnerId . $partnersId,
 				$partnerId,
 				$partnersId,
 				"style=$partnerStyle"
@@ -253,7 +253,7 @@ class Tree {
 			$this->out( 'partner', $parentsId, $this->esc( $parentsId ) . ' [label="", shape="point"]' );
 			$this->outDirectedLine(
 				'partner',
-				$personId.$parentsId,
+				$personId . $parentsId,
 				$personId,
 				$parentsId,
 				"style=$partnerStyle"
@@ -261,7 +261,7 @@ class Tree {
 			$childId = $child->getTitle()->getText();
 			$this->outDirectedLine(
 				'child',
-				$parentsId.$childId,
+				$parentsId . $childId,
 				$parentsId,
 				$childId
 			);

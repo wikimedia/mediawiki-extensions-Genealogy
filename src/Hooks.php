@@ -17,7 +17,7 @@ class Hooks {
 	 * @return bool
 	 */
 	public static function onParserFirstCallInit( Parser &$parser ) {
-		$parser->setFunctionHook( 'genealogy', self::class.'::renderParserFunction' );
+		$parser->setFunctionHook( 'genealogy', self::class . '::renderParserFunction' );
 		return true;
 	}
 

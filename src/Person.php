@@ -104,7 +104,7 @@ class Person {
 			$link = '[' . $url . ' ' . $this->getTitle()->getFullText() . ']';
 		}
 		$date = ( $this->hasDates() ) ? " $dateString" : "";
-		return $link.$date;
+		return $link . $date;
 	}
 
 	/**
@@ -227,7 +227,7 @@ class Person {
 
 		$where = [
 			'pp_value' => $this->getTitles(),
-			'pp_propname' . $dbr->buildLike( 'genealogy ', $type.' ', $dbr->anyString() ),
+			'pp_propname' . $dbr->buildLike( 'genealogy ', $type . ' ', $dbr->anyString() ),
 			'pp_page = page_id',
 		];
 		$results = $dbr->select( $tables, $columns, $where, __METHOD__, [], [ 'page' => [] ] );
@@ -274,7 +274,7 @@ class Person {
 			[
 				// Where conditions.
 				'pp_page' => $articleIds,
-				'pp_propname' . $dbr->buildLike( 'genealogy ', $type.' ', $dbr->anyString() ),
+				'pp_propname' . $dbr->buildLike( 'genealogy ', $type . ' ', $dbr->anyString() ),
 			],
 			__METHOD__,
 			[ 'ORDER BY' => 'pp_value' ]
