@@ -6,9 +6,9 @@ class Traverser {
 
 	private $callbacks;
 
-	private $ancestor_depth = 0;
+	private $ancestorDepth = 0;
 
-	private $descendant_depth = 0;
+	private $descendantDepth = 0;
 
 	/**
 	 * Callbacks will be called for each page crawled.
@@ -31,9 +31,9 @@ class Traverser {
 			$this->visit( $partner );
 		}
 		// Give up if we're being limited.
-		if ( !is_null( $depth ) ) {
-			$this->ancestor_depth++;
-			if ( $this->ancestor_depth > $depth ) {
+		if ( $depth !== null ) {
+			$this->ancestorDepth++;
+			if ( $this->ancestorDepth > $depth ) {
 				return;
 			}
 		}
@@ -55,9 +55,9 @@ class Traverser {
 			$this->visit( $partner );
 		}
 		// Give up if we're being limited.
-		if ( !is_null( $depth ) ) {
-			$this->descendant_depth++;
-			if ( $this->descendant_depth > $depth ) {
+		if ( $depth !== null ) {
+			$this->descendantDepth++;
+			if ( $this->descendantDepth > $depth ) {
 				return;
 			}
 		}
@@ -67,7 +67,11 @@ class Traverser {
 		}
 	}
 
-	private function visit( $person ) {
+	/**
+	 * When traversing a tree, each node is 'visited' and its callbacks called.
+	 * @param Person $person
+	 */
+	protected function visit( $person ) {
 		// Call each callback
 		foreach ( $this->callbacks as $callback ) {
 			call_user_func( $callback, $person );

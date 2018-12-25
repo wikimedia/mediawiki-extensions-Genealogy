@@ -2,7 +2,7 @@
 
 namespace MediaWiki\Extensions\Genealogy;
 
-use MagicWord;
+use MediaWiki\MediaWikiServices;
 use Title;
 use WikiPage;
 
@@ -29,7 +29,10 @@ class Person {
 	 */
 	public function __construct( Title $title ) {
 		$this->title = $title;
-		$this->magicRegex = MagicWord::get( 'genealogy' )->getBaseRegex();
+		$this->magicRegex = MediaWikiServices::getInstance()
+			->getMagicWordFactory()
+			->get( 'genealogy' )
+			->getBaseRegex();
 	}
 
 	/**
@@ -140,9 +143,8 @@ class Person {
 		preg_match( '/(\d{3,4})/', $date, $matches );
 		if ( isset( $matches[1] ) ) {
 			return $matches[1];
-		} else {
-			return $date;
 		}
+		return $date;
 	}
 
 	/**
@@ -281,7 +283,7 @@ class Person {
 		);
 		foreach ( $results as $result ) {
 			$title = Title::newFromText( $result->pp_value );
-			if ( is_null( $title ) ) {
+			if ( $title === null ) {
 				// Do nothing, if this isn't a valid title.
 				continue;
 			}

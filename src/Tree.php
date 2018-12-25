@@ -2,6 +2,7 @@
 
 namespace MediaWiki\Extensions\Genealogy;
 
+use ExtensionRegistry;
 use Html;
 use Parser;
 use Sanitizer;
@@ -9,8 +10,8 @@ use Title;
 
 class Tree {
 
-	/** @var string[] All the lines of the output GraphViz source code. */
-	private $graph_source_code;
+	/** @var string[][] All the lines of the output GraphViz source code. */
+	private $graphSourceCode;
 
 	/** @var Person[] */
 	protected $ancestors = [];
@@ -19,25 +20,25 @@ class Tree {
 	protected $descendants = [];
 
 	/** @var integer */
-	protected $ancestor_depth;
+	protected $ancestorDepth;
 
 	/** @var integer */
-	protected $descendant_depth;
+	protected $descendantDepth;
 
 	/**
 	 * Set the number of levels the tree will go up to from the ancestors' starting points.
-	 * @param int $ancestor_depth The new ancestor depth.
+	 * @param int $ancestorDepth The new ancestor depth.
 	 */
-	public function setAncestorDepth( $ancestor_depth ) {
-		$this->ancestor_depth = $ancestor_depth;
+	public function setAncestorDepth( $ancestorDepth ) {
+		$this->ancestorDepth = $ancestorDepth;
 	}
 
 	/**
 	 * Set the number of levels the tree will go down to from the descendants' starting points.
-	 * @param int $descendant_depth The new descendant depth.
+	 * @param int $descendantDepth The new descendant depth.
 	 */
-	public function setDescendantDepth( $descendant_depth ) {
-		$this->descendant_depth = $descendant_depth;
+	public function setDescendantDepth( $descendantDepth ) {
+		$this->descendantDepth = $descendantDepth;
 	}
 
 	/**
@@ -91,7 +92,7 @@ class Tree {
 		}
 
 		// See if GraphViz is installed.
-		if ( !class_exists( '\MediaWiki\Extension\GraphViz\GraphViz' ) ) {
+		if ( !ExtensionRegistry::getInstance()->isLoaded( 'GraphViz' ) ) {
 			$err = wfMessage( 'genealogy-no-graphviz' )->text();
 			return Html::element( 'p', [ 'class' => 'error' ], $err );
 		}
@@ -115,15 +116,15 @@ class Tree {
 		$traverser->register( [ $this, 'visit' ] );
 
 		foreach ( $this->ancestors as $ancestor ) {
-			$traverser->ancestors( $ancestor, $this->ancestor_depth );
+			$traverser->ancestors( $ancestor, $this->ancestorDepth );
 		}
 
 		foreach ( $this->descendants as $descendant ) {
-			$traverser->descendants( $descendant, $this->descendant_depth );
+			$traverser->descendants( $descendant, $this->descendantDepth );
 		}
 
 		// Do nothing if there are no people listed.
-		if ( !isset( $this->graph_source_code['person'] ) ) {
+		if ( !isset( $this->graphSourceCode['person'] ) ) {
 			return '<span class="error">No people found</span>';
 		}
 
@@ -135,16 +136,16 @@ class Tree {
 		$this->out( 'top', 'node-attrs', 'node [shape=plaintext, fontsize=12]' );
 
 		// Combine all parts of the graph output.
-		$out = implode( "\n", $this->graph_source_code['top'] ) . "\n\n"
+		$out = implode( "\n", $this->graphSourceCode['top'] ) . "\n\n"
 			. "/* People */\n"
-			. implode( "\n", $this->graph_source_code['person'] ) . "\n\n";
-		if ( isset( $this->graph_source_code['partner'] ) ) {
+			. implode( "\n", $this->graphSourceCode['person'] ) . "\n\n";
+		if ( isset( $this->graphSourceCode['partner'] ) ) {
 			$out .= "/* Partners */\n"
-				. implode( "\n", $this->graph_source_code['partner'] ) . "\n\n";
+				. implode( "\n", $this->graphSourceCode['partner'] ) . "\n\n";
 		}
-		if ( isset( $this->graph_source_code['child'] ) ) {
+		if ( isset( $this->graphSourceCode['child'] ) ) {
 			$out .= "/* Children */\n"
-				. implode( "\n", $this->graph_source_code['child'] ) . "\n\n";
+				. implode( "\n", $this->graphSourceCode['child'] ) . "\n\n";
 		}
 		return $out . "}";
 	}
@@ -173,7 +174,7 @@ class Tree {
 		$desc = '';
 		if ( $person->getDescription() ) {
 			$desc = '<BR/><FONT POINT-SIZE="9">'
-				. Sanitizer::stripAllTags( $person->getDescription(), ENT_QUOTES )
+				. Sanitizer::stripAllTags( $person->getDescription() )
 				. '</FONT>';
 		}
 		$label = ( $desc === '' && '"' . $title . '"' === $personId ) ? '' : " label=<$title$desc>, ";
@@ -303,13 +304,13 @@ class Tree {
 	 * @param string $line The line of Dot source code.
 	 */
 	private function out( $group, $key, $line ) {
-		if ( !is_array( $this->graph_source_code ) ) {
-			$this->graph_source_code = [];
+		if ( !is_array( $this->graphSourceCode ) ) {
+			$this->graphSourceCode = [];
 		}
-		if ( !isset( $this->graph_source_code[$group] ) ) {
-			$this->graph_source_code[$group] = [];
+		if ( !isset( $this->graphSourceCode[$group] ) ) {
+			$this->graphSourceCode[$group] = [];
 		}
-		$this->graph_source_code[$group][$key] = $line;
+		$this->graphSourceCode[$group][$key] = $line;
 	}
 
 	/**

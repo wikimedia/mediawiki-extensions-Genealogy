@@ -194,7 +194,8 @@ class Hooks {
 		$out = '';
 		$index = 1;
 		$peopleCount = count( $people );
-		$templateExists = Title::newFromText( $templateName->toString() )->exists();
+		$templateTitle = Title::newFromText( $templateName->toString() );
+		$templateExists = $templateTitle instanceof Title && $templateTitle->exists();
 		foreach ( $people as $person ) {
 			if ( $templateExists ) {
 				$template = '{{' . $templateName
