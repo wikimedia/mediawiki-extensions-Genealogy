@@ -206,7 +206,7 @@ class Hooks {
 					. '|count=' . $peopleCount
 					. '}}';
 				$out .= $parser->recursivePreprocess( $template );
-				$index ++;
+				$index++;
 			} else {
 				$out .= "* " . $person->getWikiLink() . "\n";
 			}
