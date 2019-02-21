@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"ديفيد"
+			"ديفيد",
+			"Meno25"
 		]
 	},
 	"genealogy": "علم الأنساب",
@@ -13,7 +14,7 @@
 	"genealogy-descendant": "حفيد",
 	"genealogy-descendants": "أحفاد",
 	"genealogy-person-preload": "قالب:شخص/تحميل مسبق",
-	"genealogy-person-list-item": "قالب:شخص/قائمة-بند",
+	"genealogy-person-list-item": "قالب:شخص/قائمة-عنصر",
 	"genealogy-parser-function-not-found": "لم يتم التعرف على نوع دالة محلل الأنساب: $1",
 	"genealogy-existing-partners": "يمتلك هذا الشخص بالفعل {{PLURAL:$1|هذا الشريك|هؤلاء الشركاء}}:",
 	"genealogy-invalid-parent-title": "خطأ: عنوان صفحة أصل غير صالح: \"$1\"",
