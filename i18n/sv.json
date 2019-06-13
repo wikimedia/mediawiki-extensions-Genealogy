@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Mjälten"
+		]
+	},
+	"genealogy": "Genealogi",
+	"genealogy-ancestor": "Förfader",
+	"genealogy-ancestors": "Förfäder",
+	"genealogy-descendant": "Ättlingar",
+	"genealogy-descendants": "Ättlingar"
+}
