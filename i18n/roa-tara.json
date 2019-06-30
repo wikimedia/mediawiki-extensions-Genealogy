@@ -4,5 +4,19 @@
 			"Joetaras"
 		]
 	},
-	"genealogy": "Genealoggije"
+	"genealogy": "Genealoggije",
+	"genealogy-desc": "Aggiunge 'na funzione analizzatrice pe 'nu collegamende cchiù facile 'mbrà record genealoggece",
+	"genealogy-born": "(b.&nbsp;$1)",
+	"genealogy-died": "(d.&nbsp;$1)",
+	"genealogy-ancestor": "Andenate",
+	"genealogy-ancestors": "Andenate",
+	"genealogy-descendant": "Discendende",
+	"genealogy-descendants": "Discendende",
+	"genealogy-person-preload": "Template:Person/preload",
+	"genealogy-person-list-item": "Template:Person/list-item",
+	"genealogy-parser-function-not-found": "'U tipe d'a funzione analizzatrice Genealoggije non acchiate: $1",
+	"genealogy-existing-partners": "Stu crestiane ggià ave {{PLURAL:$1|stu|ste}} partner:",
+	"genealogy-invalid-parent-title": "Errore: Pàgene d'u titole de l'attane invalide: '$1'",
+	"genealogy-invalid-partner-title": "Errore: Pàgene d'u titole de l'attane invalide: '$1'",
+	"genealogy-no-graphviz": "L'arvule grafeche de generazione vole ca l'estenzione GraphViz adda essere installate"
 }
