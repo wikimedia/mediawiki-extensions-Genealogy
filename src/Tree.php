@@ -5,13 +5,12 @@ namespace MediaWiki\Extensions\Genealogy;
 use ExtensionRegistry;
 use Html;
 use Parser;
-use Sanitizer;
 use Title;
 
 class Tree {
 
-	/** @var string[][] All the lines of the output GraphViz source code. */
-	private $graphSourceCode;
+	/** @var string The tree's format, either 'graphviz' or 'mermaid'. */
+	protected $format = 'graphviz';
 
 	/** @var Person[] */
 	protected $ancestors = [];
@@ -81,7 +80,18 @@ class Tree {
 	}
 
 	/**
-	 * Get the wikitext for the tree, containing the <graphviz> element and dot-formatted contents.
+	 * Set the output format for the tree.
+	 *
+	 * @param string $format Either 'graphviz' or 'mermaid' (case insensitive).
+	 * @return void
+	 */
+	public function setFormat( $format ) {
+		$this->format = strtolower( $format );
+	}
+
+	/**
+	 * Get the wikitext output for the tree.
+	 *
 	 * @param Parser $parser The parser.
 	 * @return string Unsafe half-parsed HTML, as returned by Parser::recursiveTagParse().
 	 */
@@ -91,29 +101,34 @@ class Tree {
 			return '';
 		}
 
-		// See if GraphViz is installed.
-		if ( !ExtensionRegistry::getInstance()->isLoaded( 'GraphViz' ) ) {
-			$err = wfMessage( 'genealogy-no-graphviz' )->text();
+		$extenstionRegistry = ExtensionRegistry::getInstance();
+		$graphvizInstalled = $extenstionRegistry->isLoaded( 'GraphViz' );
+		$mermaidInstalled = $extenstionRegistry->isLoaded( 'Mermaid' );
+		$treeSource = $this->getTreeSource();
+		if ( $this->format === 'mermaid' && $mermaidInstalled ) {
+			$out = $parser->recursiveTagParse( "{{#mermaid:$treeSource}}" );
+		} elseif ( $this->format === 'graphviz' && $graphvizInstalled ) {
+			$out = $parser->recursiveTagParse( "<graphviz>$treeSource</graphviz>" );
+		} else {
+			$err = wfMessage( 'genealogy-invalid-tree-format', $this->format )->text();
 			return Html::element( 'p', [ 'class' => 'error' ], $err );
 		}
 
-		// Get the GraphViz source and run it through the GraphViz extension.
-		$graphSource = $this->getGraphvizSource();
-		$out = $parser->recursiveTagParse( "<graphviz>\n$graphSource\n</graphviz>" );
-
 		// Debugging.
-		// $out .= $parser->recursiveTagParse( "<pre>$graphSource</pre>" );
+		// $out .= $parser->recursiveTagParse( "<pre>$treeSource</pre>" );
 
 		return $out;
 	}
 
 	/**
-	 * Get the Dot source code for the graph of this tree.
 	 * @return string
 	 */
-	public function getGraphvizSource() {
+	public function getTreeSource() {
 		$traverser = new Traverser();
-		$traverser->register( [ $this, 'visit' ] );
+		$formatter = $this->format === 'mermaid'
+			? new MermaidTreeFormatter( $this->ancestors, $this->descendants )
+			: new GraphVizTreeFormatter( $this->ancestors, $this->descendants );
+		$traverser->register( [ $formatter, 'visit' ] );
 
 		foreach ( $this->ancestors as $ancestor ) {
 			$traverser->ancestors( $ancestor, $this->ancestorDepth );
@@ -123,215 +138,6 @@ class Tree {
 			$traverser->descendants( $descendant, $this->descendantDepth );
 		}
 
-		// Do nothing if there are no people listed.
-		if ( !isset( $this->graphSourceCode['person'] ) ) {
-			return '<span class="error">No people found</span>';
-		}
-
-		// Start the tree.
-		$treeName = md5( implode( '', $this->ancestors ) . implode( '', $this->descendants ) );
-		$this->out( 'top', 'start', "digraph GenealogyTree_$treeName {" );
-		$this->out( 'top', 'graph-attrs', 'graph [rankdir=LR, ranksep=0.55]' );
-		$this->out( 'top', 'edge-attrs', 'edge [arrowhead=none, headport=w]' );
-		$this->out( 'top', 'node-attrs', 'node [shape=plaintext, fontsize=12]' );
-
-		// Combine all parts of the graph output.
-		$out = implode( "\n", $this->graphSourceCode['top'] ) . "\n\n"
-			. "/* People */\n"
-			. implode( "\n", $this->graphSourceCode['person'] ) . "\n\n";
-		if ( isset( $this->graphSourceCode['partner'] ) ) {
-			$out .= "/* Partners */\n"
-				. implode( "\n", $this->graphSourceCode['partner'] ) . "\n\n";
-		}
-		if ( isset( $this->graphSourceCode['child'] ) ) {
-			$out .= "/* Children */\n"
-				. implode( "\n", $this->graphSourceCode['child'] ) . "\n\n";
-		}
-		return $out . "}";
+		return $formatter->getOutput();
 	}
-
-	/**
-	 * Output one GraphViz line for the given person.
-	 * @param Person $person The person.
-	 */
-	protected function outputPersonLine( Person $person ) {
-		if ( $person->getTitle()->exists() ) {
-			$url = '[[' . $person->getTitle()->getText() . ']]';
-			$colour = 'black';
-		} else {
-			$queryString = [
-				'preload' => wfMessage( 'genealogy-person-preload' ),
-				'action' => 'edit',
-			];
-			$url = '['
-				. $person->getTitle()->getFullURL( $queryString )
-				. ' ' . $person->getTitle()->getText()
-				. ']';
-			$colour = 'red';
-		}
-		$title = $person->getTitle()->getText();
-		$personId = $this->esc( $title );
-		$desc = '';
-		if ( $person->getDescription() ) {
-			$desc = '<BR/><FONT POINT-SIZE="9">'
-				. Sanitizer::stripAllTags( $person->getDescription() )
-				. '</FONT>';
-		}
-		$label = ( $desc === '' && '"' . $title . '"' === $personId ) ? '' : " label=<$title$desc>, ";
-		$line = $personId . " ["
-			. $label
-			. " URL=\"$url\", "
-			. " tooltip=\"$title\", "
-			. " fontcolor=\"$colour\" "
-			. "]";
-		$this->out( 'person', $personId, $line );
-	}
-
-	/**
-	 * When traversing the tree, each node is visited and this method run on the current person.
-	 * @param Person $person The current node's person.
-	 */
-	public function visit( Person $person ) {
-		$this->outputPersonLine( $person );
-
-		$personId = $person->getTitle()->getText();
-		$partnerStyle = 'dashed';
-
-		// Output links to parents.
-		if ( $person->getParents() ) {
-			$parentsId = $this->getPersonGroupIdent( $person->getParents() );
-			$this->out( 'partner', $parentsId, $this->esc( $parentsId ) . ' [label="", shape="point"]' );
-			$this->outDirectedLine(
-				'child',
-				$parentsId . $personId,
-				$parentsId,
-				$personId
-			);
-			foreach ( $person->getParents() as $parent ) {
-				$parentId = $parent->getTitle()->getText();
-				// Add any non-included parent.
-				$this->outputPersonLine( $parent );
-				$this->outDirectedLine(
-					'partner',
-					$parentId . $parentsId,
-					$parentId,
-					$parentsId,
-					"style=$partnerStyle"
-				);
-			}
-		}
-
-		// Output links to partners.
-		foreach ( $person->getPartners() as $partner ) {
-			// Create a point node for each partnership.
-			$partnerId = $partner->getTitle()->getText();
-			$partners = [ $personId, $partnerId ];
-			sort( $partners );
-			$partnersId = $this->getPersonGroupIdent( $partners );
-			$this->out( 'partner', $partnersId, $this->esc( $partnersId ) . ' [label="", shape="point"]' );
-			// Link this person and this partner to that point node.
-			$this->outDirectedLine(
-				'partner',
-				$personId . $partnersId,
-				$personId,
-				$partnersId,
-				"style=$partnerStyle"
-			);
-			$this->outDirectedLine(
-				'partner',
-				$partnerId . $partnersId,
-				$partnerId,
-				$partnersId,
-				"style=$partnerStyle"
-			);
-			// Create a node for any non-included partner.
-			$this->outputPersonLine( $partner );
-		}
-
-		// Output links to children.
-		foreach ( $person->getChildren() as $child ) {
-			$parentsId = $this->getPersonGroupIdent( $child->getParents() );
-			$this->out( 'partner', $parentsId, $this->esc( $parentsId ) . ' [label="", shape="point"]' );
-			$this->outDirectedLine(
-				'partner',
-				$personId . $parentsId,
-				$personId,
-				$parentsId,
-				"style=$partnerStyle"
-			);
-			$childId = $child->getTitle()->getText();
-			$this->outDirectedLine(
-				'child',
-				$parentsId . $childId,
-				$parentsId,
-				$childId
-			);
-			// Add this child in case they don't get included directly in this tree.
-			$this->outputPersonLine( $child );
-		}
-	}
-
-	/**
-	 * Create a valid GraphViz node ID for a set of people (i.e. partners, parents, or children).
-	 * @param string[]|Person[] $group The people to construct the ID out of.
-	 * @return string The node ID (with no wrapping double quotation marks).
-	 */
-	protected function getPersonGroupIdent( $group ) {
-		return implode( ' AND ', $group ) . ' (GROUP)';
-	}
-
-	/**
-	 * Save an output line for a directed edge.
-	 * @param string $group The group this line should go in.
-	 * @param string $key The line's unique key.
-	 * @param string $from The left-hand side of the arrow.
-	 * @param string $to The right-hand side of the arrow.
-	 * @param string $params Any parameters to append.
-	 */
-	protected function outDirectedLine( $group, $key, $from, $to, $params = '' ) {
-		$line = $this->esc( $from ) . ' -> ' . $this->esc( $to );
-		if ( $params ) {
-			$line .= " [$params]";
-		}
-		$this->out( $group, $key, $line );
-	}
-
-	/**
-	 * Store a single line of Dot source output. This means we can avoid duplicate output lines,
-	 * and also group source by different categories ('partner', 'child', etc.).
-	 * @param string $group The group this line should go in.
-	 * @param string $key The line's unique key.
-	 * @param string $line The line of Dot source code.
-	 */
-	private function out( $group, $key, $line ) {
-		if ( !is_array( $this->graphSourceCode ) ) {
-			$this->graphSourceCode = [];
-		}
-		if ( !isset( $this->graphSourceCode[$group] ) ) {
-			$this->graphSourceCode[$group] = [];
-		}
-		$this->graphSourceCode[$group][$key] = $line;
-	}
-
-	/**
-	 * Create a Dot-compatible variable name from any string.
-	 * An ID is one of the following:
-	 *  - Any string of alphabetic ([a-zA-Z\200-\377]) characters, underscores ('_') or digits
-	 *    ([0-9]), not beginning with a digit;
-	 *  - a numeral [-]?(.[0-9]+ | [0-9]+(.[0-9]*)? );
-	 *  - any double-quoted string ("...") possibly containing escaped quotes ('");
-	 *  - an HTML string (<...>).
-	 *
-	 * In quoted strings in DOT, the only escaped character is double-quote ("). That is, in quoted
-	 * strings, the dyad \" is converted to "; all other characters are left unchanged. In
-	 * particular, \\ remains \\. Layout engines may apply additional escape sequences.
-	 *
-	 * @link http://www.graphviz.org/content/dot-language
-	 * @param string $title
-	 * @return string With enclosing quotation marks.
-	 */
-	private function esc( $title ) {
-		return '"' . str_replace( '"', '\"', $title ) . '"';
-	}
-
 }
