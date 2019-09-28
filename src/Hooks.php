@@ -25,11 +25,11 @@ class Hooks {
 	 * This method is called by the EditPage::showEditForm:initial hook and adds a list of the
 	 * current page's Genealogy partners that *are not* a result of a {{#genealogy:partner|…}} call
 	 * in the current page.
-	 * @param EditPage &$editPage The current page that's being edited.
+	 * @param EditPage $editPage The current page that's being edited.
 	 * @param OutputPage &$output The output.
 	 * @return void
 	 */
-	public static function onEditPageShowEditFormInitial( EditPage &$editPage, OutputPage &$output ) {
+	public static function onEditPageShowEditFormInitial( EditPage $editPage, OutputPage &$output ) {
 		$person = new Person( $editPage->getTitle() );
 		$peopleList = [];
 		$renderer = MediaWikiServices::getInstance()->getLinkRenderer();
