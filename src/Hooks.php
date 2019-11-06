@@ -139,6 +139,9 @@ class Hooks {
 				if ( isset( $params['descendant depth'] ) ) {
 					$tree->setDescendantDepth( $params['descendant depth'] );
 				}
+				if ( isset( $params['format'] ) ) {
+					$tree->setFormat( $params['format'] );
+				}
 				$out = $tree->getWikitext( $parser );
 				break;
 			default:

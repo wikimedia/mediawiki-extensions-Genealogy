@@ -20,8 +20,8 @@ class TreeTest extends GenealogyTestCase {
 		$tree = new Tree();
 		$tree->addDescendants( [ 'DescA' ] );
 		$this->assertContains(
-			'"DescB" [ label=<DescB<BR/><FONT POINT-SIZE="9">A description with HTML</FONT>>,',
-			$tree->getGraphvizSource()
+			'DescB_269 [ label=<DescB<BR/><FONT POINT-SIZE="9">A description with HTML</FONT>>,',
+			$tree->getTreeSource()
 		);
 	}
 
@@ -50,21 +50,23 @@ class TreeTest extends GenealogyTestCase {
 		$this->assertContains(
 			'
 /* People */
-"A" [ URL="[[A]]",  tooltip="A",  fontcolor="black" ]
-"B" [ URL="[[B]]",  tooltip="B",  fontcolor="black" ]
-"E" [ URL="[[E]]",  tooltip="E",  fontcolor="black" ]
+A_7fc [ label=<A>,  URL="[[A]]",  tooltip="A",  fontcolor="black" ]
+B_9d5 [ label=<B>,  URL="[[B]]",  tooltip="B",  fontcolor="black" ]
+E_3a3 [ label=<E>,  URL="[[E]]",  tooltip="E",  fontcolor="black" ]
 
 /* Partners */
-"A (GROUP)" [label="", shape="point"]
-"A" -> "A (GROUP)" [style=dashed]
-"B AND C (GROUP)" [label="", shape="point"]
-"B" -> "B AND C (GROUP)" [style=dashed]
+A_GROUP_5b9 [label="", shape="point"]
+A_7fc -> A_GROUP_5b9 [style="dashed"]
+B_AND_C_GROUP_533 [label="", shape="point"]
+B_9d5 -> B_AND_C_GROUP_533 [style="dashed"]
 
 /* Children */
-"A (GROUP)" -> "B"
-"B AND C (GROUP)" -> "E"
+A_GROUP_5b9 -> B_9d5
+B_AND_C_GROUP_533 -> E_3a3
+
+}
 ',
-			$tree1->getGraphvizSource()
+			$tree1->getTreeSource()
 		);
 
 		$tree2 = new Tree();
@@ -73,35 +75,80 @@ class TreeTest extends GenealogyTestCase {
 		$this->assertContains(
 			'
 /* People */
-"G" [ URL="[[G]]",  tooltip="G",  fontcolor="black" ]
-"E" [ URL="[[E]]",  tooltip="E",  fontcolor="black" ]
-"B" [ URL="[[B]]",  tooltip="B",  fontcolor="black" ]
-"C" [ URL="[[C]]",  tooltip="C",  fontcolor="black" ]
-"F" [ URL="[[F]]",  tooltip="F",  fontcolor="black" ]
-"A" [ URL="[[A]]",  tooltip="A",  fontcolor="black" ]
-"D" [ URL="[[D]]",  tooltip="D",  fontcolor="black" ]
+G_dfc [ label=<G>,  URL="[[G]]",  tooltip="G",  fontcolor="black" ]
+E_3a3 [ label=<E>,  URL="[[E]]",  tooltip="E",  fontcolor="black" ]
+B_9d5 [ label=<B>,  URL="[[B]]",  tooltip="B",  fontcolor="black" ]
+C_0d6 [ label=<C>,  URL="[[C]]",  tooltip="C",  fontcolor="black" ]
+F_800 [ label=<F>,  URL="[[F]]",  tooltip="F",  fontcolor="black" ]
+A_7fc [ label=<A>,  URL="[[A]]",  tooltip="A",  fontcolor="black" ]
+D_f62 [ label=<D>,  URL="[[D]]",  tooltip="D",  fontcolor="black" ]
 
 /* Partners */
-"E (GROUP)" [label="", shape="point"]
-"E" -> "E (GROUP)" [style=dashed]
-"B AND C (GROUP)" [label="", shape="point"]
-"B" -> "B AND C (GROUP)" [style=dashed]
-"C" -> "B AND C (GROUP)" [style=dashed]
-"E AND F (GROUP)" [label="", shape="point"]
-"E" -> "E AND F (GROUP)" [style=dashed]
-"F" -> "E AND F (GROUP)" [style=dashed]
-"A (GROUP)" [label="", shape="point"]
-"A" -> "A (GROUP)" [style=dashed]
-"C AND D (GROUP)" [label="", shape="point"]
-"C" -> "C AND D (GROUP)" [style=dashed]
-"D" -> "C AND D (GROUP)" [style=dashed]
+E_GROUP_e46 [label="", shape="point"]
+E_3a3 -> E_GROUP_e46 [style="dashed"]
+B_AND_C_GROUP_533 [label="", shape="point"]
+B_9d5 -> B_AND_C_GROUP_533 [style="dashed"]
+C_0d6 -> B_AND_C_GROUP_533 [style="dashed"]
+E_AND_F_GROUP_88a [label="", shape="point"]
+E_3a3 -> E_AND_F_GROUP_88a [style="dashed"]
+F_800 -> E_AND_F_GROUP_88a [style="dashed"]
+A_GROUP_5b9 [label="", shape="point"]
+A_7fc -> A_GROUP_5b9 [style="dashed"]
+C_AND_D_GROUP_a81 [label="", shape="point"]
+C_0d6 -> C_AND_D_GROUP_a81 [style="dashed"]
+D_f62 -> C_AND_D_GROUP_a81 [style="dashed"]
 
 /* Children */
-"E (GROUP)" -> "G"
-"B AND C (GROUP)" -> "E"
-"A (GROUP)" -> "B"
+E_GROUP_e46 -> G_dfc
+B_AND_C_GROUP_533 -> E_3a3
+A_GROUP_5b9 -> B_9d5
 ',
-			$tree2->getGraphvizSource()
+			$tree2->getTreeSource()
 		);
+	}
+
+	/**
+	 *  A2   B2
+	 *   \/
+	 *   |
+	 *   C2
+	 */
+	public function testMermaidTree() {
+		$a2 = $this->setPageContent( 'A2', '' );
+		$baseUrl = substr( $a2->getTitle()->getFullURL(), 0, -3 );
+		$this->setPageContent( 'C2', '{{#genealogy:parent|A2}}{{#genealogy:parent|B2}}' );
+		$tree1 = new Tree();
+		$tree1->setFormat( 'mermaid' );
+		$tree1->addDescendants( [ 'A2' ] );
+		$tree1->setDescendantDepth( 1 );
+		$this->assertStringMatchesFormat( str_replace( "HOSTNAME", '', 'graph LR;
+
+%% People
+A2_c6b("A2");
+click A2_c6b "' . $baseUrl . '/A2";
+C2_f1a("C2");
+click C2_f1a "' . $baseUrl . '/C2";
+B2_bbd("B2");
+click B2_bbd "' . $baseUrl . '/B2";
+
+%% Partners
+A2_AND_B2_GROUP_03b{" "};
+A2_c6b --> A2_AND_B2_GROUP_03b;
+B2_bbd --> A2_AND_B2_GROUP_03b;
+
+%% Children
+A2_AND_B2_GROUP_03b --> C2_f1a;
+
+' ), $tree1->getTreeSource() );
+	}
+
+	/**
+	 * @covers \MediaWiki\Extensions\Genealogy\Tree::hasAncestorsOrDescendants()
+	 */
+	public function testHasAncestorsOrDescendants() {
+		$tree = new Tree();
+		static::assertFalse( $tree->hasAncestorsOrDescendants() );
+		$tree->addAncestors( [ 'Alice' ] );
+		static::assertTrue( $tree->hasAncestorsOrDescendants() );
 	}
 }

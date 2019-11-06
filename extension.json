@@ -17,8 +17,11 @@
 		]
 	},
 	"AutoloadClasses": {
+		"MediaWiki\\Extensions\\Genealogy\\GraphVizTreeFormatter": "src/GraphVizTreeFormatter.php",
+		"MediaWiki\\Extensions\\Genealogy\\MermaidTreeFormatter": "src/MermaidTreeFormatter.php",
 		"MediaWiki\\Extensions\\Genealogy\\Person": "src/Person.php",
 		"MediaWiki\\Extensions\\Genealogy\\Traverser": "src/Traverser.php",
+		"MediaWiki\\Extensions\\Genealogy\\TreeFormatter": "src/TreeFormatter.php",
 		"MediaWiki\\Extensions\\Genealogy\\Tree": "src/Tree.php",
 		"MediaWiki\\Extensions\\Genealogy\\Hooks": "src/Hooks.php",
 		"MediaWiki\\Extensions\\Genealogy\\Test\\GenealogyTestCase": "tests/phpunit/GenealogyTestCase.php"

@@ -21,5 +21,5 @@
 	"genealogy-existing-partners": "The message that is shown above the page-editing form, alerting the user to the fact that the person they're editing has already got a defined partner from another page.",
 	"genealogy-invalid-parent-title": "The error message that is shown when a user-supplied parent name is not a valid page title.",
 	"genealogy-invalid-partner-title": "The error message that is shown when a user-supplied partner name is not a valid page title.",
-	"genealogy-no-graphviz": "An error message displayed when the GraphViz extension isn't installed."
+	"genealogy-invalid-tree-format": "An error message displayed when an invalid tree format has been specified.\n* $1 is the user-specified format."
 }
