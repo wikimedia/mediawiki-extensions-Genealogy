@@ -15,6 +15,5 @@
 	"genealogy-descendants": "Descendientes",
 	"genealogy-parser-function-not-found": "No se reconoció el tipo de función del analizador genealógico: $1",
 	"genealogy-invalid-parent-title": "Error: el título de la página de progenitor no es válido: «$1»",
-	"genealogy-invalid-partner-title": "Error: el título de la página de pareja no es válido: «$1»",
-	"genealogy-no-graphviz": "Para generar árboles gráficos se necesita instalar la extensión GraphViz"
+	"genealogy-invalid-partner-title": "Error: el título de la página de pareja no es válido: «$1»"
 }

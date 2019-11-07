@@ -19,6 +19,5 @@
 	"genealogy-parser-function-not-found": "Non se recoñeceu o tipo de función do analizador xenealóxico: $1",
 	"genealogy-existing-partners": "Esta persoa xa ten {{PLURAL:$1|a seguinte parella|as seguintes parellas}}:",
 	"genealogy-invalid-parent-title": "Erro: o título da páxina de proxenitor non é válido: «$1»",
-	"genealogy-invalid-partner-title": "Erro: o título da páxina de parella non é válido: «$1»",
-	"genealogy-no-graphviz": "A xeración de árbores gráficas require que a extensión GraphViz estea instalada"
+	"genealogy-invalid-partner-title": "Erro: o título da páxina de parella non é válido: «$1»"
 }

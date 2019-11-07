@@ -18,5 +18,5 @@
 	"genealogy-existing-partners": "Stu crestiane ggià ave {{PLURAL:$1|stu|ste}} partner:",
 	"genealogy-invalid-parent-title": "Errore: Pàgene d'u titole de l'attane invalide: '$1'",
 	"genealogy-invalid-partner-title": "Errore: Pàgene d'u titole de l'attane invalide: '$1'",
-	"genealogy-no-graphviz": "L'arvule grafeche de generazione vole ca l'estenzione GraphViz adda essere installate"
+	"genealogy-invalid-tree-format": "'U formate de l'arvule '$1' non ge pò essere ausate."
 }

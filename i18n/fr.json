@@ -19,6 +19,5 @@
 	"genealogy-parser-function-not-found": "Type de fonction d’analyse de généalogie non reconnu : $1",
 	"genealogy-existing-partners": "Cette personne a déjà {{PLURAL:$1|le partenaire suivant|les partenaires suivants}} :",
 	"genealogy-invalid-parent-title": "Erreur: le titre de la page parent est invalide: '$1'",
-	"genealogy-invalid-partner-title": "Erreur: titre invalide de la page du partenaire: '$1'",
-	"genealogy-no-graphviz": "La génération d’un arbre graphique nécessite que l’extension GraphViz soit installée"
+	"genealogy-invalid-partner-title": "Erreur: titre invalide de la page du partenaire: '$1'"
 }

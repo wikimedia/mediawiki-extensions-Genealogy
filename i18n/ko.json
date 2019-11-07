@@ -6,6 +6,5 @@
 		]
 	},
 	"genealogy-invalid-parent-title": "오류: 유효하지 않은 상위 문서 제목: '$1'",
-	"genealogy-invalid-partner-title": "오류: 유효하지 않은 파트너 문서 제목: '$1'",
-	"genealogy-no-graphviz": "그래픽 트리를 생성하려면 GraphViz 확장 기능 설치가 필요합니다"
+	"genealogy-invalid-partner-title": "오류: 유효하지 않은 파트너 문서 제목: '$1'"
 }
