@@ -18,5 +18,6 @@
 	"genealogy-parser-function-not-found": "لم يتم التعرف على نوع دالة محلل الأنساب: $1",
 	"genealogy-existing-partners": "يمتلك هذا الشخص بالفعل {{PLURAL:$1|هذا الشريك|هؤلاء الشركاء}}:",
 	"genealogy-invalid-parent-title": "خطأ: عنوان صفحة أصل غير صالح: \"$1\"",
-	"genealogy-invalid-partner-title": "خطأ: عنوان صفحة شريك غير صالح: \"$1\""
+	"genealogy-invalid-partner-title": "خطأ: عنوان صفحة شريك غير صالح: \"$1\"",
+	"genealogy-invalid-tree-format": "تنسيق شجرة '$1' لا يمكن استخدامه."
 }

@@ -18,5 +18,6 @@
 	"genealogy-parser-function-not-found": "系譜解析函式類型未被識別：$1",
 	"genealogy-existing-partners": "此人物已有以下 {{PLURAL:$1| 個配偶| 個配偶}}：",
 	"genealogy-invalid-parent-title": "錯誤：無效的雙親頁面標題：「$1」",
-	"genealogy-invalid-partner-title": "錯誤：無效的配偶頁面標題：「$1」"
+	"genealogy-invalid-partner-title": "錯誤：無效的配偶頁面標題：「$1」",
+	"genealogy-invalid-tree-format": "「$1」樹狀格式無法使用。"
 }

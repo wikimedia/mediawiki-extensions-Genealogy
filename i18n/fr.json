@@ -3,21 +3,23 @@
 		"authors": [
 			"Gomoko",
 			"Fitoschido",
-			"Wladek92"
+			"Wladek92",
+			"Verdy p"
 		]
 	},
 	"genealogy": "Généalogie",
 	"genealogy-desc": "Ajoute une fonction d’analyse pour lier plus facilement des enregistrements généalogiques",
-	"genealogy-born": "(n.&nbsp;$1)",
-	"genealogy-died": "(d.&nbsp;$1)",
+	"genealogy-born": "(n. $1)",
+	"genealogy-died": "(† $1)",
 	"genealogy-ancestor": "Ancêtre",
 	"genealogy-ancestors": "Ancêtres",
 	"genealogy-descendant": "Descendant",
 	"genealogy-descendants": "Descendants",
 	"genealogy-person-preload": "Template:Person/preload",
 	"genealogy-person-list-item": "Template:Person/list-item",
-	"genealogy-parser-function-not-found": "Type de fonction d’analyse de généalogie non reconnu : $1",
-	"genealogy-existing-partners": "Cette personne a déjà {{PLURAL:$1|le partenaire suivant|les partenaires suivants}} :",
-	"genealogy-invalid-parent-title": "Erreur: le titre de la page parent est invalide: '$1'",
-	"genealogy-invalid-partner-title": "Erreur: titre invalide de la page du partenaire: '$1'"
+	"genealogy-parser-function-not-found": "Type de fonction d’analyse de généalogie non reconnu : $1",
+	"genealogy-existing-partners": "Cette personne a déjà le{{PLURAL:$1||s}} partenaire{{PLURAL:$1||s}} suivant{{PLURAL:$1||s}} :",
+	"genealogy-invalid-parent-title": "Erreur : le titre de la page parent n'est pas valide : « $1 »",
+	"genealogy-invalid-partner-title": "Erreur : le titre de la page du partenaire n’est pas valide : « $1 »",
+	"genealogy-invalid-tree-format": "Le format d’arbre « $1 » ne peut pas être utilisé."
 }
