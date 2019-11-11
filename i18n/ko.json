@@ -6,5 +6,6 @@
 		]
 	},
 	"genealogy-invalid-parent-title": "오류: 유효하지 않은 상위 문서 제목: '$1'",
-	"genealogy-invalid-partner-title": "오류: 유효하지 않은 파트너 문서 제목: '$1'"
+	"genealogy-invalid-partner-title": "오류: 유효하지 않은 파트너 문서 제목: '$1'",
+	"genealogy-invalid-tree-format": "'$1' 트리 포맷은 사용이 불가능합니다."
 }
