@@ -121,7 +121,7 @@ A_GROUP_5b9 -> B_9d5
 		$tree1->setFormat( 'mermaid' );
 		$tree1->addDescendants( [ 'A2' ] );
 		$tree1->setDescendantDepth( 1 );
-		$this->assertStringMatchesFormat( str_replace( "HOSTNAME", '', 'graph LR;
+		$this->assertEquals( 'graph LR;
 
 %% People
 A2_c6b("A2");
@@ -139,7 +139,7 @@ B2_bbd --> A2_AND_B2_GROUP_03b;
 %% Children
 A2_AND_B2_GROUP_03b --> C2_f1a;
 
-' ), $tree1->getTreeSource() );
+', $tree1->getTreeSource() );
 	}
 
 	/**
