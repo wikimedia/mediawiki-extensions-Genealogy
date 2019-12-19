@@ -44,9 +44,10 @@ class PersonTest extends GenealogyTestCase {
 	public function testChildren() {
 		$wikiText = '{{#genealogy:parent|Alice}}';
 		$this->setPageContent( 'Bob', $wikiText );
-		$this->setPageContent( 'Carly', $wikiText );
+		// Add one child in a different namespace, to confirm that there's no issue with that.
+		$this->setPageContent( 'Help:Carly', $wikiText );
 		$alice = new Person( Title::newFromText( 'Alice' ) );
-		$this->assertEquals( [ 'Bob', 'Carly' ], array_keys( $alice->getChildren() ) );
+		$this->assertEquals( [ 'Bob', 'Help:Carly' ], array_keys( $alice->getChildren() ) );
 	}
 
 	public function testDates() {

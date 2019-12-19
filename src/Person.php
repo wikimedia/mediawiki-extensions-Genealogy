@@ -225,7 +225,7 @@ class Person {
 	protected function getPropInbound( $type ) {
 		$dbr = wfGetDB( DB_REPLICA );
 		$tables = [ 'pp' => 'page_props', 'p' => 'page' ];
-		$columns = [ 'pp_value', 'page_title' ];
+		$columns = [ 'pp_value', 'page_title', 'page_namespace' ];
 
 		$where = [
 			'pp_value' => $this->getTitles(),
@@ -235,7 +235,7 @@ class Person {
 		$results = $dbr->select( $tables, $columns, $where, __METHOD__, [], [ 'page' => [] ] );
 		$out = [];
 		foreach ( $results as $res ) {
-			$title = Title::newFromText( $res->page_title );
+			$title = Title::newFromText( $res->page_title, $res->page_namespace );
 			$person = new Person( $title );
 			$out[$person->getTitle()->getPrefixedDBkey()] = $person;
 		}
