@@ -102,7 +102,8 @@ class Tree {
 		}
 
 		$extenstionRegistry = ExtensionRegistry::getInstance();
-		$graphvizInstalled = $extenstionRegistry->isLoaded( 'GraphViz' );
+		$graphvizInstalled = $extenstionRegistry->isLoaded( 'GraphViz' )
+			|| $extenstionRegistry->isLoaded( 'Diagrams' );
 		$mermaidInstalled = $extenstionRegistry->isLoaded( 'Mermaid' );
 		$treeSource = $this->getTreeSource();
 		if ( $this->format === 'mermaid' && $mermaidInstalled ) {
