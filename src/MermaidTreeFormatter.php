@@ -8,7 +8,7 @@ class MermaidTreeFormatter extends TreeFormatter {
 	 * @inheritDoc
 	 */
 	protected function outputPerson( Person $person ) {
-		$id = $this->varId( $person->getTitle()->getDBkey() );
+		$id = $this->varId( $person->getTitle()->getPrefixedText() );
 		$this->out( 'person', $id, $id . '("' . $person->getTitle()->getText() . '")' );
 		$this->out( 'person', $id . '_c', "click $id \"" . $person->getTitle()->getInternalURL() . '"' );
 	}

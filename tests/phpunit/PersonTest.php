@@ -68,10 +68,10 @@ class PersonTest extends GenealogyTestCase {
 	}
 
 	public function testPartnersInAlphabeticalOrder() {
-		$alice = new Person( Title::newFromText( 'Alice' ) );
-		$this->setPageContent( 'Alice', '{{#genealogy:parent|Clara}}{{#genealogy:parent|Bob}}' );
-		$parents = $alice->getParents();
-		$this->assertEquals( [ 'Bob', 'Clara' ], array_keys( $parents ) );
+		$this->setPageContent( 'P1', '{{#genealogy:partner|P2}}{{#genealogy:partner|P3}}' );
+		$this->setPageContent( 'P4', '{{#genealogy:partner|P1}}' );
+		$personA = new Person( Title::newFromText( 'P1' ) );
+		$this->assertEquals( [ 'P2', 'P3', 'P4' ], array_keys( $personA->getPartners() ) );
 	}
 
 	/**
@@ -80,15 +80,15 @@ class PersonTest extends GenealogyTestCase {
 	 * C D E
 	 */
 	public function testSiblingsInDescriptionOrder() {
-		$this->setPageContent( 'A', '{{#genealogy:partner|B}}' );
-		$this->setPageContent( 'B', '' );
-		$parents = '{{#genealogy:parent|A}}{{#genealogy:parent|B}}';
-		$this->setPageContent( 'C', "$parents{{#genealogy:description|1. first}}" );
-		$this->setPageContent( 'D', "$parents{{#genealogy:description|3. third}}" );
-		$this->setPageContent( 'E', "$parents{{#genealogy:description|2. second}}" );
-		$c = new Person( Title::newFromText( 'C' ) );
+		$this->setPageContent( 'DA', '{{#genealogy:partner|DB}}' );
+		$this->setPageContent( 'DB', '' );
+		$parents = '{{#genealogy:parent|DA}}{{#genealogy:parent|DB}}';
+		$this->setPageContent( 'DC', "$parents{{#genealogy:description|1. first}}" );
+		$this->setPageContent( 'DD', "$parents{{#genealogy:description|3. third}}" );
+		$this->setPageContent( 'DE', "$parents{{#genealogy:description|2. second}}" );
+		$c = new Person( Title::newFromText( 'DC' ) );
 		$this->assertEquals( '1. first', $c->getDescription() );
-		$this->assertEquals( [ 'C', 'E', 'D' ], array_keys( $c->getSiblings() ) );
+		$this->assertEquals( [ 'DC', 'DE', 'DD' ], array_keys( $c->getSiblings() ) );
 	}
 
 	public function testRedirectPartner() {

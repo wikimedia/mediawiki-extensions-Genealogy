@@ -38,7 +38,7 @@ class GraphVizTreeFormatter extends TreeFormatter {
 	 */
 	protected function outputPerson( Person $person ) {
 		if ( $person->getTitle()->exists() ) {
-			$url = '[[' . $person->getTitle()->getText() . ']]';
+			$url = '[[' . $person->getTitle()->getPrefixedText() . ']]';
 			$colour = 'black';
 		} else {
 			$queryString = [
@@ -51,19 +51,18 @@ class GraphVizTreeFormatter extends TreeFormatter {
 				. ']';
 			$colour = 'red';
 		}
-		$title = $person->getTitle()->getText();
-		$personId = $this->varId( $title );
+		$personId = $this->varId( $person->getTitle()->getPrefixedText() );
 		$desc = '';
 		if ( $person->getDescription() ) {
 			$desc = '<BR/><FONT POINT-SIZE="9">'
 				. Sanitizer::stripAllTags( $person->getDescription() )
 				. '</FONT>';
 		}
-		$label = ( $desc === '' && '"' . $title . '"' === $personId ) ? '' : " label=<$title$desc>, ";
+		$title = $person->getTitle()->getText();
 		$line = $personId . " ["
-			. $label
+			. " label=<$title$desc>, "
 			. " URL=\"$url\", "
-			. " tooltip=\"$title\", "
+			. " tooltip=\"" . $person->getTitle()->getPrefixedText() . "\", "
 			. " fontcolor=\"$colour\" "
 			. "]";
 		$this->out( 'person', $personId, $line );

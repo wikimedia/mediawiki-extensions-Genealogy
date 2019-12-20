@@ -12,13 +12,7 @@ class Person {
 	private $title;
 
 	/** @var Person[] */
-	private $parents;
-
-	/** @var Person[] */
 	private $siblings;
-
-	/** @var Person[] */
-	private $partners;
 
 	/** @var Person[] */
 	private $children;
@@ -165,7 +159,7 @@ class Person {
 	 */
 	public function getParents() {
 		$parents = $this->getPropMulti( 'parent' );
-		asort( $parents );
+		ksort( $parents );
 		return $parents;
 	}
 
@@ -198,14 +192,12 @@ class Person {
 	 * @return Person[] An array of partners, possibly empty. Keyed by the partner's page DB key.
 	 */
 	public function getPartners( $onlyDefinedElsewhere = false ) {
-		if ( $onlyDefinedElsewhere === true ) {
-			return $this->getPropInbound( 'partner' );
+		$partners = $this->getPropInbound( 'partner' );
+		if ( $onlyDefinedElsewhere === false ) {
+			$partners = array_merge( $partners, $this->getPropMulti( 'partner' ) );
 		}
-		$this->partners = array_merge(
-			$this->getPropInbound( 'partner' ),
-			$this->getPropMulti( 'partner' )
-		);
-		return $this->partners;
+		ksort( $partners );
+		return $partners;
 	}
 
 	/**

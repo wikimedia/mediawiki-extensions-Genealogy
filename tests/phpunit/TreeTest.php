@@ -26,17 +26,17 @@ class TreeTest extends GenealogyTestCase {
 	}
 
 	/**
-	 * A
-	 * |
-	 * B  C = D
-	 *  \/
-	 *  E = F
+	 * Help:A
 	 *  |
-	 *  G
+	 *  B  C = D
+	 *   \/
+	 *   E = F
+	 *   |
+	 *   G
 	 */
 	public function testGraphVizTree() {
-		$this->setPageContent( 'A', '' );
-		$this->setPageContent( 'B', '{{#genealogy:parent|A}}' );
+		$this->setPageContent( 'Help:A', '' );
+		$this->setPageContent( 'B', '{{#genealogy:parent|Help:A}}' );
 		$this->setPageContent( 'C', '{{#genealogy:partner|D}}' );
 		$this->setPageContent( 'D', '' );
 		$this->setPageContent( 'E',
@@ -45,23 +45,23 @@ class TreeTest extends GenealogyTestCase {
 		$this->setPageContent( 'F', '' );
 		$this->setPageContent( 'G', '{{#genealogy:parent|E}}' );
 		$tree1 = new Tree();
-		$tree1->addDescendants( [ 'A' ] );
+		$tree1->addDescendants( [ 'Help:A' ] );
 		$tree1->setDescendantDepth( 1 );
 		$this->assertContains(
 			'
 /* People */
-A_7fc [ label=<A>,  URL="[[A]]",  tooltip="A",  fontcolor="black" ]
+HelpA_c04 [ label=<A>,  URL="[[Help:A]]",  tooltip="Help:A",  fontcolor="black" ]
 B_9d5 [ label=<B>,  URL="[[B]]",  tooltip="B",  fontcolor="black" ]
 E_3a3 [ label=<E>,  URL="[[E]]",  tooltip="E",  fontcolor="black" ]
 
 /* Partners */
-A_GROUP_5b9 [label="", shape="point"]
-A_7fc -> A_GROUP_5b9 [style="dashed"]
+HelpA_GROUP_930 [label="", shape="point"]
+HelpA_c04 -> HelpA_GROUP_930 [style="dashed"]
 B_AND_C_GROUP_533 [label="", shape="point"]
 B_9d5 -> B_AND_C_GROUP_533 [style="dashed"]
 
 /* Children */
-A_GROUP_5b9 -> B_9d5
+HelpA_GROUP_930 -> B_9d5
 B_AND_C_GROUP_533 -> E_3a3
 
 }
@@ -80,7 +80,7 @@ E_3a3 [ label=<E>,  URL="[[E]]",  tooltip="E",  fontcolor="black" ]
 B_9d5 [ label=<B>,  URL="[[B]]",  tooltip="B",  fontcolor="black" ]
 C_0d6 [ label=<C>,  URL="[[C]]",  tooltip="C",  fontcolor="black" ]
 F_800 [ label=<F>,  URL="[[F]]",  tooltip="F",  fontcolor="black" ]
-A_7fc [ label=<A>,  URL="[[A]]",  tooltip="A",  fontcolor="black" ]
+HelpA_c04 [ label=<A>,  URL="[[Help:A]]",  tooltip="Help:A",  fontcolor="black" ]
 D_f62 [ label=<D>,  URL="[[D]]",  tooltip="D",  fontcolor="black" ]
 
 /* Partners */
@@ -92,8 +92,8 @@ C_0d6 -> B_AND_C_GROUP_533 [style="dashed"]
 E_AND_F_GROUP_88a [label="", shape="point"]
 E_3a3 -> E_AND_F_GROUP_88a [style="dashed"]
 F_800 -> E_AND_F_GROUP_88a [style="dashed"]
-A_GROUP_5b9 [label="", shape="point"]
-A_7fc -> A_GROUP_5b9 [style="dashed"]
+HelpA_GROUP_930 [label="", shape="point"]
+HelpA_c04 -> HelpA_GROUP_930 [style="dashed"]
 C_AND_D_GROUP_a81 [label="", shape="point"]
 C_0d6 -> C_AND_D_GROUP_a81 [style="dashed"]
 D_f62 -> C_AND_D_GROUP_a81 [style="dashed"]
@@ -101,7 +101,7 @@ D_f62 -> C_AND_D_GROUP_a81 [style="dashed"]
 /* Children */
 E_GROUP_e46 -> G_dfc
 B_AND_C_GROUP_533 -> E_3a3
-A_GROUP_5b9 -> B_9d5
+HelpA_GROUP_930 -> B_9d5
 ',
 			$tree2->getTreeSource()
 		);

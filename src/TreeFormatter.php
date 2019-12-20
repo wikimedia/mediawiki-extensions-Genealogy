@@ -92,7 +92,7 @@ abstract class TreeFormatter {
 	public function visit( Person $person ) {
 		$this->outputPerson( $person );
 
-		$personId = $person->getTitle()->getText();
+		$personId = $person->getTitle()->getPrefixedText();
 
 		// Output links to parents.
 		if ( $person->getParents() ) {
@@ -105,7 +105,7 @@ abstract class TreeFormatter {
 				$personId
 			);
 			foreach ( $person->getParents() as $parent ) {
-				$parentId = $parent->getTitle()->getText();
+				$parentId = $parent->getTitle()->getPrefixedText();
 				// Add any non-included parent.
 				$this->outputPerson( $parent );
 				$this->outputEdge(
@@ -121,7 +121,7 @@ abstract class TreeFormatter {
 		// Output links to partners.
 		foreach ( $person->getPartners() as $partner ) {
 			// Create a point node for each partnership.
-			$partnerId = $partner->getTitle()->getText();
+			$partnerId = $partner->getTitle()->getPrefixedText();
 			$partners = [ $personId, $partnerId ];
 			sort( $partners );
 			$partnersId = $this->getPersonGroupIdent( $partners );
@@ -156,7 +156,7 @@ abstract class TreeFormatter {
 				$parentsId,
 				true
 			);
-			$childId = $child->getTitle()->getText();
+			$childId = $child->getTitle()->getPrefixedText();
 			$this->outputEdge(
 				'child',
 				$parentsId . $childId,
