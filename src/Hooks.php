@@ -203,6 +203,7 @@ class Hooks {
 			if ( $templateExists ) {
 				$template = '{{' . $templateName
 					. '|title=' . $person->getTitle()->getFullText()
+					. '|pagename=' . $person->getTitle()->getText()
 					. '|link=' . $person->getWikiLink()
 					. '|description=' . $person->getDescription()
 					. '|index=' . $index

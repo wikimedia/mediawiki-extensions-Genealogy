@@ -90,15 +90,20 @@ class Person {
 		} elseif ( empty( $birthYear ) && !empty( $deathYear ) ) {
 			$dateString = wfMessage( 'genealogy-died', $deathYear )->text();
 		}
-		if ( $this->getTitle()->exists() ) {
-			$link = "[[" . $this->getTitle()->getFullText() . "]]";
+		$title = $this->getTitle();
+		if ( $title->exists() ) {
+			// If it exists, create a link (piping if not in the main namespace).
+			$link = $title->inNamespace( NS_MAIN )
+				? "[[" . $title->getFullText() . "]]"
+				: "[[" . $title->getFullText() . "|" . $title->getText() . "]]";
 		} else {
+			// If it doesn't exist, create an edit link with a preload parameter.
 			$query = [
 				'action' => 'edit',
 				'preload' => wfMessage( 'genealogy-person-preload' )->text(),
 			];
-			$url = $this->getTitle()->getFullURL( $query );
-			$link = '[' . $url . ' ' . $this->getTitle()->getFullText() . ']';
+			$url = $title->getFullURL( $query );
+			$link = '[' . $url . ' ' . $title->getText() . ']';
 		}
 		$date = ( $this->hasDates() ) ? " $dateString" : "";
 		return $link . $date;
