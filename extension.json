@@ -1,8 +1,9 @@
 {
 	"name": "Genealogy",
 	"namemsg": "genealogy",
+	"version": "1.9.2",
 	"author": [
-		"Sam Wilson"
+		"[https://samwilson.id.au/ Sam Wilson]"
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:Genealogy",
 	"descriptionmsg": "genealogy-desc",
