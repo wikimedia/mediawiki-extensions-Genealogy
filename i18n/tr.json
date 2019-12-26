@@ -1,0 +1,22 @@
+{
+	"@metadata": {
+		"authors": [
+			"BaRaN6161 TURK"
+		]
+	},
+	"genealogy": "Şecere",
+	"genealogy-desc": "Şecere kayıtları arasında daha kolay bağlantı için ayrıştırıcı işlevi ekler",
+	"genealogy-born": "(d.&nbsp;$1)",
+	"genealogy-died": "(ö.&nbsp;$1)",
+	"genealogy-ancestor": "Ata",
+	"genealogy-ancestors": "Atalar",
+	"genealogy-descendant": "Azalan",
+	"genealogy-descendants": "Azalanlar",
+	"genealogy-person-preload": "Şablon:Kişi/önceden yükleme",
+	"genealogy-person-list-item": "Şablon:Kişi/liste maddelik",
+	"genealogy-parser-function-not-found": "Şecere ayrıştırıcı işlev türü tanınmadı: $1",
+	"genealogy-existing-partners": "Bu kişi zaten şu {{PLURAL:$1|ortağa|ortağa}} sahip:",
+	"genealogy-invalid-parent-title": "Hata: geçersiz üst sayfa başlığı: '$1'",
+	"genealogy-invalid-partner-title": "Hata: geçersiz ortak sayfası başlığı: '$1'",
+	"genealogy-invalid-tree-format": "'$1' ağaç biçimi kullanılamıyor."
+}
