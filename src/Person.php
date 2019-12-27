@@ -2,7 +2,6 @@
 
 namespace MediaWiki\Extensions\Genealogy;
 
-use MediaWiki\MediaWikiServices;
 use Title;
 use WikiPage;
 
@@ -23,10 +22,6 @@ class Person {
 	 */
 	public function __construct( Title $title ) {
 		$this->title = $title;
-		$this->magicRegex = MediaWikiServices::getInstance()
-			->getMagicWordFactory()
-			->get( 'genealogy' )
-			->getBaseRegex();
 	}
 
 	/**
