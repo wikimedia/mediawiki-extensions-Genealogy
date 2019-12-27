@@ -98,7 +98,9 @@ class Hooks {
 					$out .= "<span class='error'>$msg</span>";
 				} else {
 					$parent = new Person( $parentTitle );
-					$out .= $parent->getWikiLink();
+					// Even though it's a list of one, output a parent link according to the same
+					// system as the other relation types, so that it uses the same template.
+					$out .= static::peopleList( $parser, [ $parent ] );
 					self::saveProp( $parser, 'parent', $parentTitle );
 				}
 				break;
