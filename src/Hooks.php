@@ -95,7 +95,7 @@ class Hooks {
 					$invalidTitle = '<nowiki>' . $params[0] . '</nowiki>';
 					$isHtml = true;
 					$msg = wfMessage( 'genealogy-invalid-parent-title', $invalidTitle );
-					$out .= "<span class='error'>$msg</span>";
+					$out .= Html::element( 'span', [ 'class' => 'error' ], $msg );
 				} else {
 					$parent = new Person( $parentTitle );
 					$out .= $parent->getWikiLink();
@@ -112,7 +112,7 @@ class Hooks {
 					$invalidTitle = '<nowiki>' . $params[0] . '</nowiki>';
 					$isHtml = true;
 					$msg = wfMessage( 'genealogy-invalid-partner-title', $invalidTitle );
-					$out .= "<span class='error'>$msg</span>";
+					$out .= Html::element( 'span', [ 'class' => 'error' ], $msg );
 				} else {
 					self::saveProp( $parser, 'partner', $partnerTitle );
 				}
@@ -146,7 +146,7 @@ class Hooks {
 				break;
 			default:
 				$msg = wfMessage( 'genealogy-parser-function-not-found', [ $type ] );
-				$out .= "<span class='error'>$msg</span>";
+				$out .= Html::element( 'span', [ 'class' => 'error' ], $msg );
 				break;
 		}
 		// Return format is documented in Parser::setFunctionHook().
