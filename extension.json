@@ -9,6 +9,9 @@
 	"descriptionmsg": "genealogy-desc",
 	"license-name": "GPL-3.0-or-later",
 	"type": "parserhook",
+	"requires": {
+		"MediaWiki": ">= 1.31.0"
+	},
 	"ExtensionMessagesFiles": {
 		"GenealogyMagic": "Genealogy.i18n.magic.php"
 	},
