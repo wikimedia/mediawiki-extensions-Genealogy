@@ -94,7 +94,7 @@ class Hooks {
 				if ( !$parentTitle instanceof Title ) {
 					$invalidTitle = '<nowiki>' . $params[0] . '</nowiki>';
 					$isHtml = true;
-					$msg = wfMessage( 'genealogy-invalid-parent-title', $invalidTitle );
+					$msg = wfMessage( 'genealogy-invalid-parent-title', $invalidTitle )->text();
 					$out .= Html::element( 'span', [ 'class' => 'error' ], $msg );
 				} else {
 					$parent = new Person( $parentTitle );
@@ -111,7 +111,7 @@ class Hooks {
 				if ( !$partnerTitle instanceof Title ) {
 					$invalidTitle = '<nowiki>' . $params[0] . '</nowiki>';
 					$isHtml = true;
-					$msg = wfMessage( 'genealogy-invalid-partner-title', $invalidTitle );
+					$msg = wfMessage( 'genealogy-invalid-partner-title', $invalidTitle )->text();
 					$out .= Html::element( 'span', [ 'class' => 'error' ], $msg );
 				} else {
 					self::saveProp( $parser, 'partner', $partnerTitle );
@@ -145,7 +145,7 @@ class Hooks {
 				$out = $tree->getWikitext( $parser );
 				break;
 			default:
-				$msg = wfMessage( 'genealogy-parser-function-not-found', [ $type ] );
+				$msg = wfMessage( 'genealogy-parser-function-not-found', [ $type ] )->text();
 				$out .= Html::element( 'span', [ 'class' => 'error' ], $msg );
 				break;
 		}
