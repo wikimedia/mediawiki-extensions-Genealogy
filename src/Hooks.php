@@ -92,10 +92,10 @@ class Hooks {
 			case 'parent':
 				$parentTitle = Title::newFromText( $params[0] );
 				if ( !$parentTitle instanceof Title ) {
-					$invalidTitle = '<nowiki>' . $params[0] . '</nowiki>';
+					$invalidTitle = wfEscapeWikiText( $params[0] );
 					$isHtml = true;
-					$msg = wfMessage( 'genealogy-invalid-parent-title', $invalidTitle )->text();
-					$out .= Html::element( 'span', [ 'class' => 'error' ], $msg );
+					$msg = wfMessage( 'genealogy-invalid-parent-title', $invalidTitle )->escaped();
+					$out .= Html::rawElement( 'span', [ 'class' => 'error' ], $msg );
 				} else {
 					$parent = new Person( $parentTitle );
 					$out .= $parent->getWikiLink();
@@ -109,10 +109,10 @@ class Hooks {
 			case 'partner':
 				$partnerTitle = Title::newFromText( $params[0] );
 				if ( !$partnerTitle instanceof Title ) {
-					$invalidTitle = '<nowiki>' . $params[0] . '</nowiki>';
+					$invalidTitle = wfEscapeWikiText( $params[0] );
 					$isHtml = true;
-					$msg = wfMessage( 'genealogy-invalid-partner-title', $invalidTitle )->text();
-					$out .= Html::element( 'span', [ 'class' => 'error' ], $msg );
+					$msg = wfMessage( 'genealogy-invalid-partner-title', $invalidTitle )->escaped();
+					$out .= Html::rawElement( 'span', [ 'class' => 'error' ], $msg );
 				} else {
 					self::saveProp( $parser, 'partner', $partnerTitle );
 				}
