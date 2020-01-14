@@ -17,7 +17,7 @@ class PersonTest extends GenealogyTestCase {
 	public function testEmptyDescription() {
 		$this->setPageContent( 'DescTest', '{{#genealogy:description}}' );
 		$person = new Person( Title::newFromText( 'DescTest' ) );
-		$this->assertEquals( '', $person->getDescription() );
+		$this->assertSame( '', $person->getDescription() );
 	}
 
 	public function testCreatePerson() {
@@ -30,14 +30,14 @@ class PersonTest extends GenealogyTestCase {
 		// Create the partner page, and check that all's as it should be.
 		$this->setPageContent( 'Dianna', 'Lorem' );
 		$dianna = new Person( Title::newFromText( 'Dianna' ) );
-		$this->assertEquals( [ 'Charles' ], array_keys( $dianna->getPartners() ) );
+		$this->assertSame( [ 'Charles' ], array_keys( $dianna->getPartners() ) );
 		$elizabeth = new Person( Title::newFromText( 'Elizabeth' ) );
-		$this->assertEquals( [ 'Charles' ], array_keys( $elizabeth->getChildren() ) );
+		$this->assertSame( [ 'Charles' ], array_keys( $elizabeth->getChildren() ) );
 
 		// Then edit the first page to remove the partner.
 		$wikiText2 = '{{#genealogy:parent|Elizabeth}}{{#genealogy:partner|Bob}}';
 		$this->setPageContent( 'Charles', $wikiText2 );
-		$this->assertEquals( [ 'Bob' ], array_keys( $charles->getPartners() ) );
+		$this->assertSame( [ 'Bob' ], array_keys( $charles->getPartners() ) );
 		$this->assertEmpty( $dianna->getPartners() );
 	}
 
@@ -47,31 +47,31 @@ class PersonTest extends GenealogyTestCase {
 		// Add one child in a different namespace, to confirm that there's no issue with that.
 		$this->setPageContent( 'Help:Carly', $wikiText );
 		$alice = new Person( Title::newFromText( 'Alice' ) );
-		$this->assertEquals( [ 'Bob', 'Help:Carly' ], array_keys( $alice->getChildren() ) );
+		$this->assertSame( [ 'Bob', 'Help:Carly' ], array_keys( $alice->getChildren() ) );
 	}
 
 	public function testDates() {
 		$person = new Person( Title::newFromText( 'Will' ) );
-		$this->assertEquals( false, $person->getDateYear( '' ) );
-		$this->assertEquals( '1804', $person->getDateYear( '1804' ) );
-		$this->assertEquals( '2014', $person->getDateYear( '2014-10-01' ) );
-		$this->assertEquals( '2014', $person->getDateYear( '1 September 2014' ) );
-		$this->assertEquals( '1803', $person->getDateYear( 'June 1803' ) );
-		$this->assertEquals( '1890', $person->getDateYear( 'c. 1890' ) );
+		$this->assertSame( '', $person->getDateYear( '' ) );
+		$this->assertSame( '1804', $person->getDateYear( '1804' ) );
+		$this->assertSame( '2014', $person->getDateYear( '2014-10-01' ) );
+		$this->assertSame( '2014', $person->getDateYear( '1 September 2014' ) );
+		$this->assertSame( '1803', $person->getDateYear( 'June 1803' ) );
+		$this->assertSame( '1890', $person->getDateYear( 'c. 1890' ) );
 	}
 
 	public function testParentsInAlphabeticalOrder() {
 		$alice = new Person( Title::newFromText( 'Alice' ) );
 		$this->setPageContent( 'Alice', '{{#genealogy:parent|Clara}}{{#genealogy:parent|Bob}}' );
 		$parents = $alice->getParents();
-		$this->assertEquals( [ 'Bob', 'Clara' ], array_keys( $parents ) );
+		$this->assertSame( [ 'Bob', 'Clara' ], array_keys( $parents ) );
 	}
 
 	public function testPartnersInAlphabeticalOrder() {
 		$this->setPageContent( 'P1', '{{#genealogy:partner|P2}}{{#genealogy:partner|P3}}' );
 		$this->setPageContent( 'P4', '{{#genealogy:partner|P1}}' );
 		$personA = new Person( Title::newFromText( 'P1' ) );
-		$this->assertEquals( [ 'P2', 'P3', 'P4' ], array_keys( $personA->getPartners() ) );
+		$this->assertSame( [ 'P2', 'P3', 'P4' ], array_keys( $personA->getPartners() ) );
 	}
 
 	/**
@@ -87,8 +87,8 @@ class PersonTest extends GenealogyTestCase {
 		$this->setPageContent( 'DD', "$parents{{#genealogy:description|3. third}}" );
 		$this->setPageContent( 'DE', "$parents{{#genealogy:description|2. second}}" );
 		$c = new Person( Title::newFromText( 'DC' ) );
-		$this->assertEquals( '1. first', $c->getDescription() );
-		$this->assertEquals( [ 'DC', 'DE', 'DD' ], array_keys( $c->getSiblings() ) );
+		$this->assertSame( '1. first', $c->getDescription() );
+		$this->assertSame( [ 'DC', 'DE', 'DD' ], array_keys( $c->getSiblings() ) );
 	}
 
 	public function testRedirectPartner() {
@@ -101,26 +101,26 @@ class PersonTest extends GenealogyTestCase {
 		$diannaTitle = Title::newFromText( 'Diana' );
 		$diannaPage = new WikiPage( $diannaTitle );
 		$diannaPage->doEditContent( new WikitextContent( "Dianna" ), '' );
-		$this->assertEquals( 'Diana', $charles->getPartners()['Diana']->getTitle() );
+		$this->assertSame( 'Diana', $charles->getPartners()['Diana']->getTitle()->getText() );
 		// Redirect Diana to Dianna.
 		$diannaPage->doEditContent( new WikitextContent( "#REDIRECT [[Dianna]]" ), 'Redirecting' );
 		$diana = new Person( Title::newFromText( 'Diana' ) );
-		$this->assertEquals( 'Dianna', $diana->getTitle()->getText() );
-		$this->assertEquals( [ 'Diana', 'Dianna' ], array_keys( $diana->getTitles() ) );
+		$this->assertSame( 'Dianna', $diana->getTitle()->getText() );
+		$this->assertSame( [ 'Diana', 'Dianna' ], array_keys( $diana->getTitles() ) );
 		// Check that Charles and Dianna have the expected partners.
 		$this->assertCount( 1, $charles->getPartners() );
-		$this->assertEquals( 'Dianna', $charles->getPartners()['Dianna']->getTitle() );
+		$this->assertSame( 'Dianna', $charles->getPartners()['Dianna']->getTitle()->getText() );
 		$this->assertCount( 1, $diana->getPartners() );
-		$this->assertEquals( 'Charles', $diana->getPartners()['Charles']->getTitle() );
+		$this->assertSame( 'Charles', $diana->getPartners()['Charles']->getTitle()->getText() );
 		// Then redirect Charles and check everything again.
 		$charlesPage->doEditContent( new WikitextContent( "#REDIRECT [[King Charles]]" ), '' );
 		$kingChPage = new WikiPage( Title::newFromText( 'King Charles' ) );
 		$kingChPage->doEditContent( new WikitextContent( '{{#genealogy:partner|Diana}}' ), '' );
-		$this->assertEquals( [ 'Charles', 'King_Charles' ], array_keys( $charles->getTitles() ) );
+		$this->assertSame( [ 'Charles', 'King_Charles' ], array_keys( $charles->getTitles() ) );
 		$this->assertCount( 1, $charles->getPartners() );
-		$this->assertEquals( 'Dianna', $charles->getPartners()['Dianna']->getTitle() );
+		$this->assertSame( 'Dianna', $charles->getPartners()['Dianna']->getTitle()->getText() );
 		$this->assertCount( 1, $diana->getPartners() );
-		$this->assertEquals(
+		$this->assertSame(
 			'King Charles',
 			$diana->getPartners()['King_Charles']->getTitle()->getText()
 		);
@@ -128,15 +128,15 @@ class PersonTest extends GenealogyTestCase {
 		$kingChPage->doEditContent( new WikitextContent( '#REDIRECT [[King Charles III]]' ), '' );
 		$kingCh3Page = new WikiPage( Title::newFromText( 'King Charles III' ) );
 		$kingCh3Page->doEditContent( new WikitextContent( '{{#genealogy:partner|Diana}}' ), '' );
-		$this->assertEquals( 'King_Charles_III', $charles->getTitle()->getPrefixedDBkey() );
-		$this->assertEquals(
+		$this->assertSame( 'King_Charles_III', $charles->getTitle()->getPrefixedDBkey() );
+		$this->assertSame(
 			[ 'Charles', 'King_Charles', 'King_Charles_III' ],
 			array_keys( $charles->getTitles() )
 		);
 		$this->assertCount( 1, $charles->getPartners() );
-		$this->assertEquals( 'Dianna', $charles->getPartners()['Dianna']->getTitle() );
+		$this->assertSame( 'Dianna', $charles->getPartners()['Dianna']->getTitle()->getText() );
 		$this->assertCount( 1, $diana->getPartners() );
-		$this->assertEquals(
+		$this->assertSame(
 			'King Charles III',
 			$diana->getPartners()['King_Charles_III']->getTitle()->getText()
 		);
