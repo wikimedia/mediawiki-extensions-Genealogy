@@ -49,6 +49,7 @@
 		]
 	},
 	"extra": {
-		"phan-taint-check-plugin": "2.0.1"
+		"phan-taint-check-plugin": "2.0.1",
+		"installer-name": "Genealogy"
 	}
 }
