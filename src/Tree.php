@@ -110,7 +110,6 @@ class Tree {
 			$wikitext = "{{#mermaid:$treeSource|config.flowchart.useMaxWidth=0|config.theme=neutral}}";
 			$out = $parser->recursiveTagParse( $wikitext );
 		} elseif ( $this->format === 'graphviz' && $graphvizInstalled ) {
-			// @phan-suppress-previous-line PhanSuspiciousValueComparison Blatant false positive.
 			$out = $parser->recursiveTagParse( "<graphviz>$treeSource</graphviz>" );
 		} else {
 			$err = wfMessage( 'genealogy-invalid-tree-format', $this->format )->text();
