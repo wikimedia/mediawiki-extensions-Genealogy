@@ -19,7 +19,7 @@ class TreeTest extends GenealogyTestCase {
 		);
 		$tree = new Tree();
 		$tree->addDescendants( [ 'DescA' ] );
-		$this->assertContains(
+		$this->assertStringContainsString(
 			'DescB_269 [ label=<DescB<BR/><FONT POINT-SIZE="9">A description with HTML</FONT>>,',
 			$tree->getTreeSource()
 		);
@@ -46,8 +46,8 @@ class TreeTest extends GenealogyTestCase {
 		$this->setPageContent( 'G', '{{#genealogy:parent|E}}' );
 		$tree1 = new Tree();
 		$tree1->addDescendants( [ 'Help:A' ] );
-		$tree1->setDescendantDepth( 1 );
-		$this->assertContains(
+		$tree1->setDescendantDepth( 2 );
+		$this->assertStringContainsString(
 			'
 /* People */
 HelpA_c04 [ label=<A>,  URL="[[Help:A]]",  tooltip="Help:A",  fontcolor="black" ]
@@ -71,8 +71,8 @@ B_AND_C_GROUP_533 -> E_3a3
 
 		$tree2 = new Tree();
 		$tree2->addAncestors( [ 'G' ] );
-		$tree2->setAncestorDepth( 2 );
-		$this->assertContains(
+		$tree2->setAncestorDepth( 3 );
+		$this->assertStringContainsString(
 			'
 /* People */
 G_dfc [ label=<G>,  URL="[[G]]",  tooltip="G",  fontcolor="black" ]
@@ -128,13 +128,10 @@ A2_c6b("A2");
 click A2_c6b "' . $baseUrl . '/A2";
 C2_f1a("C2");
 click C2_f1a "' . $baseUrl . '/C2";
-B2_bbd("B2");
-click B2_bbd "' . $baseUrl . '/B2";
 
 %% Partners
 A2_AND_B2_GROUP_03b{" "};
 A2_c6b --> A2_AND_B2_GROUP_03b;
-B2_bbd --> A2_AND_B2_GROUP_03b;
 
 %% Children
 A2_AND_B2_GROUP_03b --> C2_f1a;

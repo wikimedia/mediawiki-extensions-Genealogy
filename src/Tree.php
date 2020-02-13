@@ -29,7 +29,7 @@ class Tree {
 	 * @param int $ancestorDepth The new ancestor depth.
 	 */
 	public function setAncestorDepth( $ancestorDepth ) {
-		$this->ancestorDepth = $ancestorDepth;
+		$this->ancestorDepth = (int)$ancestorDepth;
 	}
 
 	/**
@@ -37,7 +37,7 @@ class Tree {
 	 * @param int $descendantDepth The new descendant depth.
 	 */
 	public function setDescendantDepth( $descendantDepth ) {
-		$this->descendantDepth = $descendantDepth;
+		$this->descendantDepth = (int)$descendantDepth;
 	}
 
 	/**

@@ -33,7 +33,7 @@ class Traverser {
 		// Give up if we're being limited.
 		if ( $depth !== null ) {
 			$this->ancestorDepth++;
-			if ( $this->ancestorDepth > $depth ) {
+			if ( $this->ancestorDepth >= $depth ) {
 				return;
 			}
 		}
@@ -57,7 +57,7 @@ class Traverser {
 		// Give up if we're being limited.
 		if ( $depth !== null ) {
 			$this->descendantDepth++;
-			if ( $this->descendantDepth > $depth ) {
+			if ( $this->descendantDepth >= $depth ) {
 				return;
 			}
 		}
