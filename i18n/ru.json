@@ -20,5 +20,6 @@
 	"genealogy-parser-function-not-found": "Тип функции парсера генеалогии не распознан: $1",
 	"genealogy-existing-partners": "У этой персоны уже есть {{PLURAL:$1|следующие партнёр|следующие партнёры}}:",
 	"genealogy-invalid-parent-title": "Ошибка: неверное название страницы родителя: '$1'",
-	"genealogy-invalid-partner-title": "Ошибка: неверное название страницы партнера: '$1'"
+	"genealogy-invalid-partner-title": "Ошибка: неверное название страницы партнера: '$1'",
+	"genealogy-invalid-tree-format": "Формат дерева '$1' не может быть использован."
 }
