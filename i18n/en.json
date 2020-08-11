@@ -16,7 +16,7 @@
 	"genealogy-person-preload": "Template:Person/preload",
 	"genealogy-person-list-item": "Template:Person/list-item",
 	"genealogy-parser-function-not-found": "Genealogy parser function type not recognised: $1",
-	"genealogy-existing-partners": "This person already has the following {{PLURAL:$1|partner|partners}}: ",
+	"genealogy-existing-partners": "This person already has the following {{PLURAL:$1|partner|partners}}:",
 	"genealogy-invalid-parent-title": "Error: invalid parent page title: '$1'",
 	"genealogy-invalid-partner-title": "Error: invalid partner page title: '$1'",
 	"genealogy-invalid-tree-format": "The '$1' tree format is not able to be used."

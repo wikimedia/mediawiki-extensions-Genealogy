@@ -38,7 +38,7 @@ class Hooks {
 		}
 		if ( count( $peopleList ) > 0 ) {
 			$msg = $output->msg( 'genealogy-existing-partners', count( $peopleList ) );
-			$partnersMsg = $msg . implode( ', ', $peopleList );
+			$partnersMsg = $msg . '&#160;' . implode( ', ', $peopleList );
 			$output->addHTML( Html::rawElement( 'p', [], $partnersMsg ) );
 		}
 	}
