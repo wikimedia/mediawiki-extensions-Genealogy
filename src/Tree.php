@@ -130,6 +130,12 @@ class Tree {
 		$formatter = $this->format === 'mermaid'
 			? new MermaidTreeFormatter( $this->ancestors, $this->descendants )
 			: new GraphVizTreeFormatter( $this->ancestors, $this->descendants );
+		$formatter->setName( md5(
+			implode( '', $this->ancestors )
+			. implode( '', $this->descendants )
+			. $this->ancestorDepth
+			. $this->descendantDepth
+		) );
 		$traverser->register( [ $formatter, 'visit' ] );
 
 		foreach ( $this->ancestors as $ancestor ) {
