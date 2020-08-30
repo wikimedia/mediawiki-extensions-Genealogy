@@ -35,7 +35,6 @@ class TreeTest extends GenealogyTestCase {
 	 *   G
 	 */
 	public function testGraphVizTree() {
-		$this->setPageContent( 'Help:A', '' );
 		$this->setPageContent( 'B', '{{#genealogy:parent|Help:A}}' );
 		$this->setPageContent( 'C', '{{#genealogy:partner|D}}' );
 		$this->setPageContent( 'D', '' );
@@ -47,10 +46,11 @@ class TreeTest extends GenealogyTestCase {
 		$tree1 = new Tree();
 		$tree1->addDescendants( [ 'Help:A' ] );
 		$tree1->setDescendantDepth( 2 );
-		$this->assertStringContainsString(
-			'
+		$editUrl = '%atitle=Help:A&preload=Template%3APerson%2Fpreload&action=edit';
+		$this->assertStringMatchesFormat(
+			'%a
 /* People */
-HelpA_c04 [ label=<A>,  URL="[[Help:A]]",  tooltip="Help:A",  fontcolor="black" ]
+HelpA_c04 [ label=<A>,  URL="[' . $editUrl . ']",  tooltip="Help:A",  fontcolor="red" ]
 B_9d5 [ label=<B>,  URL="[[B]]",  tooltip="B",  fontcolor="black" ]
 E_3a3 [ label=<E>,  URL="[[E]]",  tooltip="E",  fontcolor="black" ]
 
@@ -72,15 +72,15 @@ B_AND_C_GROUP_533 -> E_3a3
 		$tree2 = new Tree();
 		$tree2->addAncestors( [ 'G' ] );
 		$tree2->setAncestorDepth( 3 );
-		$this->assertStringContainsString(
-			'
+		$this->assertStringMatchesFormat(
+			'%a
 /* People */
 G_dfc [ label=<G>,  URL="[[G]]",  tooltip="G",  fontcolor="black" ]
 E_3a3 [ label=<E>,  URL="[[E]]",  tooltip="E",  fontcolor="black" ]
 B_9d5 [ label=<B>,  URL="[[B]]",  tooltip="B",  fontcolor="black" ]
 C_0d6 [ label=<C>,  URL="[[C]]",  tooltip="C",  fontcolor="black" ]
 F_800 [ label=<F>,  URL="[[F]]",  tooltip="F",  fontcolor="black" ]
-HelpA_c04 [ label=<A>,  URL="[[Help:A]]",  tooltip="Help:A",  fontcolor="black" ]
+HelpA_c04 [ label=<A>,  URL="[' . $editUrl . ']",  tooltip="Help:A",  fontcolor="red" ]
 D_f62 [ label=<D>,  URL="[[D]]",  tooltip="D",  fontcolor="black" ]
 
 /* Partners */
@@ -102,7 +102,7 @@ D_f62 -> C_AND_D_GROUP_a81 [style="dashed"]
 E_GROUP_e46 -> G_dfc
 B_AND_C_GROUP_533 -> E_3a3
 HelpA_GROUP_930 -> B_9d5
-',
+%a',
 			$tree2->getTreeSource()
 		);
 	}

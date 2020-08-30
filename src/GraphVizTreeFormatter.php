@@ -45,10 +45,7 @@ class GraphVizTreeFormatter extends TreeFormatter {
 				'preload' => wfMessage( 'genealogy-person-preload' ),
 				'action' => 'edit',
 			];
-			$url = '['
-				. $person->getTitle()->getFullURL( $queryString )
-				. ' ' . $person->getTitle()->getText()
-				. ']';
+			$url = '[' . $person->getTitle()->getFullURL( $queryString ) . ']';
 			$colour = 'red';
 		}
 		$personId = $this->varId( $person->getTitle()->getPrefixedText() );
