@@ -4,6 +4,9 @@ namespace MediaWiki\Extensions\Genealogy;
 
 abstract class TreeFormatter {
 
+	/** @var string Unique tree name. */
+	protected $name;
+
 	/** @var Person[] */
 	protected $ancestors = [];
 
@@ -20,6 +23,14 @@ abstract class TreeFormatter {
 	public function __construct( array $ancestors, array $descendants ) {
 		$this->ancestors = $ancestors;
 		$this->descendants = $descendants;
+	}
+
+	/**
+	 * Set the tree name.
+	 * @param string $name
+	 */
+	public function setName( string $name ) {
+		$this->name = $name;
 	}
 
 	/**

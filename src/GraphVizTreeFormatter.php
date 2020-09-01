@@ -11,8 +11,7 @@ class GraphVizTreeFormatter extends TreeFormatter {
 	 */
 	public function getOutput() {
 		// Start the tree.
-		$treeName = md5( implode( '', $this->ancestors ) . implode( '', $this->descendants ) );
-		$this->out( 'top', 'start', "digraph GenealogyTree_$treeName {" );
+		$this->out( 'top', 'start', "digraph GenealogyTree_$this->name {" );
 		$this->out( 'top', 'graph-attrs', 'graph [rankdir=LR, ranksep=0.55]' );
 		$this->out( 'top', 'edge-attrs', 'edge [arrowhead=none, headport=w]' );
 		$this->out( 'top', 'node-attrs', 'node [shape=plaintext, fontsize=12]' );
