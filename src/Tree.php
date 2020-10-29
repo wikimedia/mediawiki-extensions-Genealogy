@@ -18,10 +18,10 @@ class Tree {
 	/** @var Person[] */
 	protected $descendants = [];
 
-	/** @var integer */
+	/** @var int */
 	protected $ancestorDepth;
 
-	/** @var integer */
+	/** @var int */
 	protected $descendantDepth;
 
 	/**
