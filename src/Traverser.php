@@ -4,10 +4,13 @@ namespace MediaWiki\Extensions\Genealogy;
 
 class Traverser {
 
+	/** @var callable[] */
 	private $callbacks;
 
+	/** @var int */
 	private $ancestorDepth = 0;
 
+	/** @var int */
 	private $descendantDepth = 0;
 
 	/**

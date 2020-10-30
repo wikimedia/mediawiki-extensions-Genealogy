@@ -76,7 +76,7 @@ class Tree {
 	 * @return bool
 	 */
 	public function hasAncestorsOrDescendants() {
-		return 0 < ( count( $this->ancestors ) + count( $this->descendants ) );
+		return ( count( $this->ancestors ) + count( $this->descendants ) ) > 0;
 	}
 
 	/**
