@@ -28,18 +28,18 @@ class TreeTest extends GenealogyTestCase {
 	/**
 	 * Help:A
 	 *  |
-	 *  B  C = D
+	 *  Б  C = D
 	 *   \/
 	 *   E = F
 	 *   |
 	 *   G
 	 */
 	public function testGraphVizTree() {
-		$this->setPageContent( 'B', '{{#genealogy:parent|Help:A}}' );
+		$this->setPageContent( 'Б', '{{#genealogy:parent|Help:A}}' );
 		$this->setPageContent( 'C', '{{#genealogy:partner|D}}' );
 		$this->setPageContent( 'D', '' );
 		$this->setPageContent( 'E',
-			'{{#genealogy:partner|F}}{{#genealogy:parent|B}}{{#genealogy:parent|C}}'
+			'{{#genealogy:partner|F}}{{#genealogy:parent|Б}}{{#genealogy:parent|C}}'
 		);
 		$this->setPageContent( 'F', '' );
 		$this->setPageContent( 'G', '{{#genealogy:parent|E}}' );
@@ -50,19 +50,19 @@ class TreeTest extends GenealogyTestCase {
 		$this->assertStringMatchesFormat(
 			'%a
 /* People */
-HelpA_c04 [ label=<A>,  URL="[' . $editUrl . ']",  tooltip="Help:A",  fontcolor="red" ]
-B_9d5 [ label=<B>,  URL="[[B]]",  tooltip="B",  fontcolor="black" ]
+HelpA_c80 [ label=<A>,  URL="[' . $editUrl . ']",  tooltip="Help:A",  fontcolor="red" ]
+B_3b6 [ label=<Б>,  URL="[[Б]]",  tooltip="Б",  fontcolor="black" ]
 E_3a3 [ label=<E>,  URL="[[E]]",  tooltip="E",  fontcolor="black" ]
 
 /* Partners */
-HelpA_GROUP_930 [label="", shape="point"]
-HelpA_c04 -> HelpA_GROUP_930 [style="dashed"]
-B_AND_C_GROUP_533 [label="", shape="point"]
-B_9d5 -> B_AND_C_GROUP_533 [style="dashed"]
+HelpA_GROUP_652 [label="", shape="point"]
+HelpA_c80 -> HelpA_GROUP_652 [style="dashed"]
+C_AND_B_GROUP_a11 [label="", shape="point"]
+B_3b6 -> C_AND_B_GROUP_a11 [style="dashed"]
 
 /* Children */
-HelpA_GROUP_930 -> B_9d5
-B_AND_C_GROUP_533 -> E_3a3
+HelpA_GROUP_652 -> B_3b6
+C_AND_B_GROUP_a11 -> E_3a3
 
 }
 ',
@@ -77,31 +77,31 @@ B_AND_C_GROUP_533 -> E_3a3
 /* People */
 G_dfc [ label=<G>,  URL="[[G]]",  tooltip="G",  fontcolor="black" ]
 E_3a3 [ label=<E>,  URL="[[E]]",  tooltip="E",  fontcolor="black" ]
-B_9d5 [ label=<B>,  URL="[[B]]",  tooltip="B",  fontcolor="black" ]
 C_0d6 [ label=<C>,  URL="[[C]]",  tooltip="C",  fontcolor="black" ]
+B_3b6 [ label=<Б>,  URL="[[Б]]",  tooltip="Б",  fontcolor="black" ]
 F_800 [ label=<F>,  URL="[[F]]",  tooltip="F",  fontcolor="black" ]
-HelpA_c04 [ label=<A>,  URL="[' . $editUrl . ']",  tooltip="Help:A",  fontcolor="red" ]
 D_f62 [ label=<D>,  URL="[[D]]",  tooltip="D",  fontcolor="black" ]
+HelpA_c80 [ label=<A>,  URL="[' . $editUrl . ']",  tooltip="Help:A",  fontcolor="red" ]
 
 /* Partners */
-E_GROUP_e46 [label="", shape="point"]
-E_3a3 -> E_GROUP_e46 [style="dashed"]
-B_AND_C_GROUP_533 [label="", shape="point"]
-B_9d5 -> B_AND_C_GROUP_533 [style="dashed"]
-C_0d6 -> B_AND_C_GROUP_533 [style="dashed"]
-E_AND_F_GROUP_88a [label="", shape="point"]
-E_3a3 -> E_AND_F_GROUP_88a [style="dashed"]
-F_800 -> E_AND_F_GROUP_88a [style="dashed"]
-HelpA_GROUP_930 [label="", shape="point"]
-HelpA_c04 -> HelpA_GROUP_930 [style="dashed"]
-C_AND_D_GROUP_a81 [label="", shape="point"]
-C_0d6 -> C_AND_D_GROUP_a81 [style="dashed"]
-D_f62 -> C_AND_D_GROUP_a81 [style="dashed"]
+E_GROUP_21d [label="", shape="point"]
+E_3a3 -> E_GROUP_21d [style="dashed"]
+C_AND_B_GROUP_a11 [label="", shape="point"]
+C_0d6 -> C_AND_B_GROUP_a11 [style="dashed"]
+B_3b6 -> C_AND_B_GROUP_a11 [style="dashed"]
+E_AND_F_GROUP_25b [label="", shape="point"]
+E_3a3 -> E_AND_F_GROUP_25b [style="dashed"]
+F_800 -> E_AND_F_GROUP_25b [style="dashed"]
+C_AND_D_GROUP_20f [label="", shape="point"]
+C_0d6 -> C_AND_D_GROUP_20f [style="dashed"]
+D_f62 -> C_AND_D_GROUP_20f [style="dashed"]
+HelpA_GROUP_652 [label="", shape="point"]
+HelpA_c80 -> HelpA_GROUP_652 [style="dashed"]
 
 /* Children */
-E_GROUP_e46 -> G_dfc
-B_AND_C_GROUP_533 -> E_3a3
-HelpA_GROUP_930 -> B_9d5
+E_GROUP_21d -> G_dfc
+C_AND_B_GROUP_a11 -> E_3a3
+HelpA_GROUP_652 -> B_3b6
 %a',
 			$tree2->getTreeSource()
 		);
@@ -130,11 +130,11 @@ C2_f1a("C2");
 click C2_f1a "' . $baseUrl . '/C2";
 
 %% Partners
-A2_AND_B2_GROUP_03b{" "};
-A2_c6b --> A2_AND_B2_GROUP_03b;
+A2_AND_B2_GROUP_9d7{" "};
+A2_c6b --> A2_AND_B2_GROUP_9d7;
 
 %% Children
-A2_AND_B2_GROUP_03b --> C2_f1a;
+A2_AND_B2_GROUP_9d7 --> C2_f1a;
 
 ', $tree1->getTreeSource() );
 	}

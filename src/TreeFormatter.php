@@ -72,10 +72,12 @@ abstract class TreeFormatter {
 	 * @return string
 	 */
 	protected function varId( $str ) {
-		$var = preg_replace( '/[^a-zA-Z0-9_]/', '', str_replace( ' ', '_', $str ) );
+		$strTrans = transliterator_transliterate( 'Any-Latin; Latin-ASCII', $str );
+		$strTransConv = iconv( 'UTF-8', 'ASCII//TRANSLIT//IGNORE', $strTrans );
+		$var = preg_replace( '/[^a-zA-Z0-9_]/', '', str_replace( ' ', '_', $strTransConv ) );
 		// Add a unique three-character suffix in case multiple input strings
 		// normalize to the same output string above.
-		$suffix = '_' . substr( md5( $var ), 0, 3 );
+		$suffix = '_' . substr( md5( $str ), 0, 3 );
 		return $var . $suffix;
 	}
 
