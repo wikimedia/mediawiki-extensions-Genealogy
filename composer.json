@@ -30,6 +30,9 @@
 			"MediaWiki\\Extensions\\Genealogy\\": "src/"
 		}
 	},
+	"require": {
+		"ext-intl": "*"
+	},
 	"require-dev": {
 		"mediawiki/mediawiki-codesniffer": "34.0.0",
 		"mediawiki/mediawiki-phan-config": "0.10.4",
