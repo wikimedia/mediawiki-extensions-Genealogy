@@ -19,11 +19,8 @@
 	],
 	"support": {
 		"issues": "https://phabricator.wikimedia.org/project/board/2912/",
-		"forum": "https://discourse-mediawiki.wmflabs.org/",
-		"wiki": "https://www.mediawiki.org/wiki/Help:Extension:Genealogy",
 		"irc": "irc://irc.freenode.net/mediawiki",
-		"source": "https://gerrit.wikimedia.org/r/p/mediawiki/extensions/Genealogy.git",
-		"docs": "https://www.mediawiki.org/wiki/Help:Extension:Genealogy"
+		"source": "https://gerrit.wikimedia.org/r/mediawiki/extensions/Genealogy"
 	},
 	"autoload": {
 		"psr-4": {
