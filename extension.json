@@ -1,7 +1,7 @@
 {
 	"name": "Genealogy",
 	"namemsg": "genealogy",
-	"version": "2.0.1",
+	"version": "2.1.2",
 	"author": [
 		"[https://samwilson.id.au/ Sam Wilson]"
 	],
@@ -20,15 +20,9 @@
 			"i18n"
 		]
 	},
-	"AutoloadClasses": {
-		"MediaWiki\\Extensions\\Genealogy\\GraphVizTreeFormatter": "src/GraphVizTreeFormatter.php",
-		"MediaWiki\\Extensions\\Genealogy\\MermaidTreeFormatter": "src/MermaidTreeFormatter.php",
-		"MediaWiki\\Extensions\\Genealogy\\Person": "src/Person.php",
-		"MediaWiki\\Extensions\\Genealogy\\Traverser": "src/Traverser.php",
-		"MediaWiki\\Extensions\\Genealogy\\TreeFormatter": "src/TreeFormatter.php",
-		"MediaWiki\\Extensions\\Genealogy\\Tree": "src/Tree.php",
-		"MediaWiki\\Extensions\\Genealogy\\Hooks": "src/Hooks.php",
-		"MediaWiki\\Extensions\\Genealogy\\Test\\GenealogyTestCase": "tests/phpunit/GenealogyTestCase.php"
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extensions\\Genealogy\\Test\\": "tests/phpunit",
+		"MediaWiki\\Extensions\\Genealogy\\": "src/"
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "MediaWiki\\Extensions\\Genealogy\\Hooks::onParserFirstCallInit",
