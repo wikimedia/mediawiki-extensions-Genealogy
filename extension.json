@@ -20,8 +20,10 @@
 			"i18n"
 		]
 	},
+	"TestAutoloadNamespaces": {
+		"MediaWiki\\Extensions\\Genealogy\\Test\\": "tests/phpunit/"
+	},
 	"AutoloadNamespaces": {
-		"MediaWiki\\Extensions\\Genealogy\\Test\\": "tests/phpunit",
 		"MediaWiki\\Extensions\\Genealogy\\": "src/"
 	},
 	"Hooks": {
