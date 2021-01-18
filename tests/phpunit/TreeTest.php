@@ -148,4 +148,16 @@ A2_AND_B2_GROUP_9d7 --> C2_f1a;
 		$tree->addAncestors( [ 'Alice' ] );
 		static::assertTrue( $tree->hasAncestorsOrDescendants() );
 	}
+
+	public function testParamEscapedQuotes() {
+		$pageName = '"Q"';
+		$this->setPageContent( $pageName, '' );
+		$tree1 = new Tree();
+		$tree1->addDescendants( [ $pageName ] );
+		$tree1->setDescendantDepth( 1 );
+		$this->assertStringContainsString(
+			'Q_b10 [ label=<"Q">,  URL="[[\"Q\"]]",  tooltip="\"Q\"",  fontcolor="black" ]',
+			$tree1->getTreeSource()
+		);
+	}
 }

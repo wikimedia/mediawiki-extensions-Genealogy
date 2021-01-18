@@ -57,11 +57,23 @@ class GraphVizTreeFormatter extends TreeFormatter {
 		$title = $person->getTitle()->getText();
 		$line = $personId . " ["
 			. " label=<$title$desc>, "
-			. " URL=\"$url\", "
-			. " tooltip=\"" . $person->getTitle()->getPrefixedText() . "\", "
+			. " URL=" . $this->quoteValue( $url ) . ", "
+			. " tooltip=" . $this->quoteValue( $person->getTitle()->getPrefixedText() ) . ", "
 			. " fontcolor=\"$colour\" "
 			. "]";
 		$this->out( 'person', $personId, $line );
+	}
+
+	/**
+	 * Quote and escape a string.
+	 * The GraphViz docs say: In quoted strings in DOT, the only escaped character is double-quote (").
+	 * That is, in quoted strings, the dyad \" is converted to "; all other characters are left unchanged.
+	 * In particular, \\ remains \\. Layout engines may apply additional escape sequences.
+	 * @param string $val
+	 * @return string The escaped value, with surrounding quotes.
+	 */
+	private function quoteValue( string $val ): string {
+		return '"' . str_replace( '"', '\"', $val ) . '"';
 	}
 
 	/**
