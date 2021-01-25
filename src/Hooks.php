@@ -8,6 +8,7 @@ use MediaWiki\MediaWikiServices;
 use OutputPage;
 use Parser;
 use Title;
+use Wikimedia\ParamValidator\TypeDef\BooleanDef;
 
 class Hooks {
 
@@ -63,6 +64,12 @@ class Hooks {
 			if ( count( $pair ) == 2 ) {
 				$name = trim( $pair[0] );
 				$value = trim( $pair[1] );
+				if ( in_array( $value, BooleanDef::$TRUEVALS, true ) ) {
+					$value = true;
+				}
+				if ( in_array( $value, BooleanDef::$FALSEVALS, true ) ) {
+					$value = false;
+				}
 				if ( $value !== '' ) {
 					$params[$name] = $value;
 				}
@@ -106,7 +113,8 @@ class Hooks {
 				break;
 			case 'siblings':
 				$person = new Person( $parser->getTitle() );
-				$out .= self::peopleList( $parser, $person->getSiblings() );
+				$excludeSelf = isset( $params['exclude_self'] ) && $params['exclude_self'];
+				$out .= self::peopleList( $parser, $person->getSiblings( $excludeSelf ) );
 				break;
 			case 'partner':
 				$partnerTitle = Title::newFromText( $params[0] );

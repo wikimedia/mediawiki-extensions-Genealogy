@@ -166,22 +166,25 @@ class Person {
 	/**
 	 * Get all siblings.
 	 *
+	 * @param bool|null $excludeSelf Whether to excluding this person from the list.
 	 * @return Person[] An array of siblings, possibly empty.
 	 */
-	public function getSiblings() {
-		if ( is_array( $this->siblings ) ) {
-			return $this->siblings;
-		}
-		$this->siblings = [];
-		$descriptions = [];
-		foreach ( $this->getParents() as $parent ) {
-			foreach ( $parent->getChildren() as $child ) {
-				$key = $child->getTitle()->getPrefixedDBkey();
-				$descriptions[ $key ] = $child->getDescription();
-				$this->siblings[ $key ] = $child;
+	public function getSiblings( ?bool $excludeSelf = false ) {
+		if ( !is_array( $this->siblings ) ) {
+			$this->siblings = [];
+			$descriptions = [];
+			foreach ( $this->getParents() as $parent ) {
+				foreach ( $parent->getChildren() as $child ) {
+					$key = $child->getTitle()->getPrefixedDBkey();
+					$descriptions[ $key ] = $child->getDescription();
+					$this->siblings[ $key ] = $child;
+				}
 			}
+			array_multisort( $descriptions, $this->siblings );
 		}
-		array_multisort( $descriptions, $this->siblings );
+		if ( $excludeSelf ) {
+			unset( $this->siblings[ $this->getTitle()->getPrefixedDBkey() ] );
+		}
 		return $this->siblings;
 	}
 

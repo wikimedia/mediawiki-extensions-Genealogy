@@ -89,6 +89,7 @@ class PersonTest extends GenealogyTestCase {
 		$c = new Person( Title::newFromText( 'DC' ) );
 		$this->assertSame( '1. first', $c->getDescription() );
 		$this->assertSame( [ 'DC', 'DE', 'DD' ], array_keys( $c->getSiblings() ) );
+		$this->assertSame( [ 'DE', 'DD' ], array_keys( $c->getSiblings( true ) ) );
 	}
 
 	public function testRedirectPartner() {
