@@ -39,7 +39,7 @@ class Hooks {
 		}
 		if ( count( $peopleList ) > 0 ) {
 			$msg = $output->msg( 'genealogy-existing-partners', count( $peopleList ) );
-			$partnersMsg = $msg . '&#160;' . implode( ', ', $peopleList );
+			$partnersMsg = $msg->escaped() . '&#160;' . implode( ', ', $peopleList );
 			$output->addHTML( Html::rawElement( 'p', [], $partnersMsg ) );
 		}
 	}
@@ -207,7 +207,7 @@ class Hooks {
 		$out = '';
 		$index = 1;
 		$peopleCount = count( $people );
-		$templateTitle = Title::newFromText( $templateName->toString() );
+		$templateTitle = Title::newFromText( $templateName->text() );
 		$templateExists = $templateTitle instanceof Title && $templateTitle->exists();
 		foreach ( $people as $person ) {
 			if ( $templateExists ) {
