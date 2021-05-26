@@ -19,7 +19,7 @@
 	],
 	"support": {
 		"issues": "https://phabricator.wikimedia.org/project/board/2912/",
-		"irc": "irc://irc.freenode.net/mediawiki",
+		"irc": "irc://irc.libera.chat/mediawiki",
 		"source": "https://gerrit.wikimedia.org/r/mediawiki/extensions/Genealogy"
 	},
 	"autoload": {
