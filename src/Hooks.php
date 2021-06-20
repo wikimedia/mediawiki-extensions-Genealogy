@@ -203,11 +203,11 @@ class Hooks {
 	 * @return string Wikitext list of people.
 	 */
 	public static function peopleList( Parser $parser, $people ) {
-		$templateName = wfMessage( 'genealogy-person-list-item' );
+		$templateName = wfMessage( 'genealogy-person-list-item' )->text();
 		$out = '';
 		$index = 1;
 		$peopleCount = count( $people );
-		$templateTitle = Title::newFromText( $templateName->text() );
+		$templateTitle = Title::newFromText( $templateName );
 		$templateExists = $templateTitle instanceof Title && $templateTitle->exists();
 		foreach ( $people as $person ) {
 			if ( $templateExists ) {
