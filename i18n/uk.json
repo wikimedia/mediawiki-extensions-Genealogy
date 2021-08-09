@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"DDPAT",
 			"Kareyac",
 			"Movses",
 			"Piramidion"
@@ -10,6 +11,7 @@
 	"genealogy-desc": "Додає парсерну функцію для полегшення створення посилань між генеалогічними записами",
 	"genealogy-born": "(нар.&nbsp;$1)",
 	"genealogy-died": "(пом.&nbsp;$1)",
+	"genealogy-born-and-died": "($1&ndash;$2)",
 	"genealogy-ancestor": "Предок",
 	"genealogy-ancestors": "Предки",
 	"genealogy-descendant": "Нащадок",
