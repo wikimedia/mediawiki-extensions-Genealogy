@@ -5,6 +5,7 @@ namespace MediaWiki\Extensions\Genealogy\Test;
 use MediaWiki\Extensions\Genealogy\Tree;
 
 /**
+ * @group Database
  * @group extensions
  * @group Genealogy
  * @covers \MediaWiki\Extensions\Genealogy\Tree

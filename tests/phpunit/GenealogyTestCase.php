@@ -5,7 +5,6 @@ namespace MediaWiki\Extensions\Genealogy\Test;
 use MediaWikiTestCase;
 use Title;
 use WikiPage;
-use WikitextContent;
 
 class GenealogyTestCase extends MediaWikiTestCase {
 
@@ -20,7 +19,7 @@ class GenealogyTestCase extends MediaWikiTestCase {
 			$title = Title::newFromText( $title );
 		}
 		$page = new WikiPage( $title );
-		$page->doEditContent( new WikitextContent( $wikitext ), '' );
+		$this->editPage( $page, $wikitext );
 		return $page;
 	}
 }

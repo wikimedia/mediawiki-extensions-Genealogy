@@ -5,9 +5,9 @@ namespace MediaWiki\Extensions\Genealogy\Test;
 use MediaWiki\Extensions\Genealogy\Person;
 use Title;
 use WikiPage;
-use WikitextContent;
 
 /**
+ * @group Database
  * @group extensions
  * @group Genealogy
  * @covers \MediaWiki\Extensions\Genealogy\Person
@@ -96,15 +96,15 @@ class PersonTest extends GenealogyTestCase {
 		// Create Charles.
 		$charlesTitle = Title::newFromText( 'Charles' );
 		$charlesPage = new WikiPage( $charlesTitle );
-		$charlesPage->doEditContent( new WikitextContent( '{{#genealogy:partner|Diana}}' ), '' );
+		$this->editPage( $charlesPage, '{{#genealogy:partner|Diana}}' );
 		$charles = new Person( $charlesTitle );
 		// Create Diana and made sure she's Charles' partner.
 		$diannaTitle = Title::newFromText( 'Diana' );
 		$diannaPage = new WikiPage( $diannaTitle );
-		$diannaPage->doEditContent( new WikitextContent( "Dianna" ), '' );
+		$this->editPage( $diannaPage, 'Dianna' );
 		$this->assertSame( 'Diana', $charles->getPartners()['Diana']->getTitle()->getText() );
 		// Redirect Diana to Dianna.
-		$diannaPage->doEditContent( new WikitextContent( "#REDIRECT [[Dianna]]" ), 'Redirecting' );
+		$this->editPage( $diannaPage, '#REDIRECT [[Dianna]]' );
 		$diana = new Person( Title::newFromText( 'Diana' ) );
 		$this->assertSame( 'Dianna', $diana->getTitle()->getText() );
 		$this->assertSame( [ 'Diana', 'Dianna' ], array_keys( $diana->getTitles() ) );
@@ -114,9 +114,9 @@ class PersonTest extends GenealogyTestCase {
 		$this->assertCount( 1, $diana->getPartners() );
 		$this->assertSame( 'Charles', $diana->getPartners()['Charles']->getTitle()->getText() );
 		// Then redirect Charles and check everything again.
-		$charlesPage->doEditContent( new WikitextContent( "#REDIRECT [[King Charles]]" ), '' );
+		$this->editPage( $charlesPage, '#REDIRECT [[King Charles]]' );
 		$kingChPage = new WikiPage( Title::newFromText( 'King Charles' ) );
-		$kingChPage->doEditContent( new WikitextContent( '{{#genealogy:partner|Diana}}' ), '' );
+		$this->editPage( $kingChPage, '{{#genealogy:partner|Diana}}' );
 		$this->assertSame( [ 'Charles', 'King_Charles' ], array_keys( $charles->getTitles() ) );
 		$this->assertCount( 1, $charles->getPartners() );
 		$this->assertSame( 'Dianna', $charles->getPartners()['Dianna']->getTitle()->getText() );
@@ -126,9 +126,9 @@ class PersonTest extends GenealogyTestCase {
 			$diana->getPartners()['King_Charles']->getTitle()->getText()
 		);
 		// Redirect Charles again, and make sure all is okay.
-		$kingChPage->doEditContent( new WikitextContent( '#REDIRECT [[King Charles III]]' ), '' );
+		$this->editPage( $kingChPage, '#REDIRECT [[King Charles III]]' );
 		$kingCh3Page = new WikiPage( Title::newFromText( 'King Charles III' ) );
-		$kingCh3Page->doEditContent( new WikitextContent( '{{#genealogy:partner|Diana}}' ), '' );
+		$this->editPage( $kingCh3Page, '{{#genealogy:partner|Diana}}' );
 		$this->assertSame( 'King_Charles_III', $charles->getTitle()->getPrefixedDBkey() );
 		$this->assertSame(
 			[ 'Charles', 'King_Charles', 'King_Charles_III' ],
