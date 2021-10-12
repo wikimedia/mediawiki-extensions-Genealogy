@@ -2,11 +2,11 @@
 
 namespace MediaWiki\Extensions\Genealogy\Test;
 
-use MediaWikiTestCase;
+use MediaWikiIntegrationTestCase;
 use Title;
 use WikiPage;
 
-class GenealogyTestCase extends MediaWikiTestCase {
+class GenealogyTestCase extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * Set the wikitext contents of a test page.
