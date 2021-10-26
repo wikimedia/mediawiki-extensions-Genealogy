@@ -27,8 +27,13 @@
 		"MediaWiki\\Extensions\\Genealogy\\": "src/"
 	},
 	"Hooks": {
-		"ParserFirstCallInit": "MediaWiki\\Extensions\\Genealogy\\Hooks::onParserFirstCallInit",
-		"EditPage::showEditForm:initial": "MediaWiki\\Extensions\\Genealogy\\Hooks::onEditPageShowEditFormInitial"
+		"ParserFirstCallInit": "main",
+		"EditPage::showEditForm:initial": "main"
+	},
+	"HookHandlers": {
+		"main": {
+			"class": "MediaWiki\\Extensions\\Genealogy\\Hooks"
+		}
 	},
 	"manifest_version": 1
 }

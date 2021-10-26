@@ -4,21 +4,22 @@ namespace MediaWiki\Extensions\Genealogy;
 
 use EditPage;
 use Html;
+use MediaWiki\Hook\EditPage__showEditForm_initialHook;
+use MediaWiki\Hook\ParserFirstCallInitHook;
 use MediaWiki\MediaWikiServices;
 use OutputPage;
 use Parser;
 use Title;
 use Wikimedia\ParamValidator\TypeDef\BooleanDef;
 
-class Hooks {
+// phpcs:disable MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName
+class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHook {
 
 	/**
-	 * Hooked to ParserFirstCallInit.
-	 * @param Parser &$parser The parser.
-	 * @return bool
+	 * @inheritDoc
 	 */
-	public static function onParserFirstCallInit( Parser &$parser ) {
-		$parser->setFunctionHook( 'genealogy', self::class . '::renderParserFunction' );
+	public function onParserFirstCallInit( $parser ) {
+		$parser->setFunctionHook( 'genealogy', [ $this, 'renderParserFunction' ] );
 		return true;
 	}
 
@@ -27,10 +28,10 @@ class Hooks {
 	 * current page's Genealogy partners that *are not* a result of a {{#genealogy:partner|…}} call
 	 * in the current page.
 	 * @param EditPage $editPage The current page that's being edited.
-	 * @param OutputPage &$output The output.
+	 * @param OutputPage $output The output.
 	 * @return void
 	 */
-	public static function onEditPageShowEditFormInitial( EditPage $editPage, OutputPage &$output ) {
+	public function onEditPage__showEditForm_initial( $editPage, $output ) {
 		$person = new Person( $editPage->getTitle() );
 		$peopleList = [];
 		$renderer = MediaWikiServices::getInstance()->getLinkRenderer();
@@ -51,7 +52,7 @@ class Hooks {
 	 * @param Parser $parser The parser.
 	 * @return string|mixed[] The wikitext with which to replace the parser function call.
 	 */
-	public static function renderParserFunction( Parser $parser ) {
+	public function renderParserFunction( Parser $parser ) {
 		$params = [];
 		$args = func_get_args();
 		// Remove $parser from the args.
@@ -83,17 +84,17 @@ class Hooks {
 			case 'person':
 				if ( isset( $params['birth date'] ) ) {
 					$out .= $params['birth date'];
-					self::saveProp( $parser, 'birth date', $params['birth date'], false );
+					$this->saveProp( $parser, 'birth date', $params['birth date'], false );
 				}
 				if ( isset( $params['death date'] ) ) {
 					$out .= $params['death date'];
-					self::saveProp( $parser, 'death date', $params['death date'], false );
+					$this->saveProp( $parser, 'death date', $params['death date'], false );
 				}
 				break;
 			case 'description':
 				if ( isset( $params[0] ) ) {
 					$out = $params[0];
-					self::saveProp( $parser, 'description', $out, false );
+					$this->saveProp( $parser, 'description', $out, false );
 				}
 				break;
 			case 'parent':
@@ -107,14 +108,14 @@ class Hooks {
 					$parent = new Person( $parentTitle );
 					// Even though it's a list of one, output a parent link according to the same
 					// system as the other relation types, so that it uses the same template.
-					$out .= static::peopleList( $parser, [ $parent ] );
-					self::saveProp( $parser, 'parent', $parentTitle );
+					$out .= $this->peopleList( $parser, [ $parent ] );
+					$this->saveProp( $parser, 'parent', $parentTitle );
 				}
 				break;
 			case 'siblings':
 				$person = new Person( $parser->getTitle() );
 				$excludeSelf = isset( $params['exclude_self'] ) && $params['exclude_self'];
-				$out .= self::peopleList( $parser, $person->getSiblings( $excludeSelf ) );
+				$out .= $this->peopleList( $parser, $person->getSiblings( $excludeSelf ) );
 				break;
 			case 'partner':
 				$partnerTitle = Title::newFromText( $params[0] );
@@ -124,16 +125,16 @@ class Hooks {
 					$msg = wfMessage( 'genealogy-invalid-partner-title', $invalidTitle )->escaped();
 					$out .= Html::rawElement( 'span', [ 'class' => 'error' ], $msg );
 				} else {
-					self::saveProp( $parser, 'partner', $partnerTitle );
+					$this->saveProp( $parser, 'partner', $partnerTitle );
 				}
 				break;
 			case 'partners':
 				$person = new Person( $parser->getTitle() );
-				$out .= self::peopleList( $parser, $person->getPartners() );
+				$out .= $this->peopleList( $parser, $person->getPartners() );
 				break;
 			case 'children':
 				$person = new Person( $parser->getTitle() );
-				$out .= self::peopleList( $parser, $person->getChildren() );
+				$out .= $this->peopleList( $parser, $person->getChildren() );
 				break;
 			case 'tree':
 				$tree = new Tree();
@@ -165,28 +166,42 @@ class Hooks {
 
 	/**
 	 * Save a page property.
+	 * @todo Remove ParserOutput::getProperty and ParserOutput::setProperty fallbacks after dropping support for MW 1.37
 	 * @param Parser $parser The parser object.
 	 * @param string $prop The property name; it will be prefixed with 'genealogy '.
 	 * @param string|Title $val The property value ('full text' will be used if this is a Title).
 	 * @param bool $multi Whether this property can have multiple values (will be stored as
 	 * multiple properties, with an integer appended to their name.
 	 */
-	public static function saveProp( Parser $parser, $prop, $val, $multi = true ) {
+	public function saveProp( Parser $parser, $prop, $val, $multi = true ) {
 		$output = $parser->getOutput();
 		$valString = ( $val instanceof Title ) ? $val->getFullText() : $val;
 		if ( $multi ) {
 			// Figure out what number we're up to for this property.
 			$propNum = 1;
-			$propVal = $output->getProperty( "genealogy $prop $propNum" );
+			$propVal = method_exists( $output, 'getPageProperty' )
+				? $output->getPageProperty( "genealogy $prop $propNum" )
+				: $output->getProperty( "genealogy $prop $propNum" );
 			while ( $propVal !== false && $propVal !== $valString ) {
 				$propNum++;
-				$propVal = $output->getProperty( "genealogy $prop $propNum" );
+				$propVal = method_exists( $output, 'getPageProperty' )
+					? $output->getPageProperty( "genealogy $prop $propNum" )
+					: $output->getProperty( "genealogy $prop $propNum" );
 			}
 			// Save the property.
-			$output->setProperty( "genealogy $prop $propNum", $valString );
+			if ( method_exists( $output, 'setPageProperty' ) ) {
+				$output->setPageProperty( "genealogy $prop $propNum", $valString );
+			} else {
+				$output->setProperty( "genealogy $prop $propNum", $valString );
+			}
+
 		} else {
 			// A single-valued property.
-			$output->setProperty( "genealogy $prop", $valString );
+			if ( method_exists( $output, 'setPageProperty' ) ) {
+				$output->setPageProperty( "genealogy $prop", $valString );
+			} else {
+				$output->setProperty( "genealogy $prop", $valString );
+			}
 		}
 		// For page-linking properties, add the referenced page as a dependency for this page.
 		// https://www.mediawiki.org/wiki/Manual:Tag_extensions#How_do_I_disable_caching_for_pages_using_my_extension.3F
@@ -202,7 +217,7 @@ class Hooks {
 	 * @param Person[] $people The people to list.
 	 * @return string Wikitext list of people.
 	 */
-	public static function peopleList( Parser $parser, $people ) {
+	public function peopleList( Parser $parser, $people ) {
 		$templateName = wfMessage( 'genealogy-person-list-item' )->text();
 		$out = '';
 		$index = 1;
