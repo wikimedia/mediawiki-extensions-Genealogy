@@ -4,5 +4,18 @@
 			"McDutchie"
 		]
 	},
+	"genealogy-desc": "Adde un function al analysator syntactic pro facilitar le creation de ligamines inter registros genealogic",
+	"genealogy-born": "(*&nbsp;$1)",
+	"genealogy-died": "(†&nbsp;$1)",
+	"genealogy-ancestor": "Ancestre",
+	"genealogy-ancestors": "Ancestres",
+	"genealogy-descendant": "Descendente",
+	"genealogy-descendants": "Descendentes",
+	"genealogy-person-preload": "Template:Persona/precargar",
+	"genealogy-person-list-item": "Template:Persona/elemento-de-lista",
+	"genealogy-parser-function-not-found": "Le typo del function analysator de genealogia non ha essite recognoscite: $1",
+	"genealogy-existing-partners": "Iste persona ha jam le sequente {{PLURAL:$1|partner|partners}}:",
+	"genealogy-invalid-parent-title": "Error: le titulo del pagina genitor '$1' non es valide",
+	"genealogy-invalid-partner-title": "Error: le titulo del pagina partner '$1' non es valide",
 	"genealogy-invalid-tree-format": "Le formato de arbore '$1' non pote esser usate."
 }
