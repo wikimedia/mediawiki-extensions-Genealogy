@@ -12,6 +12,7 @@
 	"genealogy-desc": "Ajoute une fonction d’analyse pour lier plus facilement des enregistrements généalogiques",
 	"genealogy-born": "(n. $1)",
 	"genealogy-died": "(† $1)",
+	"genealogy-born-and-died": "($1 – $2)",
 	"genealogy-ancestor": "Ancêtre",
 	"genealogy-ancestors": "Ancêtres",
 	"genealogy-descendant": "Descendant",

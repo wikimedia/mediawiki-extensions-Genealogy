@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ajeje Brazorf"
+		]
+	},
+	"genealogy-born": "(n.&nbsp;$1)",
+	"genealogy-died": "(m.&nbsp;$1)"
+}
