@@ -182,7 +182,7 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 			$propVal = method_exists( $output, 'getPageProperty' )
 				? $output->getPageProperty( "genealogy $prop $propNum" )
 				: $output->getProperty( "genealogy $prop $propNum" );
-			while ( $propVal !== false && $propVal !== $valString ) {
+			while ( $propVal && $propVal !== $valString ) {
 				$propNum++;
 				$propVal = method_exists( $output, 'getPageProperty' )
 					? $output->getPageProperty( "genealogy $prop $propNum" )
