@@ -1,14 +1,14 @@
 <?php
 
-namespace MediaWiki\Extensions\Genealogy\Test;
+namespace MediaWiki\Extension\Genealogy\Test;
 
-use MediaWiki\Extensions\Genealogy\Tree;
+use MediaWiki\Extension\Genealogy\Tree;
 
 /**
  * @group Database
  * @group extensions
  * @group Genealogy
- * @covers \MediaWiki\Extensions\Genealogy\Tree
+ * @covers \MediaWiki\Extension\Genealogy\Tree
  */
 class TreeTest extends GenealogyTestCase {
 
@@ -141,7 +141,7 @@ A2_AND_B2_GROUP_9d7 --> C2_f1a;
 	}
 
 	/**
-	 * @covers \MediaWiki\Extensions\Genealogy\Tree::hasAncestorsOrDescendants()
+	 * @covers \MediaWiki\Extension\Genealogy\Tree::hasAncestorsOrDescendants()
 	 */
 	public function testHasAncestorsOrDescendants() {
 		$tree = new Tree();

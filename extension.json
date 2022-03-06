@@ -21,10 +21,10 @@
 		]
 	},
 	"TestAutoloadNamespaces": {
-		"MediaWiki\\Extensions\\Genealogy\\Test\\": "tests/phpunit/"
+		"MediaWiki\\Extension\\Genealogy\\Test\\": "tests/phpunit/"
 	},
 	"AutoloadNamespaces": {
-		"MediaWiki\\Extensions\\Genealogy\\": "src/"
+		"MediaWiki\\Extension\\Genealogy\\": "src/"
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "main",
@@ -32,7 +32,7 @@
 	},
 	"HookHandlers": {
 		"main": {
-			"class": "MediaWiki\\Extensions\\Genealogy\\Hooks"
+			"class": "MediaWiki\\Extension\\Genealogy\\Hooks"
 		}
 	},
 	"manifest_version": 1

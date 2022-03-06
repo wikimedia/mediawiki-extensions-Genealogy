@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extensions\Genealogy;
+namespace MediaWiki\Extension\Genealogy;
 
 use ExtensionRegistry;
 use Html;

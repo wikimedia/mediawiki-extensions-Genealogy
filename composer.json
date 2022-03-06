@@ -24,7 +24,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"MediaWiki\\Extensions\\Genealogy\\": "src/"
+			"MediaWiki\\Extension\\Genealogy\\": "src/"
 		}
 	},
 	"require": {

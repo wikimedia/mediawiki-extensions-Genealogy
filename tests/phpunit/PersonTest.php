@@ -1,8 +1,8 @@
 <?php
 
-namespace MediaWiki\Extensions\Genealogy\Test;
+namespace MediaWiki\Extension\Genealogy\Test;
 
-use MediaWiki\Extensions\Genealogy\Person;
+use MediaWiki\Extension\Genealogy\Person;
 use Title;
 use WikiPage;
 
@@ -10,7 +10,7 @@ use WikiPage;
  * @group Database
  * @group extensions
  * @group Genealogy
- * @covers \MediaWiki\Extensions\Genealogy\Person
+ * @covers \MediaWiki\Extension\Genealogy\Person
  */
 class PersonTest extends GenealogyTestCase {
 

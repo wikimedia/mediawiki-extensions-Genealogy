@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extensions\Genealogy\Test;
+namespace MediaWiki\Extension\Genealogy\Test;
 
 use MediaWikiIntegrationTestCase;
 use Title;
