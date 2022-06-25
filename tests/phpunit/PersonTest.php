@@ -4,7 +4,6 @@ namespace MediaWiki\Extension\Genealogy\Test;
 
 use MediaWiki\Extension\Genealogy\Person;
 use Title;
-use WikiPage;
 
 /**
  * @group Database
@@ -95,12 +94,12 @@ class PersonTest extends GenealogyTestCase {
 	public function testRedirectPartner() {
 		// Create Charles.
 		$charlesTitle = Title::newFromText( 'Charles' );
-		$charlesPage = new WikiPage( $charlesTitle );
+		$charlesPage = $this->getServiceContainer()->getWikiPageFactory()->newFromTitle( $charlesTitle );
 		$this->editPage( $charlesPage, '{{#genealogy:partner|Diana}}' );
 		$charles = new Person( $charlesTitle );
 		// Create Diana and made sure she's Charles' partner.
 		$diannaTitle = Title::newFromText( 'Diana' );
-		$diannaPage = new WikiPage( $diannaTitle );
+		$diannaPage = $this->getServiceContainer()->getWikiPageFactory()->newFromTitle( $diannaTitle );
 		$this->editPage( $diannaPage, 'Dianna' );
 		$this->assertSame( 'Diana', $charles->getPartners()['Diana']->getTitle()->getText() );
 		// Redirect Diana to Dianna.
@@ -115,7 +114,8 @@ class PersonTest extends GenealogyTestCase {
 		$this->assertSame( 'Charles', $diana->getPartners()['Charles']->getTitle()->getText() );
 		// Then redirect Charles and check everything again.
 		$this->editPage( $charlesPage, '#REDIRECT [[King Charles]]' );
-		$kingChPage = new WikiPage( Title::newFromText( 'King Charles' ) );
+		$kingChPage = $this->getServiceContainer()->getWikiPageFactory()
+			->newFromTitle( Title::newFromText( 'King Charles' ) );
 		$this->editPage( $kingChPage, '{{#genealogy:partner|Diana}}' );
 		$this->assertSame( [ 'Charles', 'King_Charles' ], array_keys( $charles->getTitles() ) );
 		$this->assertCount( 1, $charles->getPartners() );
@@ -127,7 +127,8 @@ class PersonTest extends GenealogyTestCase {
 		);
 		// Redirect Charles again, and make sure all is okay.
 		$this->editPage( $kingChPage, '#REDIRECT [[King Charles III]]' );
-		$kingCh3Page = new WikiPage( Title::newFromText( 'King Charles III' ) );
+		$kingCh3Page = $this->getServiceContainer()->getWikiPageFactory()
+			->newFromTitle( Title::newFromText( 'King Charles III' ) );
 		$this->editPage( $kingCh3Page, '{{#genealogy:partner|Diana}}' );
 		$this->assertSame( 'King_Charles_III', $charles->getTitle()->getPrefixedDBkey() );
 		$this->assertSame(

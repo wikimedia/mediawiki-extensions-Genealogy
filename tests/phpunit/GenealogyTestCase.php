@@ -18,7 +18,7 @@ class GenealogyTestCase extends MediaWikiIntegrationTestCase {
 		if ( is_string( $title ) ) {
 			$title = Title::newFromText( $title );
 		}
-		$page = new WikiPage( $title );
+		$page = $this->getServiceContainer()->getWikiPageFactory()->newFromTitle( $title );
 		$this->editPage( $page, $wikitext );
 		return $page;
 	}

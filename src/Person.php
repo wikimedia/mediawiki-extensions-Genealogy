@@ -2,8 +2,8 @@
 
 namespace MediaWiki\Extension\Genealogy;
 
+use MediaWiki\MediaWikiServices;
 use Title;
-use WikiPage;
 
 class Person {
 
@@ -39,9 +39,10 @@ class Person {
 	 * @return Title
 	 */
 	public function getTitle() {
-		$page = WikiPage::factory( $this->title );
+		$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
+		$page = $wikiPageFactory->newFromTitle( $this->title );
 		while ( $page->isRedirect() ) {
-			$page = WikiPage::factory( $page->getRedirectTarget() );
+			$page = $wikiPageFactory->newFromTitle( $page->getRedirectTarget() );
 		}
 		return $page->getTitle();
 	}
@@ -55,11 +56,12 @@ class Person {
 	public function getTitles() {
 		$titles = [ $this->title->getPrefixedDBkey() => $this->title ];
 		// Find all the outgoing redirects that leave from here.
-		$page = WikiPage::factory( $this->title );
+		$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
+		$page = $wikiPageFactory->newFromTitle( $this->title );
 		while ( $page->isRedirect() ) {
 			$title = $page->getRedirectTarget();
 			$titles[$title->getPrefixedDBkey()] = $title;
-			$page = WikiPage::factory( $title );
+			$page = $wikiPageFactory->newFromTitle( $title );
 		}
 		// Find all the incoming redirects that come here.
 		foreach ( $this->title->getRedirectsHere() as $inwardRedirect ) {
