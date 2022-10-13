@@ -2,11 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Kly",
-			"Liuxinyu970226"
+			"Liuxinyu970226",
+			"Lakejason0"
 		]
 	},
 	"genealogy": "Genealogy",
-	"genealogy-desc": "添加解析函式來方便在系譜記錄之間連結",
+	"genealogy-desc": "加入解析器函數來方便在系譜記錄之間連結",
 	"genealogy-born": "（出生&nbsp;$1）",
 	"genealogy-died": "（逝世&nbsp;$1）",
 	"genealogy-ancestor": "祖先",
@@ -15,7 +16,7 @@
 	"genealogy-descendants": "後代",
 	"genealogy-person-preload": "Template:Person/preload",
 	"genealogy-person-list-item": "Template:Person/list-item",
-	"genealogy-parser-function-not-found": "系譜解析函式類型未被識別：$1",
+	"genealogy-parser-function-not-found": "系譜解析器函數類型未被識別：$1",
 	"genealogy-existing-partners": "此人物已有以下 {{PLURAL:$1| 個配偶| 個配偶}}：",
 	"genealogy-invalid-parent-title": "錯誤：無效的雙親頁面標題：「$1」",
 	"genealogy-invalid-partner-title": "錯誤：無效的配偶頁面標題：「$1」",
