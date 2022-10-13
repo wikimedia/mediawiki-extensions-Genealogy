@@ -161,4 +161,17 @@ A2_AND_B2_GROUP_9d7 --> C2_f1a;
 			$tree1->getTreeSource()
 		);
 	}
+
+	public function testDisplayTitle() {
+		$this->setMwGlobals( [ 'wgAllowDisplayTitle' => true, 'wgRestrictDisplayTitle' => false ] );
+		$pageName = 'Lorem ipsum';
+		$this->setPageContent( $pageName, '{{DISPLAYTITLE:Lorem <b>IPSUM</b>}}' );
+		$tree1 = new Tree();
+		$tree1->addDescendants( [ $pageName ] );
+		$tree1->setDescendantDepth( 1 );
+		$this->assertStringContainsString(
+			'Lorem_ipsum_095 [ label=<Lorem <b>IPSUM</b>>,  URL="[[Lorem ipsum]]",  tooltip="Lorem ipsum"',
+			$tree1->getTreeSource()
+		);
+	}
 }

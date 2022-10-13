@@ -54,7 +54,7 @@ class GraphVizTreeFormatter extends TreeFormatter {
 				. Sanitizer::stripAllTags( $person->getDescription() )
 				. '</FONT>';
 		}
-		$title = $person->getTitle()->getText();
+		$title = $person->getTitleHtml();
 		$line = $personId . " ["
 			. " label=<$title$desc>, "
 			. " URL=" . $this->quoteValue( $url ) . ", "

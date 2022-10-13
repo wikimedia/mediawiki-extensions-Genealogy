@@ -47,6 +47,14 @@ class Person {
 	}
 
 	/**
+	 * Get the person's page title, using displaytitle if it's available.
+	 * @return string HTML of the title.
+	 */
+	public function getTitleHtml(): string {
+		return $this->getPropSingle( 'displaytitle', false ) ?: $this->getTitle()->getText();
+	}
+
+	/**
 	 * Get all Titles that refer to this Person (i.e. all redirects both inward and outward, and
 	 * the actual Title).
 	 * @return Title[] An array of the Titles, some of which might not actually exist, keyed by the
@@ -239,14 +247,15 @@ class Person {
 
 	/**
 	 * Get the value of a single-valued page property.
-	 * @param string $prop The property.
+	 * @param string $prop The property name.
+	 * @param bool $isGenealogy Whether the property name should be prefixed with 'genealogy '.
 	 * @return string|bool The property value, or false if not found.
 	 */
-	public function getPropSingle( $prop ) {
+	public function getPropSingle( string $prop, bool $isGenealogy = true ) {
 		$dbr = wfGetDB( DB_REPLICA );
 		$where = [
 			'pp_page' => $this->getTitle()->getArticleID(),
-			'pp_propname' => "genealogy $prop"
+			'pp_propname' => $isGenealogy ? "genealogy $prop" : $prop,
 		];
 		return $dbr->selectField( 'page_props', 'pp_value', $where, __METHOD__ );
 	}
