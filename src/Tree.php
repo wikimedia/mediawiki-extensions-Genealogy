@@ -102,13 +102,16 @@ class Tree {
 		}
 
 		$extenstionRegistry = ExtensionRegistry::getInstance();
+		$diagramsInstalled = $extenstionRegistry->isLoaded( 'Diagrams' );
 		$graphvizInstalled = $extenstionRegistry->isLoaded( 'GraphViz' )
-			|| $extenstionRegistry->isLoaded( 'Diagrams' );
+			|| $diagramsInstalled;
 		$mermaidInstalled = $extenstionRegistry->isLoaded( 'Mermaid' );
 		$treeSource = $this->getTreeSource();
 		if ( $this->format === 'mermaid' && $mermaidInstalled ) {
 			$wikitext = "{{#mermaid:$treeSource|config.flowchart.useMaxWidth=0|config.theme=neutral}}";
 			$out = $parser->recursiveTagParse( $wikitext );
+		} elseif ( $this->format === 'mermaid' && $diagramsInstalled ) {
+			$out = $parser->recursiveTagParse( "<mermaid>$treeSource</mermaid>" );
 		} elseif ( $this->format === 'graphviz' && $graphvizInstalled ) {
 			$out = $parser->recursiveTagParse( "<graphviz>$treeSource</graphviz>" );
 		} else {
