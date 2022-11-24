@@ -37,7 +37,7 @@ class PersonTest extends GenealogyTestCase {
 		$wikiText2 = '{{#genealogy:parent|Elizabeth}}{{#genealogy:partner|Bob}}';
 		$this->setPageContent( 'Charles', $wikiText2 );
 		$this->assertSame( [ 'Bob' ], array_keys( $charles->getPartners() ) );
-		$this->assertEmpty( $dianna->getPartners() );
+		$this->assertSame( [], $dianna->getPartners() );
 	}
 
 	public function testChildren() {
