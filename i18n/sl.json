@@ -1,0 +1,22 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eleassar"
+		]
+	},
+	"genealogy": "Genealogija",
+	"genealogy-desc": "Doda funkcijo razčlenjevalnika za lažje povezovanje med genealoškimi zapisi",
+	"genealogy-born": "(r.&nbsp;$1)",
+	"genealogy-died": "(u.&nbsp;$1)",
+	"genealogy-born-and-died": "($1&ndash;$2)",
+	"genealogy-ancestor": "Prednik",
+	"genealogy-ancestors": "Predniki",
+	"genealogy-descendant": "Potomec",
+	"genealogy-descendants": "Potomci",
+	"genealogy-person-preload": "Template:Person/preload",
+	"genealogy-person-list-item": "Template:Person/list-item",
+	"genealogy-parser-function-not-found": "Vrsta funkcije razčlenjevalnika genealogije ni prepoznana: $1",
+	"genealogy-invalid-parent-title": "Napaka: neveljaven naslov nadrejene strani: »$1«",
+	"genealogy-invalid-partner-title": "Napaka: neveljaven naslov partnerske strani: »$1«",
+	"genealogy-invalid-tree-format": "Oblike drevesa »$1« ni mogoče uporabiti."
+}
