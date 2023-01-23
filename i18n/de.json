@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Justman10000",
 			"Metalhead64"
 		]
 	},
@@ -18,5 +19,6 @@
 	"genealogy-parser-function-not-found": "Der Typ für die Abstammungs-Parserfunktion wurde nicht erkannt: $1",
 	"genealogy-existing-partners": "Diese Person hat bereits {{PLURAL:$1|den|die}} folgenden Partner:",
 	"genealogy-invalid-parent-title": "Fehler: Ungültiger Titel für die übergeordnete Seite: „$1“",
-	"genealogy-invalid-partner-title": "Fehler: Ungültiger Titel für die Partnerseite: „$1“"
+	"genealogy-invalid-partner-title": "Fehler: Ungültiger Titel für die Partnerseite: „$1“",
+	"genealogy-invalid-tree-format": "Das Baumformat '$1' kann nicht verwendet werden."
 }
