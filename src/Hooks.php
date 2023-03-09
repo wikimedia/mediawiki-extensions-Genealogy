@@ -138,14 +138,15 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 				break;
 			case 'tree':
 				$tree = new Tree();
+				$delimiter = $params['delimiter'] ?? "\n";
 				if ( isset( $params['ancestors'] ) ) {
-					$tree->addAncestors( explode( "\n", $params['ancestors'] ) );
+					$tree->addAncestors( explode( $delimiter, $params['ancestors'] ) );
 				}
 				if ( isset( $params['ancestor depth'] ) ) {
 					$tree->setAncestorDepth( $params['ancestor depth'] );
 				}
 				if ( isset( $params['descendants'] ) ) {
-					$tree->addDescendants( explode( "\n", $params['descendants'] ) );
+					$tree->addDescendants( explode( $delimiter, $params['descendants'] ) );
 				}
 				if ( isset( $params['descendant depth'] ) ) {
 					$tree->setDescendantDepth( $params['descendant depth'] );
