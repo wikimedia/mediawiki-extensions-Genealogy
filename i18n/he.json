@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": [
+			"Amire80"
+		]
+	},
+	"genealogy-desc": "הוספת פונקציית מפענח לקישור קל יותר בין רישומי גנאלוגיה",
+	"genealogy-born": "(לידה: $1)",
+	"genealogy-died": "(מוות: $1)",
+	"genealogy-ancestor": "הורה קדמון",
+	"genealogy-ancestors": "הורים קדמונים",
+	"genealogy-descendant": "צאצא",
+	"genealogy-descendants": "צאצאים",
+	"genealogy-person-preload": "Template:Person/preload",
+	"genealogy-person-list-item": "Template:Person/list-item",
+	"genealogy-parser-function-not-found": "סוג הפונקציית המפענח Genealogu לא זוהה: $1",
+	"genealogy-invalid-parent-title": "שגיאה: כותרת דף־הורה בלתי־תקינה: \"$1\"",
+	"genealogy-invalid-partner-title": "שגיאה: כותרת דף בן־זוג בלתי־תקינה: \"$1\"",
+	"genealogy-invalid-tree-format": "לא ניתן להשתמש בתסדיר העץ \"$1\"."
+}
