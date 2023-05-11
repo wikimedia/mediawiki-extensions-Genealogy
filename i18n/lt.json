@@ -1,12 +1,17 @@
 {
 	"@metadata": {
 		"authors": [
-			"Eitvys200"
+			"Eitvys200",
+			"Nokeoo"
 		]
 	},
 	"genealogy": "Genealogija",
 	"genealogy-ancestor": "Protėvis",
 	"genealogy-ancestors": "Protėviai",
 	"genealogy-descendant": "Palikuonis",
-	"genealogy-descendants": "Palikuonys"
+	"genealogy-descendants": "Palikuonys",
+	"genealogy-existing-partners": "Šis asmuo jau turi {{PLURAL:$1|šį partnerį|šiuos partnerius}}:",
+	"genealogy-invalid-parent-title": "Klaida: netinkamas tėvų puslapio pavadinimas: „$1“",
+	"genealogy-invalid-partner-title": "Klaida: netinkamas partnerio puslapio pavadinimas: „$1“",
+	"genealogy-invalid-tree-format": "„$1“ medžio formato naudoti negalima."
 }
