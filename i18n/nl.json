@@ -1,11 +1,22 @@
 {
 	"@metadata": {
 		"authors": [
-			"Mainframe98"
+			"Mainframe98",
+			"McDutchie"
 		]
 	},
+	"genealogy-desc": "Voegt een parserfunctie toe voor gemakkelijker koppelen tussen genealogische gegevens",
+	"genealogy-born": "(geb.&nbsp;$1)",
+	"genealogy-died": "(ovl.&nbsp;$1)",
 	"genealogy-ancestor": "Voorouder",
 	"genealogy-ancestors": "Voorouders",
 	"genealogy-descendant": "Nakomeling",
-	"genealogy-descendants": "Nakomelingen"
+	"genealogy-descendants": "Nakomelingen",
+	"genealogy-person-preload": "Sjabloon:Persoon/voorladen",
+	"genealogy-person-list-item": "Sjabloon:Persoon/lijstpunt",
+	"genealogy-parser-function-not-found": "Type parserfunctie genealogie niet herkend: $1",
+	"genealogy-existing-partners": "Deze persoon heeft al de volgende partner{{PLURAL:$1||s}}:",
+	"genealogy-invalid-parent-title": "Fout: ongeldige titel bovenliggende pagina: ‘$1’",
+	"genealogy-invalid-partner-title": "Fout: ongeldige titel partnerpagina: ‘$1’",
+	"genealogy-invalid-tree-format": "Het boomformaat ‘$1’ kan niet worden gebruikt."
 }
