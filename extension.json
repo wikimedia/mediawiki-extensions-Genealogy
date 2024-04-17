@@ -32,7 +32,11 @@
 	},
 	"HookHandlers": {
 		"main": {
-			"class": "MediaWiki\\Extension\\Genealogy\\Hooks"
+			"class": "MediaWiki\\Extension\\Genealogy\\Hooks",
+			"services": [
+				"LinkRenderer",
+				"DBLoadBalancer"
+			]
 		}
 	},
 	"manifest_version": 1

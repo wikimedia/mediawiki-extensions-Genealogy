@@ -6,14 +6,26 @@ use EditPage;
 use Html;
 use MediaWiki\Hook\EditPage__showEditForm_initialHook;
 use MediaWiki\Hook\ParserFirstCallInitHook;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\Linker\LinkRenderer;
 use OutputPage;
 use Parser;
 use Title;
 use Wikimedia\ParamValidator\TypeDef\BooleanDef;
+use Wikimedia\Rdbms\ILoadBalancer;
 
 // phpcs:disable MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName
 class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHook {
+
+	/** @var LinkRenderer */
+	private LinkRenderer $linkRenderer;
+
+	/** @var ILoadBalancer */
+	private ILoadBalancer $loadBalancer;
+
+	public function __construct( LinkRenderer $linkRenderer, ILoadBalancer $loadBalancer ) {
+		$this->linkRenderer = $linkRenderer;
+		$this->loadBalancer = $loadBalancer;
+	}
 
 	/**
 	 * @inheritDoc
@@ -32,11 +44,10 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 	 * @return void
 	 */
 	public function onEditPage__showEditForm_initial( $editPage, $output ) {
-		$person = new Person( $editPage->getTitle() );
+		$person = new Person( $this->loadBalancer, $editPage->getTitle() );
 		$peopleList = [];
-		$renderer = MediaWikiServices::getInstance()->getLinkRenderer();
 		foreach ( $person->getPartners( true ) as $partner ) {
-			$peopleList[] = $renderer->makeKnownLink( $partner->getTitle() );
+			$peopleList[] = $this->linkRenderer->makeKnownLink( $partner->getTitle() );
 		}
 		if ( count( $peopleList ) > 0 ) {
 			$msg = $output->msg( 'genealogy-existing-partners', count( $peopleList ) );
@@ -105,7 +116,7 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 					$msg = wfMessage( 'genealogy-invalid-parent-title', $invalidTitle )->escaped();
 					$out .= Html::rawElement( 'span', [ 'class' => 'error' ], $msg );
 				} else {
-					$parent = new Person( $parentTitle );
+					$parent = new Person( $this->loadBalancer, $parentTitle );
 					// Even though it's a list of one, output a parent link according to the same
 					// system as the other relation types, so that it uses the same template.
 					$out .= $this->peopleList( $parser, [ $parent ] );
@@ -113,7 +124,7 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 				}
 				break;
 			case 'siblings':
-				$person = new Person( $parser->getTitle() );
+				$person = new Person( $this->loadBalancer, $parser->getTitle() );
 				$excludeSelf = isset( $params['exclude_self'] ) && $params['exclude_self'];
 				$out .= $this->peopleList( $parser, $person->getSiblings( $excludeSelf ) );
 				break;
@@ -129,15 +140,15 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 				}
 				break;
 			case 'partners':
-				$person = new Person( $parser->getTitle() );
+				$person = new Person( $this->loadBalancer, $parser->getTitle() );
 				$out .= $this->peopleList( $parser, $person->getPartners() );
 				break;
 			case 'children':
-				$person = new Person( $parser->getTitle() );
+				$person = new Person( $this->loadBalancer, $parser->getTitle() );
 				$out .= $this->peopleList( $parser, $person->getChildren() );
 				break;
 			case 'tree':
-				$tree = new Tree();
+				$tree = new Tree( $this->loadBalancer );
 				$delimiter = $params['delimiter'] ?? "\n";
 				if ( isset( $params['ancestors'] ) ) {
 					$tree->addAncestors( explode( $delimiter, $params['ancestors'] ) );
@@ -182,17 +193,20 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 			$propNum = 1;
 			$propVal = method_exists( $output, 'getPageProperty' )
 				? $output->getPageProperty( "genealogy $prop $propNum" )
+				// @phan-suppress-next-line PhanUndeclaredMethod
 				: $output->getProperty( "genealogy $prop $propNum" );
 			while ( $propVal && $propVal !== $valString ) {
 				$propNum++;
 				$propVal = method_exists( $output, 'getPageProperty' )
 					? $output->getPageProperty( "genealogy $prop $propNum" )
+					// @phan-suppress-next-line PhanUndeclaredMethod
 					: $output->getProperty( "genealogy $prop $propNum" );
 			}
 			// Save the property.
 			if ( method_exists( $output, 'setPageProperty' ) ) {
 				$output->setPageProperty( "genealogy $prop $propNum", $valString );
 			} else {
+				// @phan-suppress-next-line PhanUndeclaredMethod
 				$output->setProperty( "genealogy $prop $propNum", $valString );
 			}
 
@@ -201,6 +215,7 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 			if ( method_exists( $output, 'setPageProperty' ) ) {
 				$output->setPageProperty( "genealogy $prop", $valString );
 			} else {
+				// @phan-suppress-next-line PhanUndeclaredMethod
 				$output->setProperty( "genealogy $prop", $valString );
 			}
 		}
