@@ -6,6 +6,7 @@ use ExtensionRegistry;
 use Html;
 use Parser;
 use Title;
+use Wikimedia\Rdbms\ILoadBalancer;
 
 class Tree {
 
@@ -23,6 +24,13 @@ class Tree {
 
 	/** @var int */
 	protected $descendantDepth;
+
+	/** @var ILoadBalancer */
+	private ILoadBalancer $loadBalancer;
+
+	public function __construct( ILoadBalancer $loadBalancer ) {
+		$this->loadBalancer = $loadBalancer;
+	}
 
 	/**
 	 * Set the number of levels the tree will go up to from the ancestors' starting points.
@@ -65,7 +73,7 @@ class Tree {
 		foreach ( $list as $a ) {
 			$title = Title::newFromText( $a );
 			if ( $title ) {
-				$person = new Person( $title );
+				$person = new Person( $this->loadBalancer, $title );
 				$this->{$type}[] = $person;
 			}
 		}

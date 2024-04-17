@@ -4,8 +4,12 @@ namespace MediaWiki\Extension\Genealogy;
 
 use MediaWiki\MediaWikiServices;
 use Title;
+use Wikimedia\Rdbms\ILoadBalancer;
 
 class Person {
+
+	/** @var ILoadBalancer */
+	private ILoadBalancer $loadBalancer;
 
 	/** @var Title */
 	private $title;
@@ -18,9 +22,11 @@ class Person {
 
 	/**
 	 * Create a new Person based on a page in the wiki.
+	 * @param ILoadBalancer $loadBalancer
 	 * @param Title $title The page title.
 	 */
-	public function __construct( Title $title ) {
+	public function __construct( ILoadBalancer $loadBalancer, Title $title ) {
+		$this->loadBalancer = $loadBalancer;
 		$this->title = $title;
 	}
 
@@ -228,7 +234,7 @@ class Person {
 	 * @return Person[] Keyed by the prefixed DB key.
 	 */
 	protected function getPropInbound( $type ) {
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
 		$tables = [ 'pp' => 'page_props', 'p' => 'page' ];
 		$columns = [ 'pp_value', 'page_title', 'page_namespace' ];
 
@@ -241,7 +247,7 @@ class Person {
 		$out = [];
 		foreach ( $results as $res ) {
 			$title = Title::newFromText( $res->page_title, $res->page_namespace );
-			$person = new Person( $title );
+			$person = new Person( $this->loadBalancer, $title );
 			$out[$person->getTitle()->getPrefixedDBkey()] = $person;
 		}
 		return $out;
@@ -254,7 +260,7 @@ class Person {
 	 * @return string|bool The property value, or false if not found.
 	 */
 	public function getPropSingle( string $prop, bool $isGenealogy = true ) {
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
 		$where = [
 			'pp_page' => $this->getTitle()->getArticleID(),
 			'pp_propname' => $isGenealogy ? "genealogy $prop" : $prop,
@@ -269,7 +275,7 @@ class Person {
 	 */
 	protected function getPropMulti( $type ) {
 		$out = [];
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
 		$articleIds = [];
 		foreach ( $this->getTitles() as $t ) {
 			$articleIds[] = $t->getArticleID();
@@ -293,7 +299,7 @@ class Person {
 				// Do nothing, if this isn't a valid title.
 				continue;
 			}
-			$person = new Person( $title );
+			$person = new Person( $this->loadBalancer, $title );
 			$out[$person->getTitle()->getPrefixedDBkey()] = $person;
 		}
 		return $out;

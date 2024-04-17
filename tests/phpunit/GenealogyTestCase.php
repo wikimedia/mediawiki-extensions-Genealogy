@@ -4,9 +4,18 @@ namespace MediaWiki\Extension\Genealogy\Test;
 
 use MediaWikiIntegrationTestCase;
 use Title;
+use Wikimedia\Rdbms\ILoadBalancer;
 use WikiPage;
 
 class GenealogyTestCase extends MediaWikiIntegrationTestCase {
+
+	/** @var ILoadBalancer */
+	protected $loadBalancer;
+
+	public function setUp(): void {
+		parent::setUp();
+		$this->loadBalancer = $this->getServiceContainer()->getDBLoadBalancer();
+	}
 
 	/**
 	 * Set the wikitext contents of a test page.
