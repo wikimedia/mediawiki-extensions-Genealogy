@@ -90,15 +90,15 @@ class Person {
 	 * outside the link.
 	 * @return string The wikitext.
 	 */
-	public function getWikiLink() {
+	public function getWikiLink(): string {
 		$birthYear = $this->getDateYear( $this->getBirthDate() );
 		$deathYear = $this->getDateYear( $this->getDeathDate() );
 		$dateString = '';
-		if ( !empty( $birthYear ) && !empty( $deathYear ) ) {
+		if ( $birthYear !== '' && $deathYear !== '' ) {
 			$dateString = wfMessage( 'genealogy-born-and-died', $birthYear, $deathYear )->text();
-		} elseif ( !empty( $birthYear ) && empty( $deathYear ) ) {
+		} elseif ( $birthYear !== '' && $deathYear === '' ) {
 			$dateString = wfMessage( 'genealogy-born', $birthYear )->text();
-		} elseif ( empty( $birthYear ) && !empty( $deathYear ) ) {
+		} elseif ( $birthYear === '' && $deathYear !== '' ) {
 			$dateString = wfMessage( 'genealogy-died', $deathYear )->text();
 		}
 		$title = $this->getTitle();
@@ -149,7 +149,7 @@ class Person {
 	 * @param string $date The date to parse.
 	 * @return string The year as a string, or the full date.
 	 */
-	public function getDateYear( $date ) {
+	public function getDateYear( string $date ): string {
 		preg_match( '/(\d{3,4})/', $date, $matches );
 		if ( isset( $matches[1] ) ) {
 			return $matches[1];

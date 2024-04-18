@@ -143,4 +143,19 @@ class PersonTest extends GenealogyTestCase {
 			$diana->getPartners()['King_Charles_III']->getTitle()->getText()
 		);
 	}
+
+	public function testGetWikiLink() {
+		$person = new Person( $this->loadBalancer, Title::newFromText( 'Alice Example' ) );
+		// Target doesn't exist.
+		$this->assertStringContainsString(
+			'index.php?title=Alice_Example&action=edit&preload=Template%3APerson%2Fpreload Alice Example]',
+			$person->getWikiLink()
+		);
+		// Create the page, empty.
+		$this->setPageContent( 'Alice Example', '' );
+		$this->assertSame( '[[Alice Example]]', $person->getWikiLink() );
+		// Change the page to have a birth year.
+		$this->setPageContent( 'Alice Example', '{{#genealogy:person|birth date=1900}}' );
+		$this->assertSame( '[[Alice Example]] (b. 1900)', $person->getWikiLink() );
+	}
 }
