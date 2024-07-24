@@ -18,7 +18,7 @@ class TreeTest extends GenealogyTestCase {
 			'DescB',
 			'{{#genealogy:description|A&nbsp;description with <span>HTML</span>}}'
 		);
-		$tree = new Tree( $this->loadBalancer );
+		$tree = new Tree( $this->loadBalancer, $this->wikiPageFactory );
 		$tree->addDescendants( [ 'DescA' ] );
 		$this->assertStringContainsString(
 			'DescB_269 [ label=<DescB<BR/><FONT POINT-SIZE="9">A description with HTML</FONT>>,',
@@ -44,7 +44,7 @@ class TreeTest extends GenealogyTestCase {
 		);
 		$this->setPageContent( 'F', '' );
 		$this->setPageContent( 'G', '{{#genealogy:parent|E}}' );
-		$tree1 = new Tree( $this->loadBalancer );
+		$tree1 = new Tree( $this->loadBalancer, $this->wikiPageFactory );
 		$tree1->addDescendants( [ 'Help:A' ] );
 		$tree1->setDescendantDepth( 2 );
 		$editUrl = '%atitle=Help:A&preload=Template%3APerson%2Fpreload&action=edit';
@@ -70,7 +70,7 @@ C_AND_B_GROUP_a11 -> E_3a3
 			$tree1->getTreeSource()
 		);
 
-		$tree2 = new Tree( $this->loadBalancer );
+		$tree2 = new Tree( $this->loadBalancer, $this->wikiPageFactory );
 		$tree2->addAncestors( [ 'G' ] );
 		$tree2->setAncestorDepth( 3 );
 		$this->assertStringMatchesFormat(
@@ -118,7 +118,7 @@ HelpA_GROUP_652 -> B_3b6
 		$a2 = $this->setPageContent( 'A2', '' );
 		$baseUrl = substr( $a2->getTitle()->getFullURL(), 0, -3 );
 		$this->setPageContent( 'C2', '{{#genealogy:parent|A2}}{{#genealogy:parent|B2}}' );
-		$tree1 = new Tree( $this->loadBalancer );
+		$tree1 = new Tree( $this->loadBalancer, $this->wikiPageFactory );
 		$tree1->setFormat( 'mermaid' );
 		$tree1->addDescendants( [ 'A2' ] );
 		$tree1->setDescendantDepth( 1 );
@@ -144,7 +144,7 @@ A2_AND_B2_GROUP_9d7 --> C2_f1a;
 	 * @covers \MediaWiki\Extension\Genealogy\Tree::hasAncestorsOrDescendants()
 	 */
 	public function testHasAncestorsOrDescendants() {
-		$tree = new Tree( $this->loadBalancer );
+		$tree = new Tree( $this->loadBalancer, $this->wikiPageFactory );
 		static::assertFalse( $tree->hasAncestorsOrDescendants() );
 		$tree->addAncestors( [ 'Alice' ] );
 		static::assertTrue( $tree->hasAncestorsOrDescendants() );
@@ -153,7 +153,7 @@ A2_AND_B2_GROUP_9d7 --> C2_f1a;
 	public function testParamEscapedQuotes() {
 		$pageName = '"Q"';
 		$this->setPageContent( $pageName, '' );
-		$tree1 = new Tree( $this->loadBalancer );
+		$tree1 = new Tree( $this->loadBalancer, $this->wikiPageFactory );
 		$tree1->addDescendants( [ $pageName ] );
 		$tree1->setDescendantDepth( 1 );
 		$this->assertStringContainsString(
@@ -166,7 +166,7 @@ A2_AND_B2_GROUP_9d7 --> C2_f1a;
 		$this->setMwGlobals( [ 'wgAllowDisplayTitle' => true, 'wgRestrictDisplayTitle' => false ] );
 		$pageName = 'Lorem ipsum';
 		$this->setPageContent( $pageName, '{{DISPLAYTITLE:Lorem <b>IPSUM</b>}}' );
-		$tree1 = new Tree( $this->loadBalancer );
+		$tree1 = new Tree( $this->loadBalancer, $this->wikiPageFactory );
 		$tree1->addDescendants( [ $pageName ] );
 		$tree1->setDescendantDepth( 1 );
 		$this->assertStringContainsString(

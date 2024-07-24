@@ -4,6 +4,7 @@ namespace MediaWiki\Extension\Genealogy;
 
 use ExtensionRegistry;
 use Html;
+use MediaWiki\Page\WikiPageFactory;
 use Parser;
 use Title;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -28,8 +29,15 @@ class Tree {
 	/** @var ILoadBalancer */
 	private ILoadBalancer $loadBalancer;
 
-	public function __construct( ILoadBalancer $loadBalancer ) {
+	/** @var WikiPageFactory */
+	private WikiPageFactory $wikiPageFactory;
+
+	public function __construct(
+		ILoadBalancer $loadBalancer,
+		WikiPageFactory $wikiPageFactory
+	) {
 		$this->loadBalancer = $loadBalancer;
+		$this->wikiPageFactory = $wikiPageFactory;
 	}
 
 	/**
@@ -73,7 +81,7 @@ class Tree {
 		foreach ( $list as $a ) {
 			$title = Title::newFromText( $a );
 			if ( $title ) {
-				$person = new Person( $this->loadBalancer, $title );
+				$person = new Person( $this->loadBalancer, $this->wikiPageFactory, $title );
 				$this->{$type}[] = $person;
 			}
 		}
