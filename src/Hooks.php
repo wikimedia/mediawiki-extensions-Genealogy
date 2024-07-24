@@ -178,7 +178,6 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 
 	/**
 	 * Save a page property.
-	 * @todo Remove ParserOutput::getProperty and ParserOutput::setProperty fallbacks after dropping support for MW 1.37
 	 * @param Parser $parser The parser object.
 	 * @param string $prop The property name; it will be prefixed with 'genealogy '.
 	 * @param string|Title $val The property value ('full text' will be used if this is a Title).
@@ -191,33 +190,17 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 		if ( $multi ) {
 			// Figure out what number we're up to for this property.
 			$propNum = 1;
-			$propVal = method_exists( $output, 'getPageProperty' )
-				? $output->getPageProperty( "genealogy $prop $propNum" )
-				// @phan-suppress-next-line PhanUndeclaredMethod
-				: $output->getProperty( "genealogy $prop $propNum" );
+			$propVal = $output->getPageProperty( "genealogy $prop $propNum" );
 			while ( $propVal && $propVal !== $valString ) {
 				$propNum++;
-				$propVal = method_exists( $output, 'getPageProperty' )
-					? $output->getPageProperty( "genealogy $prop $propNum" )
-					// @phan-suppress-next-line PhanUndeclaredMethod
-					: $output->getProperty( "genealogy $prop $propNum" );
+				$propVal = $output->getPageProperty( "genealogy $prop $propNum" );
 			}
 			// Save the property.
-			if ( method_exists( $output, 'setPageProperty' ) ) {
-				$output->setPageProperty( "genealogy $prop $propNum", $valString );
-			} else {
-				// @phan-suppress-next-line PhanUndeclaredMethod
-				$output->setProperty( "genealogy $prop $propNum", $valString );
-			}
+			$output->setPageProperty( "genealogy $prop $propNum", $valString );
 
 		} else {
 			// A single-valued property.
-			if ( method_exists( $output, 'setPageProperty' ) ) {
-				$output->setPageProperty( "genealogy $prop", $valString );
-			} else {
-				// @phan-suppress-next-line PhanUndeclaredMethod
-				$output->setProperty( "genealogy $prop", $valString );
-			}
+			$output->setPageProperty( "genealogy $prop", $valString );
 		}
 		// For page-linking properties, add the referenced page as a dependency for this page.
 		// https://www.mediawiki.org/wiki/Manual:Tag_extensions#How_do_I_disable_caching_for_pages_using_my_extension.3F
