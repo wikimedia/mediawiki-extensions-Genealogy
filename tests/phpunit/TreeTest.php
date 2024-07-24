@@ -3,6 +3,7 @@
 namespace MediaWiki\Extension\Genealogy\Test;
 
 use MediaWiki\Extension\Genealogy\Tree;
+use MediaWiki\MainConfigNames;
 
 /**
  * @group Database
@@ -163,7 +164,10 @@ A2_AND_B2_GROUP_9d7 --> C2_f1a;
 	}
 
 	public function testDisplayTitle() {
-		$this->setMwGlobals( [ 'wgAllowDisplayTitle' => true, 'wgRestrictDisplayTitle' => false ] );
+		$this->overrideConfigValues( [
+			MainConfigNames::AllowDisplayTitle => true,
+			MainConfigNames::RestrictDisplayTitle => false
+		] );
 		$pageName = 'Lorem ipsum';
 		$this->setPageContent( $pageName, '{{DISPLAYTITLE:Lorem <b>IPSUM</b>}}' );
 		$tree1 = new Tree( $this->loadBalancer );
