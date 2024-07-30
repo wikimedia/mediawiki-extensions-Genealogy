@@ -2,6 +2,7 @@
 
 namespace MediaWiki\Extension\Genealogy\Test;
 
+use MediaWiki\Page\WikiPageFactory;
 use MediaWikiIntegrationTestCase;
 use Title;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -10,11 +11,15 @@ use WikiPage;
 class GenealogyTestCase extends MediaWikiIntegrationTestCase {
 
 	/** @var ILoadBalancer */
-	protected $loadBalancer;
+	protected ILoadBalancer $loadBalancer;
+
+	/** @var WikiPageFactory */
+	protected WikiPageFactory $wikiPageFactory;
 
 	public function setUp(): void {
 		parent::setUp();
 		$this->loadBalancer = $this->getServiceContainer()->getDBLoadBalancer();
+		$this->wikiPageFactory = $this->getServiceContainer()->getWikiPageFactory();
 	}
 
 	/**

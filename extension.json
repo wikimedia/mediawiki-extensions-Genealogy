@@ -35,7 +35,8 @@
 			"class": "MediaWiki\\Extension\\Genealogy\\Hooks",
 			"services": [
 				"LinkRenderer",
-				"DBLoadBalancer"
+				"DBLoadBalancer",
+				"WikiPageFactory"
 			]
 		}
 	},

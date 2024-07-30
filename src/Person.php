@@ -2,7 +2,7 @@
 
 namespace MediaWiki\Extension\Genealogy;
 
-use MediaWiki\MediaWikiServices;
+use MediaWiki\Page\WikiPageFactory;
 use Title;
 use Wikimedia\Rdbms\ILoadBalancer;
 
@@ -10,6 +10,9 @@ class Person {
 
 	/** @var ILoadBalancer */
 	private ILoadBalancer $loadBalancer;
+
+	/** @var WikiPageFactory */
+	private WikiPageFactory $wikiPageFactory;
 
 	/** @var Title */
 	private $title;
@@ -23,10 +26,16 @@ class Person {
 	/**
 	 * Create a new Person based on a page in the wiki.
 	 * @param ILoadBalancer $loadBalancer
+	 * @param WikiPageFactory $wikiPageFactory
 	 * @param Title $title The page title.
 	 */
-	public function __construct( ILoadBalancer $loadBalancer, Title $title ) {
+	public function __construct(
+		ILoadBalancer $loadBalancer,
+		WikiPageFactory $wikiPageFactory,
+		Title $title
+	) {
 		$this->loadBalancer = $loadBalancer;
+		$this->wikiPageFactory = $wikiPageFactory;
 		$this->title = $title;
 	}
 
@@ -45,10 +54,9 @@ class Person {
 	 * @return Title
 	 */
 	public function getTitle() {
-		$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
-		$page = $wikiPageFactory->newFromTitle( $this->title );
+		$page = $this->wikiPageFactory->newFromTitle( $this->title );
 		while ( $page->isRedirect() ) {
-			$page = $wikiPageFactory->newFromTitle( $page->getRedirectTarget() );
+			$page = $this->wikiPageFactory->newFromTitle( $page->getRedirectTarget() );
 		}
 		return $page->getTitle();
 	}
@@ -70,12 +78,11 @@ class Person {
 	public function getTitles() {
 		$titles = [ $this->title->getPrefixedDBkey() => $this->title ];
 		// Find all the outgoing redirects that leave from here.
-		$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
-		$page = $wikiPageFactory->newFromTitle( $this->title );
+		$page = $this->wikiPageFactory->newFromTitle( $this->title );
 		while ( $page->isRedirect() ) {
 			$title = $page->getRedirectTarget();
 			$titles[$title->getPrefixedDBkey()] = $title;
-			$page = $wikiPageFactory->newFromTitle( $title );
+			$page = $this->wikiPageFactory->newFromTitle( $title );
 		}
 		// Find all the incoming redirects that come here.
 		foreach ( $this->title->getRedirectsHere() as $inwardRedirect ) {
@@ -247,7 +254,7 @@ class Person {
 		$out = [];
 		foreach ( $results as $res ) {
 			$title = Title::newFromText( $res->page_title, $res->page_namespace );
-			$person = new Person( $this->loadBalancer, $title );
+			$person = new Person( $this->loadBalancer, $this->wikiPageFactory, $title );
 			$out[$person->getTitle()->getPrefixedDBkey()] = $person;
 		}
 		return $out;
@@ -299,7 +306,7 @@ class Person {
 				// Do nothing, if this isn't a valid title.
 				continue;
 			}
-			$person = new Person( $this->loadBalancer, $title );
+			$person = new Person( $this->loadBalancer, $this->wikiPageFactory, $title );
 			$out[$person->getTitle()->getPrefixedDBkey()] = $person;
 		}
 		return $out;

@@ -7,6 +7,7 @@ use Html;
 use MediaWiki\Hook\EditPage__showEditForm_initialHook;
 use MediaWiki\Hook\ParserFirstCallInitHook;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Page\WikiPageFactory;
 use OutputPage;
 use Parser;
 use Title;
@@ -22,9 +23,17 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 	/** @var ILoadBalancer */
 	private ILoadBalancer $loadBalancer;
 
-	public function __construct( LinkRenderer $linkRenderer, ILoadBalancer $loadBalancer ) {
+	/** @var WikiPageFactory */
+	private WikiPageFactory $wikiPageFactory;
+
+	public function __construct(
+		LinkRenderer $linkRenderer,
+		ILoadBalancer $loadBalancer,
+		WikiPageFactory $wikiPageFactory
+	) {
 		$this->linkRenderer = $linkRenderer;
 		$this->loadBalancer = $loadBalancer;
+		$this->wikiPageFactory = $wikiPageFactory;
 	}
 
 	/**
@@ -44,7 +53,7 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 	 * @return void
 	 */
 	public function onEditPage__showEditForm_initial( $editPage, $output ) {
-		$person = new Person( $this->loadBalancer, $editPage->getTitle() );
+		$person = new Person( $this->loadBalancer, $this->wikiPageFactory, $editPage->getTitle() );
 		$peopleList = [];
 		foreach ( $person->getPartners( true ) as $partner ) {
 			$peopleList[] = $this->linkRenderer->makeKnownLink( $partner->getTitle() );
@@ -116,7 +125,7 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 					$msg = wfMessage( 'genealogy-invalid-parent-title', $invalidTitle )->escaped();
 					$out .= Html::rawElement( 'span', [ 'class' => 'error' ], $msg );
 				} else {
-					$parent = new Person( $this->loadBalancer, $parentTitle );
+					$parent = new Person( $this->loadBalancer, $this->wikiPageFactory, $parentTitle );
 					// Even though it's a list of one, output a parent link according to the same
 					// system as the other relation types, so that it uses the same template.
 					$out .= $this->peopleList( $parser, [ $parent ] );
@@ -124,7 +133,7 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 				}
 				break;
 			case 'siblings':
-				$person = new Person( $this->loadBalancer, $parser->getTitle() );
+				$person = new Person( $this->loadBalancer, $this->wikiPageFactory, $parser->getTitle() );
 				$excludeSelf = isset( $params['exclude_self'] ) && $params['exclude_self'];
 				$out .= $this->peopleList( $parser, $person->getSiblings( $excludeSelf ) );
 				break;
@@ -140,15 +149,15 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 				}
 				break;
 			case 'partners':
-				$person = new Person( $this->loadBalancer, $parser->getTitle() );
+				$person = new Person( $this->loadBalancer, $this->wikiPageFactory, $parser->getTitle() );
 				$out .= $this->peopleList( $parser, $person->getPartners() );
 				break;
 			case 'children':
-				$person = new Person( $this->loadBalancer, $parser->getTitle() );
+				$person = new Person( $this->loadBalancer, $this->wikiPageFactory, $parser->getTitle() );
 				$out .= $this->peopleList( $parser, $person->getChildren() );
 				break;
 			case 'tree':
-				$tree = new Tree( $this->loadBalancer );
+				$tree = new Tree( $this->loadBalancer, $this->wikiPageFactory );
 				$delimiter = $params['delimiter'] ?? "\n";
 				if ( isset( $params['ancestors'] ) ) {
 					$tree->addAncestors( explode( $delimiter, $params['ancestors'] ) );
