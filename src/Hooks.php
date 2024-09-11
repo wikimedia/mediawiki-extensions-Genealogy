@@ -11,11 +11,13 @@ use MediaWiki\Page\WikiPageFactory;
 use OutputPage;
 use Parser;
 use Title;
-use Wikimedia\ParamValidator\TypeDef\BooleanDef;
 use Wikimedia\Rdbms\ILoadBalancer;
 
 // phpcs:disable MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName
 class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHook {
+
+	private const TRUEVALS = [ 'true', 't', 'yes', 'y', 'on', '1' ];
+	private const FALSEVALS = [ 'false', 'f', 'no', 'n', 'off', '0' ];
 
 	/** @var LinkRenderer */
 	private LinkRenderer $linkRenderer;
@@ -85,10 +87,10 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 			if ( count( $pair ) == 2 ) {
 				$name = trim( $pair[0] );
 				$value = trim( $pair[1] );
-				if ( in_array( $value, BooleanDef::$TRUEVALS, true ) ) {
+				if ( in_array( $value, self::TRUEVALS, true ) ) {
 					$value = true;
 				}
-				if ( in_array( $value, BooleanDef::$FALSEVALS, true ) ) {
+				if ( in_array( $value, self::FALSEVALS, true ) ) {
 					$value = false;
 				}
 				if ( $value !== '' ) {
