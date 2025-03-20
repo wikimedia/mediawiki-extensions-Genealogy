@@ -3,7 +3,7 @@
 namespace MediaWiki\Extension\Genealogy\Test;
 
 use MediaWiki\Extension\Genealogy\Person;
-use Title;
+use MediaWiki\Title\Title;
 
 /**
  * @group Database

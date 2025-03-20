@@ -3,7 +3,7 @@
 namespace MediaWiki\Extension\Genealogy;
 
 use MediaWiki\Page\WikiPageFactory;
-use Title;
+use MediaWiki\Title\Title;
 use Wikimedia\Rdbms\ILoadBalancer;
 
 class Person {

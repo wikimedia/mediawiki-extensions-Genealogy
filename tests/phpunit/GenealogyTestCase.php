@@ -3,8 +3,8 @@
 namespace MediaWiki\Extension\Genealogy\Test;
 
 use MediaWiki\Page\WikiPageFactory;
+use MediaWiki\Title\Title;
 use MediaWikiIntegrationTestCase;
-use Title;
 use Wikimedia\Rdbms\ILoadBalancer;
 use WikiPage;
 

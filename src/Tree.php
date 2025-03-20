@@ -3,10 +3,10 @@
 namespace MediaWiki\Extension\Genealogy;
 
 use ExtensionRegistry;
-use Html;
+use MediaWiki\Html\Html;
 use MediaWiki\Page\WikiPageFactory;
+use MediaWiki\Title\Title;
 use Parser;
-use Title;
 use Wikimedia\Rdbms\ILoadBalancer;
 
 class Tree {
