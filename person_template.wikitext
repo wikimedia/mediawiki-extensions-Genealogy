@@ -1,5 +1,5 @@
 {|class=wikitable
-|+ {{PAGENAME}} {{#if: {{{description|}}} | ({{#genealogy:description={{{description|}}}}}) }}
+|+ {{PAGENAME}} {{#if: {{{description|}}} | ({{#genealogy:description|{{{description|}}}}}) }}
 |-
 ! Birth:
 | {{{birth_date|}}} {{{birth_place|}}}
