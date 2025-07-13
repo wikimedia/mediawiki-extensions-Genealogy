@@ -17,10 +17,10 @@
 | {{#genealogy:siblings}}
 |-
 ! Partners:
-| {{#genealogy:partners}}
-{{#if: {{{partner1|}}} | {{#genealogy:partner | {{{partner1}}} }} }}
-{{#if: {{{partner2|}}} | {{#genealogy:partner | {{{partner2}}} }} }}
-{{#if: {{{partner3|}}} | {{#genealogy:partner | {{{partner3}}} }} }}
+| {{#genealogy:partners}}<!--
+-->{{#if: {{{partner1|}}} | {{#genealogy:partner | {{{partner1}}} }} }}<!--
+-->{{#if: {{{partner2|}}} | {{#genealogy:partner | {{{partner2}}} }} }}<!--
+-->{{#if: {{{partner3|}}} | {{#genealogy:partner | {{{partner3}}} }} }}
 |-
 ! Children:
 | {{#genealogy:children}}
