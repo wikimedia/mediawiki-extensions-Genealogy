@@ -250,7 +250,13 @@ class Person {
 			'pp_propname' . $dbr->buildLike( 'genealogy ', $type . ' ', $dbr->anyString() ),
 			'pp_page = page_id',
 		];
-		$results = $dbr->select( $tables, $columns, $where, __METHOD__, [], [ 'page' => [] ] );
+		$results = $dbr->newSelectQueryBuilder()
+			->tables( $tables )
+			->fields( $columns )
+			->where( $where )
+			->joinConds( [ 'page' => [] ] )
+			->caller( __METHOD__ )
+			->fetchResultSet();
 		$out = [];
 		foreach ( $results as $res ) {
 			$title = Title::newFromText( $res->page_title, $res->page_namespace );
@@ -287,19 +293,17 @@ class Person {
 		foreach ( $this->getTitles() as $t ) {
 			$articleIds[] = $t->getArticleID();
 		}
-		$results = $dbr->select(
-			// Table to use.
-			'page_props',
-			// Field to select.
-			'pp_value',
-			[
-				// Where conditions.
+		$results = $dbr->newSelectQueryBuilder()
+			->table( 'page_props' )
+			->field( 'pp_value' )
+			->where( [
 				'pp_page' => $articleIds,
 				'pp_propname' . $dbr->buildLike( 'genealogy ', $type . ' ', $dbr->anyString() ),
-			],
-			__METHOD__,
-			[ 'ORDER BY' => 'pp_value' ]
-		);
+			] )
+			->joinConds( [ 'page' => [] ] )
+			->orderBy( 'pp_value' )
+			->caller( __METHOD__ )
+			->fetchResultSet();
 		foreach ( $results as $result ) {
 			$title = Title::newFromText( $result->pp_value );
 			if ( $title === null ) {
