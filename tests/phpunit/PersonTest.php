@@ -59,18 +59,18 @@ class PersonTest extends GenealogyTestCase {
 		$this->assertSame( '1890', $person->getDateYear( 'c. 1890' ) );
 	}
 
-	public function testParentsInAlphabeticalOrder() {
+	public function testParentsInSortOrder() {
 		$alice = new Person( $this->loadBalancer, $this->wikiPageFactory, Title::newFromText( 'Alice' ) );
 		$this->setPageContent( 'Alice', '{{#genealogy:parent|Clara}}{{#genealogy:parent|Bob}}' );
 		$parents = $alice->getParents();
 		$this->assertSame( [ 'Bob', 'Clara' ], array_keys( $parents ) );
 	}
 
-	public function testPartnersInAlphabeticalOrder() {
+	public function testPartnersInSortOrder() {
 		$this->setPageContent( 'P1', '{{#genealogy:partner|P2}}{{#genealogy:partner|P3}}' );
-		$this->setPageContent( 'P4', '{{#genealogy:partner|P1}}' );
-		$personA = new Person( $this->loadBalancer, $this->wikiPageFactory, Title::newFromText( 'P1' ) );
-		$this->assertSame( [ 'P2', 'P3', 'P4' ], array_keys( $personA->getPartners() ) );
+		$this->setPageContent( 'P4', '{{#genealogy:partner|P1}}{{#genealogy:person|sort_index=5}}' );
+		$person1 = new Person( $this->loadBalancer, $this->wikiPageFactory, Title::newFromText( 'P1' ) );
+		$this->assertSame( [ 'P2', 'P3', 'P4' ], array_keys( $person1->getPartners() ) );
 	}
 
 	/**
@@ -78,17 +78,27 @@ class PersonTest extends GenealogyTestCase {
 	 * ┌─┼─┐
 	 * C D E
 	 */
-	public function testSiblingsInDescriptionOrder() {
-		$this->setPageContent( 'DA', '{{#genealogy:partner|DB}}' );
+	public function testSiblingsAndChildrenInSortOrder() {
+		$aPage = $this->setPageContent( 'DA', '{{#genealogy:partner|DB}}' );
 		$this->setPageContent( 'DB', '' );
 		$parents = '{{#genealogy:parent|DA}}{{#genealogy:parent|DB}}';
-		$this->setPageContent( 'DC', "$parents{{#genealogy:description|1. first}}" );
-		$this->setPageContent( 'DD', "$parents{{#genealogy:description|3. third}}" );
-		$this->setPageContent( 'DE', "$parents{{#genealogy:description|2. second}}" );
+		$this->setPageContent( 'DC', "$parents{{#genealogy:person|sort_index=1}}" );
+		$this->setPageContent( 'DD', "$parents{{#genealogy:person|sort_index=3}}" );
+		$this->setPageContent( 'DE', "$parents{{#genealogy:person|sort_index=2}}" );
+		// Siblings of C.
 		$c = new Person( $this->loadBalancer, $this->wikiPageFactory, Title::newFromText( 'DC' ) );
-		$this->assertSame( '1. first', $c->getDescription() );
+		$this->assertSame( 1.0, $c->getSortIndex() );
 		$this->assertSame( [ 'DC', 'DE', 'DD' ], array_keys( $c->getSiblings() ) );
 		$this->assertSame( [ 'DE', 'DD' ], array_keys( $c->getSiblings( true ) ) );
+		// Children of A.
+		$a = new Person( $this->loadBalancer, $this->wikiPageFactory, $aPage->getTitle() );
+		$this->assertSame( [ 'DC', 'DE', 'DD' ], array_keys( $a->getChildren() ) );
+	}
+
+	public function testInvalidSortIndex() {
+		$page = $this->setPageContent( 'Bad Sort Index', '{{#genealogy:person|sort_index=Lorem}}' );
+		$person = new Person( $this->loadBalancer, $this->wikiPageFactory, $page->getTitle() );
+		$this->assertSame( 0.0, $person->getSortIndex() );
 	}
 
 	public function testRedirectPartner() {

@@ -47,6 +47,7 @@
 			"minus-x fix .",
 			"phpcbf"
 		],
+		"phpunit": "php ../../tests/phpunit/phpunit.php ./tests/phpunit/",
 		"phan": "phan -d . --long-progress-bar",
 		"phpcs": "phpcs -sp --cache"
 	},

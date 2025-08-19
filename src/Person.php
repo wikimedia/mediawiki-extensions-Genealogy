@@ -128,6 +128,14 @@ class Person {
 	}
 
 	/**
+	 * Get the sort_index of this person.
+	 * @return float
+	 */
+	public function getSortIndex(): float {
+		return (float)$this->getPropSingle( 'sort_index' );
+	}
+
+	/**
 	 * Whether or not this person has a birth or death date.
 	 * @return bool
 	 */
@@ -182,7 +190,7 @@ class Person {
 	 */
 	public function getParents() {
 		$parents = $this->getPropMulti( 'parent' );
-		ksort( $parents );
+		uasort( $parents, [ $this, 'sortPeople' ] );
 		return $parents;
 	}
 
@@ -195,20 +203,29 @@ class Person {
 	public function getSiblings( ?bool $excludeSelf = false ) {
 		if ( !is_array( $this->siblings ) ) {
 			$this->siblings = [];
-			$descriptions = [];
 			foreach ( $this->getParents() as $parent ) {
 				foreach ( $parent->getChildren() as $child ) {
-					$key = $child->getTitle()->getPrefixedDBkey();
-					$descriptions[ $key ] = $child->getDescription();
-					$this->siblings[ $key ] = $child;
+					$this->siblings[ $child->getTitle()->getPrefixedDBkey() ] = $child;
 				}
 			}
-			array_multisort( $descriptions, $this->siblings );
 		}
 		if ( $excludeSelf ) {
 			unset( $this->siblings[ $this->getTitle()->getPrefixedDBkey() ] );
 		}
+		uasort( $this->siblings, [ $this, 'sortPeople' ] );
 		return $this->siblings;
+	}
+
+	/**
+	 * @param Person $a
+	 * @param Person $b
+	 * @return int
+	 */
+	private function sortPeople( Person $a, Person $b ): int {
+		if ( $a->getSortIndex() === $b->getSortIndex() ) {
+			return 0;
+		}
+		return ( $a->getSortIndex() < $b->getSortIndex() ) ? -1 : 1;
 	}
 
 	/**
@@ -222,7 +239,7 @@ class Person {
 		if ( $onlyDefinedElsewhere === false ) {
 			$partners = array_merge( $partners, $this->getPropMulti( 'partner' ) );
 		}
-		ksort( $partners );
+		uasort( $partners, [ $this, 'sortPeople' ] );
 		return $partners;
 	}
 
@@ -232,6 +249,7 @@ class Person {
 	 */
 	public function getChildren() {
 		$this->children = $this->getPropInbound( 'parent' );
+		uasort( $this->children, [ $this, 'sortPeople' ] );
 		return $this->children;
 	}
 

@@ -104,6 +104,14 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 		$isHtml = false;
 		switch ( $type ) {
 			case 'person':
+				if ( isset( $params['sort_index'] ) && strlen( $params['sort_index'] ) > 0 ) {
+					$sortIndex = filter_var(
+						$params['sort_index'],
+						FILTER_SANITIZE_NUMBER_FLOAT,
+						FILTER_FLAG_ALLOW_FRACTION
+					);
+					$this->saveProp( $parser, 'sort_index', $sortIndex, false );
+				}
 				if ( isset( $params['birth date'] ) ) {
 					$out .= $params['birth date'];
 					$this->saveProp( $parser, 'birth date', $params['birth date'], false );
@@ -241,6 +249,7 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 					. '|pagename=' . $person->getTitle()->getText()
 					. '|link=' . $person->getWikiLink()
 					. '|description=' . $person->getDescription()
+					. '|sort_index=' . $person->getSortIndex()
 					. '|index=' . $index
 					. '|count=' . $peopleCount
 					. '}}';
