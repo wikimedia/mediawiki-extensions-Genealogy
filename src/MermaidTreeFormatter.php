@@ -10,7 +10,7 @@ class MermaidTreeFormatter extends TreeFormatter {
 	protected function outputPerson( Person $person ) {
 		$id = $this->varId( $person->getTitle()->getPrefixedText() );
 		$this->out( 'person', $id, $id . '("' . $person->getTitleHtml() . '")' );
-		$this->out( 'person', $id . '_c', "click $id \"" . $person->getTitle()->getInternalURL() . '"' );
+		$this->out( 'person', $id . '_c', "click $id \"" . $person->getTitle()->getFullURL() . '"' );
 	}
 
 	/**
