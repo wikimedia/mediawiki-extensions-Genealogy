@@ -10,7 +10,7 @@
 	"license-name": "GPL-3.0-or-later",
 	"type": "parserhook",
 	"requires": {
-		"MediaWiki": ">= 1.40"
+		"MediaWiki": ">= 1.43"
 	},
 	"ExtensionMessagesFiles": {
 		"GenealogyMagic": "Genealogy.i18n.magic.php"

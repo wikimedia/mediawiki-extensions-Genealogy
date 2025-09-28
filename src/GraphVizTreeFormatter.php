@@ -2,7 +2,7 @@
 
 namespace MediaWiki\Extension\Genealogy;
 
-use Sanitizer;
+use MediaWiki\Parser\Sanitizer;
 
 class GraphVizTreeFormatter extends TreeFormatter {
 

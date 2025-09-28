@@ -2,11 +2,11 @@
 
 namespace MediaWiki\Extension\Genealogy;
 
-use ExtensionRegistry;
 use MediaWiki\Html\Html;
 use MediaWiki\Page\WikiPageFactory;
+use MediaWiki\Parser\Parser;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Title\Title;
-use Parser;
 use Wikimedia\Rdbms\ILoadBalancer;
 
 class Tree {
