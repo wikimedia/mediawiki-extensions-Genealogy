@@ -5,13 +5,10 @@ namespace MediaWiki\Extension\Genealogy;
 class Traverser {
 
 	/** @var callable[] */
-	private $callbacks;
+	private array $callbacks = [];
 
-	/** @var int */
-	private $ancestorDepth = 0;
-
-	/** @var int */
-	private $descendantDepth = 0;
+	private int $ancestorDepth = 0;
+	private int $descendantDepth = 0;
 
 	/**
 	 * Callbacks will be called for each page crawled.
@@ -27,7 +24,7 @@ class Traverser {
 	 * @param Person $person The person to start at.
 	 * @param int|null $depth The height to ascend to.
 	 */
-	public function ancestors( Person $person, $depth = null ) {
+	public function ancestors( Person $person, ?int $depth = null ) {
 		// Visit this person and their partners.
 		$this->visit( $person );
 		foreach ( $person->getPartners() as $partner ) {
@@ -51,7 +48,7 @@ class Traverser {
 	 * @param Person $person The person to start at.
 	 * @param int|null $depth The depth to descend to.
 	 */
-	public function descendants( Person $person, $depth = null ) {
+	public function descendants( Person $person, ?int $depth = null ) {
 		// Visit this person and their partners.
 		$this->visit( $person );
 		foreach ( $person->getPartners() as $partner ) {
@@ -74,7 +71,7 @@ class Traverser {
 	 * When traversing a tree, each node is 'visited' and its callbacks called.
 	 * @param Person $person
 	 */
-	protected function visit( $person ) {
+	protected function visit( Person $person ) {
 		// Call each callback
 		foreach ( $this->callbacks as $callback ) {
 			call_user_func( $callback, $person );

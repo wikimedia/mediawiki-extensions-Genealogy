@@ -9,7 +9,7 @@ class GraphVizTreeFormatter extends TreeFormatter {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOutput() {
+	public function getOutput(): string {
 		// Start the tree.
 		$this->out( 'top', 'start', "digraph GenealogyTree_$this->name {" );
 		$this->out( 'top', 'graph-attrs', 'graph [rankdir=LR, ranksep=0.55]' );
@@ -35,7 +35,7 @@ class GraphVizTreeFormatter extends TreeFormatter {
 	 * Output one GraphViz line for the given person.
 	 * @param Person $person The person.
 	 */
-	protected function outputPerson( Person $person ) {
+	protected function outputPerson( Person $person ): void {
 		if ( $person->getTitle()->exists() ) {
 			$url = '[[' . $person->getTitle()->getPrefixedText() . ']]';
 			$colour = 'black';
@@ -79,14 +79,20 @@ class GraphVizTreeFormatter extends TreeFormatter {
 	/**
 	 * @inheritDoc
 	 */
-	protected function outputJunction( $peopleId ) {
+	protected function outputJunction( string $peopleId ): void {
 		$this->out( 'partner', $peopleId, $this->varId( $peopleId ) . ' [label="", shape="point"]' );
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function outputEdge( $group, $key, $from, $to, $towardsJunction = false ) {
+	protected function outputEdge(
+		string $group,
+		string $key,
+		string $from,
+		string $to,
+		bool $towardsJunction = false,
+	): void {
 		$line = $this->varId( $from ) . ' -> ' . $this->varId( $to );
 		if ( $towardsJunction ) {
 			$line .= " [style=\"dashed\"]";

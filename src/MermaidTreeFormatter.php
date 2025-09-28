@@ -7,7 +7,7 @@ class MermaidTreeFormatter extends TreeFormatter {
 	/**
 	 * @inheritDoc
 	 */
-	protected function outputPerson( Person $person ) {
+	protected function outputPerson( Person $person ): void {
 		$id = $this->varId( $person->getTitle()->getPrefixedText() );
 		$this->out( 'person', $id, $id . '("' . $person->getTitleHtml() . '")' );
 		$this->out( 'person', $id . '_c', "click $id \"" . $person->getTitle()->getFullURL() . '"' );
@@ -16,14 +16,20 @@ class MermaidTreeFormatter extends TreeFormatter {
 	/**
 	 * @inheritDoc
 	 */
-	protected function outputJunction( $peopleId ) {
+	protected function outputJunction( string $peopleId ): void {
 		$this->out( 'partner', $peopleId, $this->varId( $peopleId ) . '{" "}' );
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function outputEdge( $group, $key, $from, $to, $towardsJunction = false ) {
+	protected function outputEdge(
+		string $group,
+		string $key,
+		string $from,
+		string $to,
+		bool $towardsJunction = false,
+	): void {
 		$line = $this->varId( $from ) . ' --> ' . $this->varId( $to );
 		$this->out( $group, $key, $line );
 	}
@@ -31,7 +37,7 @@ class MermaidTreeFormatter extends TreeFormatter {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOutput() {
+	public function getOutput(): string {
 		$out = "graph LR;\n\n"
 			. "%% People\n"
 			. implode( ";\n", $this->out['person'] ) . ";\n\n";

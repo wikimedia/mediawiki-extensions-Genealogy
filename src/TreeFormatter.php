@@ -5,10 +5,10 @@ namespace MediaWiki\Extension\Genealogy;
 abstract class TreeFormatter {
 
 	/** @var string Unique tree name. */
-	protected $name;
+	protected string $name;
 
 	/** @var string[][] */
-	protected $out;
+	protected array $out = [];
 
 	/**
 	 * @param Person[] $ancestors
@@ -24,7 +24,7 @@ abstract class TreeFormatter {
 	 * Set the tree name.
 	 * @param string $name
 	 */
-	public function setName( string $name ) {
+	public function setName( string $name ): void {
 		$this->name = $name;
 	}
 
@@ -32,21 +32,21 @@ abstract class TreeFormatter {
 	 * Get the full tree output.
 	 * @return string
 	 */
-	abstract public function getOutput();
+	abstract public function getOutput(): string;
 
 	/**
 	 * Output tree syntax for a single person.
 	 * @param Person $person
 	 * @return void
 	 */
-	abstract protected function outputPerson( Person $person );
+	abstract protected function outputPerson( Person $person ): void;
 
 	/**
 	 * Output tree syntax for the junction of parents or partners.
 	 * @param string $peopleId
 	 * @return void
 	 */
-	abstract protected function outputJunction( $peopleId );
+	abstract protected function outputJunction( string $peopleId ): void;
 
 	/**
 	 * Output syntax for a directed edge.
@@ -57,7 +57,13 @@ abstract class TreeFormatter {
 	 * @param bool $towardsJunction Whether this edge is directed towards a junction.
 	 * @return void
 	 */
-	abstract protected function outputEdge( $group, $key, $from, $to, $towardsJunction = false );
+	abstract protected function outputEdge(
+		string $group,
+		string $key,
+		string $from,
+		string $to,
+		bool $towardsJunction = false,
+	): void;
 
 	/**
 	 * Create a graph variable name from any string. It will only contain alphanumeric characters
@@ -66,7 +72,7 @@ abstract class TreeFormatter {
 	 * @param string $str
 	 * @return string
 	 */
-	protected function varId( $str ) {
+	protected function varId( string $str ): string {
 		$strTrans = transliterator_transliterate( 'Any-Latin; Latin-ASCII', $str );
 		$strTransConv = iconv( 'UTF-8', 'ASCII//TRANSLIT//IGNORE', $strTrans );
 		$var = preg_replace( '/[^a-zA-Z0-9_]/', '', str_replace( ' ', '_', $strTransConv ) );
@@ -83,10 +89,7 @@ abstract class TreeFormatter {
 	 * @param string $key The line's unique key.
 	 * @param string $line The line of Dot source code.
 	 */
-	protected function out( $group, $key, $line ) {
-		if ( !is_array( $this->out ) ) {
-			$this->out = [];
-		}
+	protected function out( string $group, string $key, string $line ): void {
 		if ( !isset( $this->out[$group] ) ) {
 			$this->out[$group] = [];
 		}
@@ -97,7 +100,7 @@ abstract class TreeFormatter {
 	 * When traversing the tree, each node is visited and this method run on the current person.
 	 * @param Person $person The current node's person.
 	 */
-	public function visit( Person $person ) {
+	public function visit( Person $person ): void {
 		$this->outputPerson( $person );
 
 		$personId = $person->getTitle()->getPrefixedText();
@@ -181,7 +184,7 @@ abstract class TreeFormatter {
 	 * @param string[]|Person[] $group The people to construct the ID out of.
 	 * @return string The node ID, with no wrapping characters.
 	 */
-	protected function getPersonGroupIdent( $group ) {
+	protected function getPersonGroupIdent( array $group ): string {
 		return implode( ' AND ', $group ) . ' (GROUP)';
 	}
 }

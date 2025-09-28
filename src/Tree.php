@@ -12,19 +12,16 @@ use Wikimedia\Rdbms\ILoadBalancer;
 class Tree {
 
 	/** @var string The tree's format, either 'graphviz' or 'mermaid'. */
-	protected $format = 'graphviz';
+	protected string $format = 'graphviz';
 
 	/** @var Person[] */
-	protected $ancestors = [];
+	protected array $ancestors = [];
 
 	/** @var Person[] */
-	protected $descendants = [];
+	protected array $descendants = [];
 
-	/** @var int */
-	protected $ancestorDepth;
-
-	/** @var int */
-	protected $descendantDepth;
+	protected int $ancestorDepth = 0;
+	protected int $descendantDepth = 0;
 
 	public function __construct(
 		private readonly ILoadBalancer $loadBalancer,
@@ -36,23 +33,23 @@ class Tree {
 	 * Set the number of levels the tree will go up to from the ancestors' starting points.
 	 * @param int $ancestorDepth The new ancestor depth.
 	 */
-	public function setAncestorDepth( $ancestorDepth ) {
-		$this->ancestorDepth = (int)$ancestorDepth;
+	public function setAncestorDepth( int $ancestorDepth ): void {
+		$this->ancestorDepth = $ancestorDepth;
 	}
 
 	/**
 	 * Set the number of levels the tree will go down to from the descendants' starting points.
 	 * @param int $descendantDepth The new descendant depth.
 	 */
-	public function setDescendantDepth( $descendantDepth ) {
-		$this->descendantDepth = (int)$descendantDepth;
+	public function setDescendantDepth( int $descendantDepth ): void {
+		$this->descendantDepth = $descendantDepth;
 	}
 
 	/**
 	 * Add ancestor starting points to this tree, from which to traverse upwards.
 	 * @param string[] $ancestors Array of page titles.
 	 */
-	public function addAncestors( $ancestors ) {
+	public function addAncestors( array $ancestors ): void {
 		$this->addAncestorsOrDescendants( 'ancestors', $ancestors );
 	}
 
@@ -60,7 +57,7 @@ class Tree {
 	 * Add descendant starting points to this tree, from which to traverse downwards.
 	 * @param string[] $descendants Array of page titles.
 	 */
-	public function addDescendants( $descendants ) {
+	public function addDescendants( array $descendants ): void {
 		$this->addAncestorsOrDescendants( 'descendants', $descendants );
 	}
 
@@ -69,7 +66,7 @@ class Tree {
 	 * @param string $type Either 'ancestors' or 'descendants'.
 	 * @param string[] $list Array of page titles.
 	 */
-	protected function addAncestorsOrDescendants( $type, $list ) {
+	protected function addAncestorsOrDescendants( string $type, array $list ): void {
 		foreach ( $list as $a ) {
 			$title = Title::newFromText( $a );
 			if ( $title ) {
@@ -83,7 +80,7 @@ class Tree {
 	 * Whether any ancestors or descendants have been added to this tree.
 	 * @return bool
 	 */
-	public function hasAncestorsOrDescendants() {
+	public function hasAncestorsOrDescendants(): bool {
 		return ( count( $this->ancestors ) + count( $this->descendants ) ) > 0;
 	}
 
@@ -93,7 +90,7 @@ class Tree {
 	 * @param string $format Either 'graphviz' or 'mermaid' (case insensitive).
 	 * @return void
 	 */
-	public function setFormat( $format ) {
+	public function setFormat( string $format ): void {
 		$this->format = strtolower( $format );
 	}
 
@@ -103,7 +100,7 @@ class Tree {
 	 * @param Parser $parser The parser.
 	 * @return string Unsafe half-parsed HTML, as returned by Parser::recursiveTagParse().
 	 */
-	public function getWikitext( Parser $parser ) {
+	public function getWikitext( Parser $parser ): string {
 		// If there's nothing to render, give up.
 		if ( !$this->hasAncestorsOrDescendants() ) {
 			return '';
@@ -136,7 +133,7 @@ class Tree {
 	/**
 	 * @return string
 	 */
-	public function getTreeSource() {
+	public function getTreeSource(): string {
 		$traverser = new Traverser();
 		$formatter = $this->format === 'mermaid'
 			? new MermaidTreeFormatter( $this->ancestors, $this->descendants )

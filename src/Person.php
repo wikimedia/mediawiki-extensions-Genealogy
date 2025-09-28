@@ -8,11 +8,11 @@ use Wikimedia\Rdbms\ILoadBalancer;
 
 class Person {
 
-	/** @var Person[] */
-	private $siblings;
+	/** @var Person[]|null */
+	private ?array $siblings = null;
 
 	/** @var Person[] */
-	private $children;
+	private array $children;
 
 	/**
 	 * Create a new Person based on a page in the wiki.
@@ -32,7 +32,7 @@ class Person {
 	 * @todo Add dates.
 	 * @return string
 	 */
-	public function __toString() {
+	public function __toString(): string {
 		return $this->getTitle()->getPrefixedText();
 	}
 
@@ -41,7 +41,7 @@ class Person {
 	 *
 	 * @return Title
 	 */
-	public function getTitle() {
+	public function getTitle(): Title {
 		$page = $this->wikiPageFactory->newFromTitle( $this->title );
 		while ( $page->isRedirect() ) {
 			$page = $this->wikiPageFactory->newFromTitle( $page->getRedirectTarget() );
@@ -63,7 +63,7 @@ class Person {
 	 * @return Title[] An array of the Titles, some of which might not actually exist, keyed by the
 	 * prefixed DB key.
 	 */
-	public function getTitles() {
+	public function getTitles(): array {
 		$titles = [ $this->title->getPrefixedDBkey() => $this->title ];
 		// Find all the outgoing redirects that leave from here.
 		$page = $this->wikiPageFactory->newFromTitle( $this->title );
@@ -127,13 +127,13 @@ class Person {
 	 * Whether or not this person has a birth or death date.
 	 * @return bool
 	 */
-	public function hasDates() {
+	public function hasDates(): bool {
 		return $this->getBirthDate() !== false || $this->getDeathDate() !== false;
 	}
 
 	/**
 	 * Get the birth date of this person.
-	 * @return string
+	 * @return string|false
 	 */
 	public function getBirthDate() {
 		return $this->getPropSingle( 'birth date' );
@@ -141,7 +141,7 @@ class Person {
 
 	/**
 	 * Get the death date of this person.
-	 * @return string
+	 * @return string|false
 	 */
 	public function getDeathDate() {
 		return $this->getPropSingle( 'death date' );
@@ -164,7 +164,7 @@ class Person {
 	 * Get this person's description.
 	 * @return string
 	 */
-	public function getDescription() {
+	public function getDescription(): string {
 		$desc = $this->getPropSingle( 'description' );
 		if ( !$desc ) {
 			$desc = '';
@@ -176,7 +176,7 @@ class Person {
 	 * Get all parents.
 	 * @return Person[] An array of parents, possibly empty.
 	 */
-	public function getParents() {
+	public function getParents(): array {
 		$parents = $this->getPropMulti( 'parent' );
 		uasort( $parents, [ $this, 'sortPeople' ] );
 		return $parents;
@@ -188,8 +188,8 @@ class Person {
 	 * @param bool|null $excludeSelf Whether to excluding this person from the list.
 	 * @return Person[] An array of siblings, possibly empty.
 	 */
-	public function getSiblings( ?bool $excludeSelf = false ) {
-		if ( !is_array( $this->siblings ) ) {
+	public function getSiblings( ?bool $excludeSelf = false ): array {
+		if ( $this->siblings === null ) {
 			$this->siblings = [];
 			foreach ( $this->getParents() as $parent ) {
 				foreach ( $parent->getChildren() as $child ) {
@@ -222,9 +222,9 @@ class Person {
 	 * within this Person's page.
 	 * @return Person[] An array of partners, possibly empty. Keyed by the partner's page DB key.
 	 */
-	public function getPartners( $onlyDefinedElsewhere = false ) {
+	public function getPartners( bool $onlyDefinedElsewhere = false ): array {
 		$partners = $this->getPropInbound( 'partner' );
-		if ( $onlyDefinedElsewhere === false ) {
+		if ( !$onlyDefinedElsewhere ) {
 			$partners = array_merge( $partners, $this->getPropMulti( 'partner' ) );
 		}
 		uasort( $partners, [ $this, 'sortPeople' ] );
@@ -235,7 +235,7 @@ class Person {
 	 * Get all children.
 	 * @return Person[] An array of children, possibly empty, keyed by the prefixed DB key.
 	 */
-	public function getChildren() {
+	public function getChildren(): array {
 		$this->children = $this->getPropInbound( 'parent' );
 		uasort( $this->children, [ $this, 'sortPeople' ] );
 		return $this->children;
@@ -246,7 +246,7 @@ class Person {
 	 * @param string $type The property type.
 	 * @return Person[] Keyed by the prefixed DB key.
 	 */
-	protected function getPropInbound( $type ) {
+	protected function getPropInbound( string $type ): array {
 		$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
 		$tables = [ 'pp' => 'page_props', 'p' => 'page' ];
 		$columns = [ 'pp_value', 'page_title', 'page_namespace' ];
@@ -276,7 +276,7 @@ class Person {
 	 * Get the value of a single-valued page property.
 	 * @param string $prop The property name.
 	 * @param bool $isGenealogy Whether the property name should be prefixed with 'genealogy '.
-	 * @return string|bool The property value, or false if not found.
+	 * @return string|false The property value, or false if not found.
 	 */
 	public function getPropSingle( string $prop, bool $isGenealogy = true ) {
 		$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
@@ -292,7 +292,7 @@ class Person {
 	 * @param string $type The property name ('genealogy ' will be prepended).
 	 * @return Person[] The related people.
 	 */
-	protected function getPropMulti( $type ) {
+	protected function getPropMulti( string $type ): array {
 		$out = [];
 		$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
 		$articleIds = [];

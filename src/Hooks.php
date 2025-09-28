@@ -160,13 +160,13 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 					$tree->addAncestors( explode( $delimiter, $params['ancestors'] ) );
 				}
 				if ( isset( $params['ancestor depth'] ) ) {
-					$tree->setAncestorDepth( $params['ancestor depth'] );
+					$tree->setAncestorDepth( (int)$params['ancestor depth'] );
 				}
 				if ( isset( $params['descendants'] ) ) {
 					$tree->addDescendants( explode( $delimiter, $params['descendants'] ) );
 				}
 				if ( isset( $params['descendant depth'] ) ) {
-					$tree->setDescendantDepth( $params['descendant depth'] );
+					$tree->setDescendantDepth( (int)$params['descendant depth'] );
 				}
 				if ( isset( $params['format'] ) ) {
 					$tree->setFormat( $params['format'] );
@@ -190,7 +190,7 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 	 * @param bool $multi Whether this property can have multiple values (will be stored as
 	 * multiple properties, with an integer appended to their name.
 	 */
-	public function saveProp( Parser $parser, $prop, $val, $multi = true ) {
+	private function saveProp( Parser $parser, string $prop, $val, bool $multi = true ): void {
 		$output = $parser->getOutput();
 		$valString = ( $val instanceof Title ) ? $val->getFullText() : $val;
 		if ( $multi ) {
@@ -222,7 +222,7 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 	 * @param Person[] $people The people to list.
 	 * @return string Wikitext list of people.
 	 */
-	public function peopleList( Parser $parser, $people ) {
+	private function peopleList( Parser $parser, array $people ): string {
 		$templateName = wfMessage( 'genealogy-person-list-item' )->text();
 		$out = '';
 		$index = 1;
