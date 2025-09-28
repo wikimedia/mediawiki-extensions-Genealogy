@@ -13,7 +13,6 @@ use MediaWiki\Parser\Parser;
 use MediaWiki\Title\Title;
 use Wikimedia\Rdbms\ILoadBalancer;
 
-// phpcs:disable MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName
 class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHook {
 
 	private const TRUEVALS = [ 'true', 't', 'yes', 'y', 'on', '1' ];
