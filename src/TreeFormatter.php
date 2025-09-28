@@ -7,12 +7,6 @@ abstract class TreeFormatter {
 	/** @var string Unique tree name. */
 	protected $name;
 
-	/** @var Person[] */
-	protected $ancestors = [];
-
-	/** @var Person[] */
-	protected $descendants = [];
-
 	/** @var string[][] */
 	protected $out;
 
@@ -20,9 +14,10 @@ abstract class TreeFormatter {
 	 * @param Person[] $ancestors
 	 * @param Person[] $descendants
 	 */
-	public function __construct( array $ancestors, array $descendants ) {
-		$this->ancestors = $ancestors;
-		$this->descendants = $descendants;
+	public function __construct(
+		protected readonly array $ancestors,
+		protected readonly array $descendants,
+	) {
 	}
 
 	/**

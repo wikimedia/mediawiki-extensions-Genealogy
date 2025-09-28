@@ -18,23 +18,11 @@ class Hooks implements ParserFirstCallInitHook, EditPage__showEditForm_initialHo
 	private const TRUEVALS = [ 'true', 't', 'yes', 'y', 'on', '1' ];
 	private const FALSEVALS = [ 'false', 'f', 'no', 'n', 'off', '0' ];
 
-	/** @var LinkRenderer */
-	private LinkRenderer $linkRenderer;
-
-	/** @var ILoadBalancer */
-	private ILoadBalancer $loadBalancer;
-
-	/** @var WikiPageFactory */
-	private WikiPageFactory $wikiPageFactory;
-
 	public function __construct(
-		LinkRenderer $linkRenderer,
-		ILoadBalancer $loadBalancer,
-		WikiPageFactory $wikiPageFactory
+		private readonly LinkRenderer $linkRenderer,
+		private readonly ILoadBalancer $loadBalancer,
+		private readonly WikiPageFactory $wikiPageFactory,
 	) {
-		$this->linkRenderer = $linkRenderer;
-		$this->loadBalancer = $loadBalancer;
-		$this->wikiPageFactory = $wikiPageFactory;
 	}
 
 	/**

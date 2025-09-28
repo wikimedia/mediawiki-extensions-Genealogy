@@ -26,18 +26,10 @@ class Tree {
 	/** @var int */
 	protected $descendantDepth;
 
-	/** @var ILoadBalancer */
-	private ILoadBalancer $loadBalancer;
-
-	/** @var WikiPageFactory */
-	private WikiPageFactory $wikiPageFactory;
-
 	public function __construct(
-		ILoadBalancer $loadBalancer,
-		WikiPageFactory $wikiPageFactory
+		private readonly ILoadBalancer $loadBalancer,
+		private readonly WikiPageFactory $wikiPageFactory,
 	) {
-		$this->loadBalancer = $loadBalancer;
-		$this->wikiPageFactory = $wikiPageFactory;
 	}
 
 	/**

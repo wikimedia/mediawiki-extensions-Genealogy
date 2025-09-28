@@ -8,15 +8,6 @@ use Wikimedia\Rdbms\ILoadBalancer;
 
 class Person {
 
-	/** @var ILoadBalancer */
-	private ILoadBalancer $loadBalancer;
-
-	/** @var WikiPageFactory */
-	private WikiPageFactory $wikiPageFactory;
-
-	/** @var Title */
-	private $title;
-
 	/** @var Person[] */
 	private $siblings;
 
@@ -30,13 +21,10 @@ class Person {
 	 * @param Title $title The page title.
 	 */
 	public function __construct(
-		ILoadBalancer $loadBalancer,
-		WikiPageFactory $wikiPageFactory,
-		Title $title
+		private readonly ILoadBalancer $loadBalancer,
+		private readonly WikiPageFactory $wikiPageFactory,
+		private readonly Title $title,
 	) {
-		$this->loadBalancer = $loadBalancer;
-		$this->wikiPageFactory = $wikiPageFactory;
-		$this->title = $title;
 	}
 
 	/**
