@@ -252,7 +252,7 @@ class Person {
 		$columns = [ 'pp_value', 'page_title', 'page_namespace' ];
 
 		$where = [
-			'pp_value' => $this->getTitles(),
+			'pp_value' => array_map( static fn ( Title $title ) => $title->getPrefixedText(), $this->getTitles() ),
 			'pp_propname' . $dbr->buildLike( 'genealogy ', $type . ' ', $dbr->anyString() ),
 			'pp_page = page_id',
 		];
