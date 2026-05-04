@@ -7,10 +7,16 @@
 		]
 	},
 	"genealogy-desc": "계보 기록 간의 쉬운 연결을 위한 파서 함수를 추가합니다",
+	"genealogy-born": "(生&nbsp;$1)",
+	"genealogy-died": "(死&nbsp;$1)",
 	"genealogy-ancestor": "조상",
 	"genealogy-ancestors": "조상들",
 	"genealogy-descendant": "자손",
 	"genealogy-descendants": "자손들",
+	"genealogy-person-preload": "틀:Person/preload",
+	"genealogy-person-list-item": "틀:Person/list-item",
+	"genealogy-parser-function-not-found": "계보 파서 함수 유형을 인식할 수 없습니다: $1",
+	"genealogy-existing-partners": "이 사람은 이미 다음 {{PLURAL:$1| 배우자}}가 존재합니다:",
 	"genealogy-invalid-parent-title": "오류: 유효하지 않은 상위 문서 제목: '$1'",
 	"genealogy-invalid-partner-title": "오류: 유효하지 않은 파트너 문서 제목: '$1'",
 	"genealogy-invalid-tree-format": "'$1' 트리 포맷은 사용이 불가능합니다."
