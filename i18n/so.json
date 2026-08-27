@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"AhmedG612"
+		]
+	},
+	"genealogy-desc": "Waxay ku darsataa hawl parser ah si fudud loogu xiro diiwaannada abtirsiinta",
+	"genealogy-born": "(b.&nbsp;$1)",
+	"genealogy-died": "(d.&nbsp;$1)",
+	"genealogy-ancestor": "Awoowe",
+	"genealogy-ancestors": "Awowayaal",
+	"genealogy-descendant": "Farac",
+	"genealogy-descendants": "Faracyo",
+	"genealogy-person-preload": "Template:Person/preload",
+	"genealogy-person-list-item": "Template:Person/liiska-shayga",
+	"genealogy-parser-function-not-found": "Nooca falanqaynta abtirsiinta lama aqoonsan: $1",
+	"genealogy-existing-partners": "Qofkan wuxuu horey u leeyahay {{PLURAL:$1|lamaane|lamaaneyaal}}",
+	"genealogy-invalid-parent-title": "Khalad: cinwaanka bogga waalidka '$1' waa mid aan sax ahayn",
+	"genealogy-invalid-partner-title": "Khalad: cinwaanka bogga lamaanaha '$1' waa mid aan sax ahayn",
+	"genealogy-invalid-tree-format": "Qaabka geedka '$1' lama isticmaali karo."
+}
